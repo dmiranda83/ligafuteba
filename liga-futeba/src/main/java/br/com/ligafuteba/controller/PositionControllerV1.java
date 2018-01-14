@@ -31,9 +31,7 @@ public class PosicaoControllerV1 {
     public String cadastrar(@RequestBody final Posicao posicao) {
 
         try {
-
             service.salvarPosicao(posicao);
-
         } catch (Exception e) {
             return "Erro ao cadastrar posicao: " + e.toString();
         }
