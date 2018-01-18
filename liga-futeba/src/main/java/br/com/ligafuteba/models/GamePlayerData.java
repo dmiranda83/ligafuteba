@@ -12,11 +12,11 @@ import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
 @Entity(name = "gols")
-public class Gol implements Serializable {
+public class GamePlayerData implements Serializable {
 
     private static final long serialVersionUID = -8413600343702476736L;
 
-    public Gol() {
+    public GamePlayerData() {
     }
 
     @Id
@@ -26,6 +26,9 @@ public class Gol implements Serializable {
 
     @NotNull
     private Integer qtdGols;
+    
+    @NotNull
+    private Integer presence;
 
     @ManyToOne(optional = true)
     @JoinColumn(name = "atleta_id", referencedColumnName = "atleta_id")
@@ -65,6 +68,14 @@ public class Gol implements Serializable {
 
 	public void setEquipe(Equipe equipe) {
 		this.equipe = equipe;
+	}
+
+	public Integer getPresence() {
+		return presence;
+	}
+
+	public void setPresence(Integer presence) {
+		this.presence = presence;
 	}
 
 }

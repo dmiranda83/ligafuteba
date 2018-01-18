@@ -20,7 +20,7 @@ public class JogoServiceImpl implements JogoService {
 
     @Override
     public Iterable<Jogo> localizarTodosJogos() {
-        return repository.findAll();
+        return repository.getJogos();
     }
 
     @Override

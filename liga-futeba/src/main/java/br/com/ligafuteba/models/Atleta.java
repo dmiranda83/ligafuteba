@@ -34,7 +34,7 @@ public class Atleta implements Serializable {
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "posicao_id", referencedColumnName = "posicao_id")
-    private Posicao posicao;
+    private Position posicao;
 
     @ManyToMany(mappedBy = "atletas", cascade= {CascadeType.PERSIST, CascadeType.REMOVE}, fetch=FetchType.EAGER)
     @JsonIgnoreProperties("atletas")
@@ -60,11 +60,11 @@ public class Atleta implements Serializable {
         this.nome = nome;
     }
 
-    public Posicao getPosicoes() {
+    public Position getPosicoes() {
         return posicao;
     }
 
-    public void setPosicoes(final Posicao posicoes) {
+    public void setPosicoes(final Position posicoes) {
         this.posicao = posicoes;
     }
 

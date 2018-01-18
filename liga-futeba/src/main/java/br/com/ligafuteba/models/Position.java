@@ -8,7 +8,7 @@ import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 
 @Entity(name = "posicoes")
-public class Posicao {
+public class Position {
 
     @Id
     @Column(name = "posicao_id", nullable = false)
@@ -18,10 +18,10 @@ public class Posicao {
     @NotNull
     private String nome;
 
-    public Posicao() {
+    public Position() {
     }
 
-    public Posicao(final String nome) {
+    public Position(final String nome) {
         this.nome = nome;
     }
 

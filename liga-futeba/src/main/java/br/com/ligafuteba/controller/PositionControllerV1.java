@@ -14,64 +14,64 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.ligafuteba.models.Posicao;
-import br.com.ligafuteba.service.PosicaoService;
+import br.com.ligafuteba.models.Position;
+import br.com.ligafuteba.service.PositionService;
 
 @RestController
 @CrossOrigin (origins = "*")
-@RequestMapping("/api/v1/posicao")
-public class PosicaoControllerV1 {
+@RequestMapping("/api/v1/position")
+public class PositionControllerV1 {
 
-    private static final Logger logger = LoggerFactory.getLogger(PosicaoControllerV1.class);
+    private static final Logger logger = LoggerFactory.getLogger(PositionControllerV1.class);
 
     @Autowired
-    private PosicaoService service;
+    private PositionService service;
 
     @PostMapping("/salvar")
-    public String cadastrar(@RequestBody final Posicao posicao) {
+    public String cadastrar(@RequestBody final Position position) {
 
         try {
-            service.salvarPosicao(posicao);
+            service.savePosition(position);
         } catch (Exception e) {
-            return "Erro ao cadastrar posicao: " + e.toString();
+            return "Erro ao cadastrar Position: " + e.toString();
         }
-        return "Atleta cadastrado com sucesso! (id = " + posicao.getId() + " nome = " + posicao.getNome() + ")";
+        return "Atleta cadastrado com sucesso! (id = " + position.getId() + " nome = " + position.getNome() + ")";
     }
 
     @GetMapping("/listar")
-    public @ResponseBody Iterable<Posicao> listar() {
-        return service.localizarTodasPosicao();
+    public @ResponseBody Iterable<Position> listar() {
+        return service.findAllPositions();
     }
 
     @PutMapping("/atualizar/{id}")
-    public Posicao atualizarPosicao(@PathVariable("id") final Integer id, @RequestBody final Posicao posicao) {
+    public Position atualizarPosition(@PathVariable("id") final Integer id, @RequestBody final Position position) {
 
-        logger.info("Atualizando Posicao de id {}", id);
-        Posicao posicaoAtual = service.localizarPorId(id);
+        logger.info("Atualizando Position de id {}", id);
+        Position positionAtual = service.findById(id);
 
-        if (posicaoAtual == null) {
-            logger.error("Posicao com id {} nao encontrada.", id);
-            return posicaoAtual;
+        if (positionAtual == null) {
+            logger.error("Position com id {} nao encontrada.", id);
+            return positionAtual;
         }
-        return service.atualizarPosicao(posicao);
+        return service.updatePosition(position);
     }
 
     @DeleteMapping("/deletar/{id}")
-    public void deletarPosicao(@PathVariable("id") final Integer id) {
+    public void deletarPosition(@PathVariable("id") final Integer id) {
 
-        logger.info("Deletando Posicao de id {}", id);
-        Posicao posicaoAtual = service.localizarPorId(id);
+        logger.info("Deletando Position de id {}", id);
+        Position positionAtual = service.findById(id);
 
-        if (posicaoAtual == null) {
-            logger.error("Posicao com id {} nao encontrada.", id);
+        if (positionAtual == null) {
+            logger.error("Position com id {} nao encontrada.", id);
         }
-        service.deletarPosicaoPorId(id);
+        service.deletePositionById(id);
     }
 
     @DeleteMapping("/deletar")
-    public void deletarTodasPosicao() {
+    public void deletarTodasPosition() {
 
         logger.info("Deletando todas posicoes");
-        service.deletarTodasPosicoes();
+        service.deleteAllPositions();
     }
 }

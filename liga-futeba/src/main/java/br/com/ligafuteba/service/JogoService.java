@@ -4,7 +4,7 @@ import br.com.ligafuteba.models.Jogo;
 
 public interface JogoService {
 
-    Jogo salvarJogo(Jogo jogo);
+	Jogo salvarJogo(Jogo jogo);
 
     Iterable<Jogo> localizarTodosJogos();
 

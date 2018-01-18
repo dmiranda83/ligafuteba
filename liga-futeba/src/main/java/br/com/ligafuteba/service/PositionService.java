@@ -1,19 +1,20 @@
 package br.com.ligafuteba.service;
 
-import br.com.ligafuteba.models.Posicao;
+import br.com.ligafuteba.models.Position;
 
-public interface PosicaoService {
+public interface PositionService {
 
-    Posicao salvarPosicao(Posicao posicao);
+    Position savePosition(Position position);
 
-    Iterable<Posicao> localizarTodasPosicao();
+    Iterable<Position> findAllPositions();
 
-    Posicao atualizarPosicao(Posicao posicao);
+    Position updatePosition(Position position);
 
-    Posicao localizarPorId(Integer id);
+    Position findById(Integer id);
 
-    void deletarPosicaoPorId(Integer id);
+    void deletePositionById(Integer id);
 
-    void deletarTodasPosicoes();
+    void deleteAllPositions();
+
 
 }

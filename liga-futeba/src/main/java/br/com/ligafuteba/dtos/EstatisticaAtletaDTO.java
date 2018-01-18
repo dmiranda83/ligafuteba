@@ -5,6 +5,7 @@ public class EstatisticaAtletaDTO {
 	private Object nome;
 	private Object gols;
 	private Object assists;
+	private Object freq;
 	
 	public Object getNome() {
 		return nome;
@@ -23,6 +24,12 @@ public class EstatisticaAtletaDTO {
 	}
 	public void setAssists(Object assists) {
 		this.assists = assists;
+	}
+	public Object getFreq() {
+		return freq;
+	}
+	public void setFreq(Object freq) {
+		this.freq = freq;
 	}
 
 }

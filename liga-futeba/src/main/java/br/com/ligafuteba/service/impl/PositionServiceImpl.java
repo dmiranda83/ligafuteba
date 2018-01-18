@@ -3,43 +3,43 @@ package br.com.ligafuteba.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.com.ligafuteba.models.Posicao;
-import br.com.ligafuteba.repositorys.PosicaoRepository;
-import br.com.ligafuteba.service.PosicaoService;
+import br.com.ligafuteba.models.Position;
+import br.com.ligafuteba.repositorys.PositionRepository;
+import br.com.ligafuteba.service.PositionService;
 
 @Service("PosicaoService")
-public class PosicaoServiceImpl implements PosicaoService {
+public class PositionServiceImpl implements PositionService {
 
     @Autowired
-    private PosicaoRepository repository;
+    private PositionRepository repository;
 
     @Override
-    public Posicao salvarPosicao(final Posicao posicao) {
+    public Position savePosition(final Position posicao) {
         return repository.save(posicao);
     }
 
     @Override
-    public Iterable<Posicao> localizarTodasPosicao() {
+    public Iterable<Position> findAllPositions() {
         return repository.findAll();
     }
 
     @Override
-    public Posicao atualizarPosicao(final Posicao posicao) {
-        return salvarPosicao(posicao);
+    public Position updatePosition(final Position posicao) {
+        return savePosition(posicao);
     }
 
     @Override
-    public Posicao localizarPorId(final Integer id) {
+    public Position findById(final Integer id) {
         return repository.findOne(id);
     }
 
     @Override
-    public void deletarPosicaoPorId(final Integer id) {
+    public void deletePositionById(final Integer id) {
         repository.delete(id);
     }
 
     @Override
-    public void deletarTodasPosicoes() {
+    public void deleteAllPositions() {
         repository.deleteAll();
     }
 }

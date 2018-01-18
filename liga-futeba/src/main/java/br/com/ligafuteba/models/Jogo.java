@@ -41,7 +41,7 @@ public class Jogo implements Serializable {
     private Equipe equipeMandante;
 
     @OneToMany(cascade = CascadeType.ALL, fetch=FetchType.LAZY)
-    private Set<Gol> golsMandante;
+    private Set<GamePlayerData> gamePlayerData;
     
     @OneToMany(cascade = CascadeType.ALL, fetch=FetchType.LAZY)
     private Set<Assistencia> assMandante;
@@ -51,7 +51,7 @@ public class Jogo implements Serializable {
     private Equipe equipeVisitante;
 
     @OneToMany(cascade = CascadeType.ALL, fetch=FetchType.EAGER)
-    private Set<Gol> golsVisitante;
+    private Set<GamePlayerData> golsVisitante;
     
     @OneToMany(cascade = CascadeType.ALL, fetch=FetchType.EAGER)
     private Set<Assistencia> assVisitante;
@@ -113,19 +113,19 @@ public class Jogo implements Serializable {
         this.equipeVisitante = equipeVisitante;
     }
 
-    public Set<Gol> getGolsMandante() {
-        return golsMandante;
+    public Set<GamePlayerData> getGamePlayerData() {
+        return gamePlayerData;
     }
 
-    public void setGolsMandante(final Set<Gol> golsMandante) {
-        this.golsMandante = golsMandante;
+    public void setGamePlayerData(final Set<GamePlayerData> gamePlayerData) {
+        this.gamePlayerData = gamePlayerData;
     }
 
-    public Set<Gol> getGolsVisitante() {
+    public Set<GamePlayerData> getGolsVisitante() {
         return golsVisitante;
     }
 
-    public void setGolsVisitante(final Set<Gol> golsVisitante) {
+    public void setGolsVisitante(final Set<GamePlayerData> golsVisitante) {
         this.golsVisitante = golsVisitante;
     }
 

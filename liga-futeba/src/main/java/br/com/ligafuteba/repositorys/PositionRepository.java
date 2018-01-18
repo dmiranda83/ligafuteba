@@ -2,8 +2,8 @@ package br.com.ligafuteba.repositorys;
 
 import org.springframework.data.repository.CrudRepository;
 
-import br.com.ligafuteba.models.Posicao;
+import br.com.ligafuteba.models.Position;
 
-public interface PosicaoRepository extends CrudRepository<Posicao, Integer> {
+public interface PositionRepository extends CrudRepository<Position, Integer> {
 
 }

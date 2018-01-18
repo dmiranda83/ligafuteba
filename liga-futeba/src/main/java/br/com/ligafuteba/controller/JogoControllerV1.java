@@ -57,14 +57,14 @@ public class JogoControllerV1 {
             return jogoAtual;
         }
         
-        logger.info("Gols Mandante" + jogo.getGolsMandante());
+        logger.info("Gols Mandante" + jogo.getGamePlayerData());
         logger.info("Gols Visitante" + jogo.getGolsVisitante());
         logger.info("Ass Mandante" + jogo.getAssMandante());
         logger.info("Ass Visitante" + jogo.getAssVisitante());
 
         jogoAtual.setEquipeMandante(jogo.getEquipeMandante());
         jogoAtual.setEquipeVisitante(jogo.getEquipeVisitante());
-        jogoAtual.setGolsMandante(jogo.getGolsMandante());
+        jogoAtual.setGamePlayerData(jogo.getGamePlayerData());
         jogoAtual.setGolsVisitante(jogo.getGolsVisitante());
         jogoAtual.setAssMandante(jogo.getAssMandante());
         jogoAtual.setAssVisitante(jogo.getAssVisitante());
