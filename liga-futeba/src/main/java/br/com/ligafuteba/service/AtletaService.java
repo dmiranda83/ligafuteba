@@ -19,6 +19,6 @@ public interface AtletaService {
 
     void deletarTodasPosicoes();
 
-	Iterable<EstatisticaAtletaDTO> getEstatisticasAtletas();
+	Iterable<EstatisticaAtletaDTO> getEstatisticasAtletas(Integer year);
 
 }

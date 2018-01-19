@@ -49,8 +49,8 @@ public class EquipeServiceImpl implements EquipeService {
     }
 
 	@Override
-	public Iterable<EstatisticasDTO> getEstatisticas() {
-		List<Object[]> result = (List<Object[]>) repository.getEstatistica();
+	public Iterable<EstatisticasDTO> getEstatisticas(Integer year) {
+		List<Object[]> result = (List<Object[]>) repository.getTeamStats(year);
 		List<EstatisticasDTO> estatisticasDTOs = new ArrayList<>();
 		
 		if (result != null && !result.isEmpty()){
@@ -70,5 +70,4 @@ public class EquipeServiceImpl implements EquipeService {
 		}
 		return estatisticasDTOs;
 	}
-
 }

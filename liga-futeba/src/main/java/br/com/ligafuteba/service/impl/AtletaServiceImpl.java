@@ -48,8 +48,8 @@ public class AtletaServiceImpl implements AtletaService {
     }
 
 	@Override
-	public Iterable<EstatisticaAtletaDTO> getEstatisticasAtletas() {
-		List<Object[]> result = (List<Object[]>) repository.getEstatisticasAtleta();
+	public Iterable<EstatisticaAtletaDTO> getEstatisticasAtletas(Integer year) {
+		List<Object[]> result = (List<Object[]>) repository.getEstatisticasAtleta(year);
 		List<EstatisticaAtletaDTO> estatisticasAtletasDTOs = new ArrayList<>();
 		
 		if (result != null && !result.isEmpty()){
@@ -66,5 +66,4 @@ public class AtletaServiceImpl implements AtletaService {
 		}
 		return estatisticasAtletasDTOs;
 	}
-
 }

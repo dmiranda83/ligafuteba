@@ -47,10 +47,10 @@ public class EquipeControllerV1 {
         return service.localizarTodasEquipes();
     }
     
-    @GetMapping("/estatisticas")
-    public @ResponseBody Iterable<EstatisticasDTO> getEstatisticas() {
-    	logger.info("Buscando estatisticas");
-    	return service.getEstatisticas();
+    @GetMapping("/estatisticas/{year}")
+    public @ResponseBody Iterable<EstatisticasDTO> getEstatisticas(@PathVariable("year") final Integer year) {
+    	logger.info("Loading team stats");
+    	return service.getEstatisticas(year);
     }
 
     @PutMapping("/atualizar/{id}")

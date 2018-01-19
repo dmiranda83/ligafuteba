@@ -45,10 +45,10 @@ public class AtletaControllerV1 {
         logger.info("Listando todos atletas");
         return service.localizarTodosAtletas();
     }
-    @GetMapping("/estatisticas")
-    public @ResponseBody Iterable<EstatisticaAtletaDTO> getArtilharia() {
+    @GetMapping("/estatisticas/{year}")
+    public @ResponseBody Iterable<EstatisticaAtletaDTO> getArtilharia(@PathVariable("year") final Integer year) {
     	logger.info("Listando Artilheiros");
-    	return service.getEstatisticasAtletas();
+    	return service.getEstatisticasAtletas(year);
     }
 
     @PutMapping("/atualizar/{id}")

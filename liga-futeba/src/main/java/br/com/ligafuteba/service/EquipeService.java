@@ -18,6 +18,6 @@ public interface EquipeService {
 
     void deletarTodasPosicoes();
 
-	Iterable<EstatisticasDTO> getEstatisticas();
+	Iterable<EstatisticasDTO> getEstatisticas(Integer year);
 
 }
