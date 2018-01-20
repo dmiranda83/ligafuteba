@@ -1,6 +1,7 @@
 package br.com.ligafuteba.controller;
 
 import java.text.ParseException;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.ligafuteba.dtos.EstatisticaAtletaDTO;
 import br.com.ligafuteba.models.Jogo;
 import br.com.ligafuteba.service.JogoService;
 
@@ -41,9 +43,9 @@ public class JogoControllerV1 {
         return "Jogo cadastrado com sucesso! (id = " + jogo.getId() + ")";
     }
 
-    @GetMapping("/listar")
-    public @ResponseBody Iterable<Jogo> listar() {
-        return service.localizarTodosJogos();
+    @GetMapping("/listar/{year}")
+    public @ResponseBody List<Jogo> listar(@PathVariable("year") final Integer year) {
+        return service.localizarTodosJogos(year);
     }
 
     @PutMapping("/atualizar/{id}")

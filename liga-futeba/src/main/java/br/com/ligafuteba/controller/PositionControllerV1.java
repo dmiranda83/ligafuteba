@@ -29,7 +29,6 @@ public class PositionControllerV1 {
 
     @PostMapping("/salvar")
     public String cadastrar(@RequestBody final Position position) {
-
         try {
             service.savePosition(position);
         } catch (Exception e) {

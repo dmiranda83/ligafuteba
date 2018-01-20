@@ -12,7 +12,6 @@ public interface JogoRepository extends JpaRepository<Jogo, Integer> {
 
     public Jogo findById(@Param("idParam") Integer id);
     
-    @Query(value = "SELECT * FROM jogos WHERE YEAR(data) = 2017 ORDER BY data ASC", nativeQuery = true)
-    public Iterable<Jogo> getJogos();
-
+    @Query(value = "SELECT * FROM jogos WHERE YEAR(data) = :year ORDER BY data ASC", nativeQuery = true)
+    public List<Jogo> getJogos(@Param("year") Integer year);
 }

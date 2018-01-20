@@ -1,12 +1,14 @@
 package br.com.ligafuteba.service;
 
+import java.util.List;
+
 import br.com.ligafuteba.models.Jogo;
 
 public interface JogoService {
 
 	Jogo salvarJogo(Jogo jogo);
 
-    Iterable<Jogo> localizarTodosJogos();
+    List<Jogo> localizarTodosJogos(Integer year);
 
     Jogo localizarPorId(Integer id);
 

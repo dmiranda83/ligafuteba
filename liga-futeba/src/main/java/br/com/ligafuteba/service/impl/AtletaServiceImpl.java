@@ -60,6 +60,7 @@ public class AtletaServiceImpl implements AtletaService {
 				estatisticaAtletaDTO.setGols(object[1]);
 				estatisticaAtletaDTO.setAssists(object[2]);
 				estatisticaAtletaDTO.setFreq(object[3]);
+				estatisticaAtletaDTO.setMediaGols(object[4]);
 				
 				estatisticasAtletasDTOs.add(estatisticaAtletaDTO);
 			}

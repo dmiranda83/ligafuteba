@@ -28,7 +28,10 @@ public class GamePlayerData implements Serializable {
     private Integer qtdGols;
     
     @NotNull
-    private Integer presence;
+    private Integer presentGame;
+    
+    @NotNull
+    private Integer playedGame;
 
     @ManyToOne(optional = true)
     @JoinColumn(name = "atleta_id", referencedColumnName = "atleta_id")
@@ -71,11 +74,19 @@ public class GamePlayerData implements Serializable {
 	}
 
 	public Integer getPresence() {
-		return presence;
+		return presentGame;
 	}
 
 	public void setPresence(Integer presence) {
-		this.presence = presence;
+		this.presentGame = presence;
+	}
+
+	public Integer getPlayedGame() {
+		return playedGame;
+	}
+
+	public void setPlayedGame(Integer playedGame) {
+		this.playedGame = playedGame;
 	}
 
 }

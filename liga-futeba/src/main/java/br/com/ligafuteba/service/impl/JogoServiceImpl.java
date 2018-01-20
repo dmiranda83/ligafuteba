@@ -1,5 +1,7 @@
 package br.com.ligafuteba.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,8 +21,8 @@ public class JogoServiceImpl implements JogoService {
     }
 
     @Override
-    public Iterable<Jogo> localizarTodosJogos() {
-        return repository.getJogos();
+    public List<Jogo> localizarTodosJogos(Integer year) {
+        return repository.getJogos(year);
     }
 
     @Override
