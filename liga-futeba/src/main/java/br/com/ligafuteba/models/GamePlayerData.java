@@ -17,6 +17,7 @@ public class GamePlayerData implements Serializable {
     private static final long serialVersionUID = -8413600343702476736L;
 
     public GamePlayerData() {
+    	//default constructor
     }
 
     @Id
@@ -25,17 +26,17 @@ public class GamePlayerData implements Serializable {
     private Integer id;
 
     @NotNull
-    private Integer qtdGols;
+    private Integer goals;
     
     @NotNull
-    private Integer presentGame;
+    private Integer presence;
     
     @NotNull
     private Integer playedGame;
 
     @ManyToOne(optional = true)
     @JoinColumn(name = "atleta_id", referencedColumnName = "atleta_id")
-    private Atleta atleta;
+    private Atleta player;
     
     @ManyToOne(optional = true)
     @JoinColumn(name = "equipe_id", referencedColumnName = "equipe_id")
@@ -49,20 +50,20 @@ public class GamePlayerData implements Serializable {
         this.id = id;
     }
 
-    public Integer getQtdGols() {
-        return qtdGols;
+    public Integer getGoals() {
+        return goals;
     }
 
-    public void setQtdGols(final Integer qtdGols) {
-        this.qtdGols = qtdGols;
+    public void setGoals(final Integer goals) {
+        this.goals = goals;
     }
 
-    public Atleta getAtleta() {
-        return atleta;
+    public Atleta getPlayer() {
+        return player;
     }
 
-    public void setAtleta(final Atleta atleta) {
-        this.atleta = atleta;
+    public void setPlayer(final Atleta player) {
+        this.player = player;
     }
 
 	public Equipe getEquipe() {
@@ -74,11 +75,11 @@ public class GamePlayerData implements Serializable {
 	}
 
 	public Integer getPresence() {
-		return presentGame;
+		return presence;
 	}
 
 	public void setPresence(Integer presence) {
-		this.presentGame = presence;
+		this.presence = presence;
 	}
 
 	public Integer getPlayedGame() {

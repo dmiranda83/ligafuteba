@@ -1,5 +1,7 @@
 package br.com.ligafuteba.models;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,21 +10,23 @@ import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 
 @Entity(name = "posicoes")
-public class Position {
+public class Position implements Serializable{
 
-    @Id
+	private static final long serialVersionUID = 4662709053886605457L;
+
+	@Id
     @Column(name = "posicao_id", nullable = false)
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
     @NotNull
-    private String nome;
+    private String name;
 
     public Position() {
     }
 
-    public Position(final String nome) {
-        this.nome = nome;
+    public Position(final String name) {
+        this.name = name;
     }
 
     public Integer getId() {
@@ -33,11 +37,11 @@ public class Position {
         this.id = id;
     }
 
-    public String getNome() {
-        return nome;
+    public String getName() {
+        return name;
     }
 
     public void setNome(final String nome) {
-        this.nome = nome;
+        this.name = nome;
     }
 }

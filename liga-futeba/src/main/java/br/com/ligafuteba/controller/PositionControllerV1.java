@@ -34,7 +34,7 @@ public class PositionControllerV1 {
         } catch (Exception e) {
             return "Erro ao cadastrar Position: " + e.toString();
         }
-        return "Atleta cadastrado com sucesso! (id = " + position.getId() + " nome = " + position.getNome() + ")";
+        return "Atleta cadastrado com sucesso! (id = " + position.getId() + " nome = " + position.getName() + ")";
     }
 
     @GetMapping("/listar")

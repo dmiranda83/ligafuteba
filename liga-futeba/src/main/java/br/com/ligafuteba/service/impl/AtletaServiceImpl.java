@@ -48,6 +48,7 @@ public class AtletaServiceImpl implements AtletaService {
     }
 
 	@Override
+	@SuppressWarnings("unchecked")
 	public Iterable<EstatisticaAtletaDTO> getEstatisticasAtletas(Integer year) {
 		List<Object[]> result = (List<Object[]>) repository.getEstatisticasAtleta(year);
 		List<EstatisticaAtletaDTO> estatisticasAtletasDTOs = new ArrayList<>();

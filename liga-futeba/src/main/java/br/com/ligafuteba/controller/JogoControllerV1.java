@@ -1,6 +1,6 @@
 package br.com.ligafuteba.controller;
 
-import java.text.ParseException;
+
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.ligafuteba.dtos.EstatisticaAtletaDTO;
 import br.com.ligafuteba.models.Jogo;
 import br.com.ligafuteba.service.JogoService;
 
@@ -32,7 +31,7 @@ public class JogoControllerV1 {
     private JogoService service;
 
     @PostMapping("/salvar")
-    public String cadastrar(@RequestBody final Jogo jogo) throws ParseException {
+    public String cadastrar(@RequestBody final Jogo jogo) {
 
         try {
             service.salvarJogo(jogo);
@@ -59,10 +58,10 @@ public class JogoControllerV1 {
             return jogoAtual;
         }
         
-        logger.info("Gols Mandante" + jogo.getGamePlayerData());
-        logger.info("Gols Visitante" + jogo.getGolsVisitante());
-        logger.info("Ass Mandante" + jogo.getAssMandante());
-        logger.info("Ass Visitante" + jogo.getAssVisitante());
+        logger.info("Gols Mandante {}", jogo.getGamePlayerData());
+        logger.info("Gols Visitante {}", jogo.getGolsVisitante());
+        logger.info("Ass Mandante {}", jogo.getAssMandante());
+        logger.info("Ass Visitante {}", jogo.getAssVisitante());
 
         jogoAtual.setEquipeMandante(jogo.getEquipeMandante());
         jogoAtual.setEquipeVisitante(jogo.getEquipeVisitante());

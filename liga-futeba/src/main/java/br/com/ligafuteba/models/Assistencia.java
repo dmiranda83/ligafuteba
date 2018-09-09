@@ -18,6 +18,7 @@ public class Assistencia implements Serializable {
 	private static final long serialVersionUID = -3633732656049254149L;
 
 	public Assistencia() {
+		//default constructor
     }
 
     @Id

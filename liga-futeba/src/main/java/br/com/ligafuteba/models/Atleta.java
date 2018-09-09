@@ -16,7 +16,6 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity(name = "atletas")
@@ -41,7 +40,7 @@ public class Atleta implements Serializable {
     private List<Equipe> equipes = new ArrayList<>();
 
     public Atleta() {
-        // TODO Auto-generated constructor stub
+    	//default constructor
     }
 
     public Integer getId() {
