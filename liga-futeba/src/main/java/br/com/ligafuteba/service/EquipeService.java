@@ -1,6 +1,5 @@
 package br.com.ligafuteba.service;
 
-import br.com.ligafuteba.dtos.EstatisticaAtletaDTO;
 import br.com.ligafuteba.dtos.EstatisticasDTO;
 import br.com.ligafuteba.models.Equipe;
 

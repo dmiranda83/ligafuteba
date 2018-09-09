@@ -6,7 +6,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.com.ligafuteba.dtos.EstatisticaAtletaDTO;
 import br.com.ligafuteba.dtos.EstatisticasDTO;
 import br.com.ligafuteba.models.Equipe;
 import br.com.ligafuteba.repositorys.EquipeRepository;

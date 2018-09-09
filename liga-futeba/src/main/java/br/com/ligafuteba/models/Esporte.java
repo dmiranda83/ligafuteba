@@ -1,5 +1,7 @@
 package br.com.ligafuteba.models;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,9 +10,12 @@ import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 
 @Entity(name = "esportes")
-public class Esporte {
+public class Esporte implements Serializable{
 
-    public Esporte() {
+	private static final long serialVersionUID = -1295682222773267245L;
+
+	public Esporte() {
+		//Default constructor
     }
 
     @Id

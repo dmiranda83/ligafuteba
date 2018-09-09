@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -26,6 +25,7 @@ public class Equipe implements Serializable {
     private static final long serialVersionUID = 3457244849292203050L;
 
     public Equipe() {
+    	//Default constructor
     }
 
     @Id
@@ -40,12 +40,12 @@ public class Equipe implements Serializable {
     private Boolean visitante;
 
     @NotNull
-    private String nome_responsavel;
+    private String responsibleName;
 
     @NotNull
-    private String telefone_contato1;
-
-    private String telefone_contato2;
+    private String phoneContact1;
+    
+    private String phoneContact2;
 
     @ManyToOne
     @JoinColumn(name = "esporte_id", referencedColumnName = "esporte_id")
@@ -87,28 +87,28 @@ public class Equipe implements Serializable {
         this.nome = nome;
     }
 
-    public String getNome_responsavel() {
-        return nome_responsavel;
+    public String getResponsibleName() {
+        return responsibleName;
     }
 
-    public void setNome_responsavel(final String nome_responsavel) {
-        this.nome_responsavel = nome_responsavel;
+    public void setResponsibleName(final String responsibleName) {
+        this.responsibleName = responsibleName;
     }
 
-    public String getTelefone_contato1() {
-        return telefone_contato1;
+    public String getPhoneContact1() {
+        return phoneContact1;
     }
 
-    public void setTelefone_contato1(final String telefone_contato1) {
-        this.telefone_contato1 = telefone_contato1;
+    public void setPhoneContact1(final String phoneContact1) {
+        this.phoneContact1 = phoneContact1;
     }
 
-    public String getTelefone_contato2() {
-        return telefone_contato2;
+    public String getPhoneContact2() {
+        return phoneContact2;
     }
 
-    public void setTelefone_contato2(final String telefone_contato2) {
-        this.telefone_contato2 = telefone_contato2;
+    public void setPhoneContact2(final String phoneContact2) {
+        this.phoneContact2 = phoneContact2;
     }
 
     public Esporte getEsporte() {

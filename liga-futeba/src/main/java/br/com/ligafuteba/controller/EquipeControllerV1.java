@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.ligafuteba.dtos.EstatisticaAtletaDTO;
 import br.com.ligafuteba.dtos.EstatisticasDTO;
 import br.com.ligafuteba.models.Equipe;
 import br.com.ligafuteba.service.EquipeService;
@@ -66,9 +65,9 @@ public class EquipeControllerV1 {
 
         equipeAtual.setNome(equipe.getNome());
         equipeAtual.setVisitante(equipe.getVisitante());
-        equipeAtual.setNome_responsavel(equipe.getNome_responsavel());
-        equipeAtual.setTelefone_contato1(equipe.getTelefone_contato1());
-        equipeAtual.setTelefone_contato2(equipe.getTelefone_contato2());
+        equipeAtual.setResponsibleName(equipe.getResponsibleName());
+        equipeAtual.setPhoneContact1(equipe.getPhoneContact1());
+        equipeAtual.setPhoneContact2(equipe.getPhoneContact2());
         equipeAtual.setEsporte(equipe.getEsporte());
         equipeAtual.setEstabelecimento(equipe.getEstabelecimento());
         equipeAtual.setAtletas(equipe.getAtletas());

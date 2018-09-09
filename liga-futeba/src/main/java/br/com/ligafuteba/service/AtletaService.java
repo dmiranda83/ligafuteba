@@ -1,7 +1,5 @@
 package br.com.ligafuteba.service;
 
-import java.util.List;
-
 import br.com.ligafuteba.dtos.EstatisticaAtletaDTO;
 import br.com.ligafuteba.models.Atleta;
 
