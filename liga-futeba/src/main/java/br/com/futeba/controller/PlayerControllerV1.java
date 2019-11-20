@@ -1,4 +1,4 @@
-package br.com.gamedate.controller;
+package br.com.futeba.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,13 +14,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.gamedate.dtos.PlayerStatisticsDTO;
-import br.com.gamedate.models.Player;
-import br.com.gamedate.service.PlayerService;
+import br.com.futeba.dtos.PlayerStatisticsDTO;
+import br.com.futeba.models.Player;
+import br.com.futeba.service.PlayerService;
 
 @RestController
 @CrossOrigin (origins = "*")
-@RequestMapping("/api/v1/atleta")
+@RequestMapping("/api/v1/player")
 public class PlayerControllerV1 {
 
     private static final Logger logger = LoggerFactory.getLogger(PlayerControllerV1.class);
@@ -28,63 +28,63 @@ public class PlayerControllerV1 {
     @Autowired
     private PlayerService service;
 
-    @PostMapping("/salvar")
-    public String cadastrar(@RequestBody final Player atleta) {
+    @PostMapping("/save")
+    public String save(@RequestBody final Player player) {
 
         try {
-            service.salvarAtleta(atleta);
+            service.save(player);
 
         } catch (Exception e) {
-            return "Erro ao cadastrar atleta: " + e.toString();
+            return "Error saving player: " + e.toString();
         }
-        return "Atleta cadastrado com sucesso! (id = " + atleta.getId() + " nome = " + atleta.getNome() + ")";
+        return "Player successfully save! (id = " + player.getId() + " nome = " + player.getName() + ")";
     }
 
-    @GetMapping("/listar")
-    public @ResponseBody Iterable<Player> listar() {
-        logger.info("Listando todos atletas");
-        return service.localizarTodosAtletas();
+    @GetMapping("/list")
+    public @ResponseBody Iterable<Player> list() {
+        logger.info("Listing all players");
+        return service.findAll();
     }
-    @GetMapping("/estatisticas/{year}")
-    public @ResponseBody Iterable<PlayerStatisticsDTO> getArtilharia(@PathVariable("year") final Integer year) {
-    	logger.info("Listando Artilheiros");
-    	return service.getEstatisticasAtletas(year);
+    @GetMapping("/statistics/{year}")
+    public @ResponseBody Iterable<PlayerStatisticsDTO> getStatistics(@PathVariable("year") final Integer year) {
+    	logger.info("Listing player statistics");
+    	return service.getPlayerStatistics(year);
     }
 
-    @PutMapping("/atualizar/{id}")
-    public Player atualizarAtleta(@PathVariable("id") final Integer id, @RequestBody final Player atleta) {
+    @PutMapping("/update/{id}")
+    public Player update(@PathVariable("id") final Integer id, @RequestBody final Player player) {
 
-        logger.info("Atualizando Atleta de id {}", id);
-        Player atletaAtual = service.localizarPorId(id);
+        logger.info("Updating player id {}", id);
+        Player currentPlayer = service.findById(id);
 
-        if (atletaAtual == null) {
-            logger.error("Atleta com id {} nao encontrada.", id);
-            return atletaAtual;
+        if (currentPlayer == null) {
+            logger.error("Player id {} not found.", id);
+            return currentPlayer;
         }
 
-        atletaAtual.setNome(atleta.getNome());
-        atletaAtual.setPosicoes(atleta.getPosicoes());
-        atletaAtual.setEquipes(atleta.getEquipes());
+        currentPlayer.setName(player.getName());
+        currentPlayer.setPosition(player.getPosition());
+        currentPlayer.setTeams(player.getTeams());
 
-        return service.atualizarAtleta(atletaAtual);
+        return service.update(currentPlayer);
     }
 
-    @DeleteMapping("/deletar/{id}")
-    public void deletarPosicao(@PathVariable("id") final Integer id) {
+    @DeleteMapping("/delete/{id}")
+    public void delete(@PathVariable("id") final Integer id) {
 
-        logger.info("Deletando Atleta de id {}", id);
-        Player atletaAtual = service.localizarPorId(id);
+        logger.info("Deleting player id {}", id);
+        Player currentPlayer = service.findById(id);
 
-        if (atletaAtual == null) {
-            logger.error("Atleta com id {} nao encontrada.", id);
+        if (currentPlayer == null) {
+            logger.error("Player id {} not found.", id);
         }
-        service.deletarPosicaoPorId(id);
+        service.deleteById(id);
     }
 
-    @DeleteMapping("/deletar")
-    public void deletarTodasPosicao() {
+    @DeleteMapping("/delete")
+    public void delete() {
 
-        logger.info("Deletando todos atletas");
-        service.deletarTodasPosicoes();
+        logger.info("Deleting all players");
+        service.deleteAll();
     }
 }

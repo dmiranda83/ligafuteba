@@ -1,4 +1,6 @@
-package br.com.gamedate.models;
+package br.com.futeba.models;
+
+import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,9 +10,11 @@ import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 
 @Entity(name = "estabelecimentos")
-public class Place {
+public class Place implements Serializable{
 
-    @Id
+	private static final long serialVersionUID = 2062908763035875940L;
+
+	@Id
     @Column(name = "estabelecimento_id", nullable = false)
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
@@ -35,35 +39,35 @@ public class Place {
         this.id = id;
     }
 
-    public String getNome() {
+    public String getName() {
         return nome;
     }
 
-    public void setNome(final String nome) {
+    public void setName(final String nome) {
         this.nome = nome;
     }
 
-    public String getTipo() {
+    public String getType() {
         return tipo;
     }
 
-    public void setTipo(final String tipo) {
+    public void setType(final String tipo) {
         this.tipo = tipo;
     }
 
-    public String getEndereco() {
+    public String getAddress() {
         return endereco;
     }
 
-    public void setEndereco(final String endereco) {
+    public void setAddress(final String endereco) {
         this.endereco = endereco;
     }
 
-    public String getCidade() {
+    public String getCity() {
         return cidade;
     }
 
-    public void setCidade(final String cidade) {
+    public void setCity(final String cidade) {
         this.cidade = cidade;
     }
 

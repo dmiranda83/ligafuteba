@@ -1,47 +1,47 @@
-package br.com.gamedate.service.impl;
+package br.com.futeba.service.impl;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.com.gamedate.models.Game;
-import br.com.gamedate.repositorys.GameRepository;
-import br.com.gamedate.service.GameService;
+import br.com.futeba.models.Game;
+import br.com.futeba.repositorys.GameRepository;
+import br.com.futeba.service.GameService;
 
-@Service("JogoService")
+@Service("GameService")
 public class GameServiceImpl implements GameService {
 
     @Autowired
     private GameRepository repository;
 
     @Override
-    public Game salvarJogo(final Game jogo) {
-        return repository.save(jogo);
+    public Game save(final Game game) {
+        return repository.save(game);
     }
 
     @Override
-    public List<Game> localizarTodosJogos(Integer year) {
-        return repository.getJogos(year);
+    public List<Game> findAll(Integer year) {
+        return repository.getGames(year);
     }
 
     @Override
-    public Game localizarPorId(final Integer id) {
+    public Game findById(final Integer id) {
         return repository.findOne(id);
     }
 
     @Override
-    public Game atualizarJogo(final Game jogo) {
-        return repository.saveAndFlush(jogo);
+    public Game update(final Game game) {
+        return repository.saveAndFlush(game);
     }
 
     @Override
-    public void deletarPosicaoPorId(final Integer id) {
+    public void deleteById(final Integer id) {
         repository.delete(id);
     }
 
     @Override
-    public void deletarTodasPosicoes() {
+    public void deleteAll() {
         repository.deleteAll();
     }
 

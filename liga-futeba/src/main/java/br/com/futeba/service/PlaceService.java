@@ -1,18 +1,18 @@
-package br.com.gamedate.service;
+package br.com.futeba.service;
 
-import br.com.gamedate.models.Place;
+import br.com.futeba.models.Place;
 
 public interface PlaceService {
 
-    Place salvarEstabelecimento(Place estabelecimento);
+    Place save(Place estabelecimento);
 
-    Iterable<Place> localizarTodosEstabelecimento();
+    Iterable<Place> findAll();
 
-    Place localizarPorId(Integer id);
+    Place findById(Integer id);
 
-    void deletarEstabelecimentoPorId(Integer id);
+    void deleteById(Integer id);
 
-    void deletarTodosEstabelecimentos();
+    void deleteAll();
 
-    Place atualizarEstabelecimento(Place estabelecimento);
+    Place update(Place estabelecimento);
 }

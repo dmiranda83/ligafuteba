@@ -1,21 +1,21 @@
-package br.com.gamedate.service;
+package br.com.futeba.service;
 
 import java.util.List;
 
-import br.com.gamedate.models.Game;
+import br.com.futeba.models.Game;
 
 public interface GameService {
 
-	Game salvarJogo(Game jogo);
+	Game save(Game jogo);
 
-    List<Game> localizarTodosJogos(Integer year);
+    List<Game> findAll(Integer year);
 
-    Game localizarPorId(Integer id);
+    Game findById(Integer id);
 
-    Game atualizarJogo(Game jogo);
+    Game update(Game jogo);
 
-    void deletarTodasPosicoes();
+    void deleteAll();
 
-    void deletarPosicaoPorId(Integer id);
+    void deleteById(Integer id);
 
 }

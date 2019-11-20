@@ -1,11 +1,11 @@
-package br.com.gamedate.service.impl;
+package br.com.futeba.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.com.gamedate.models.Place;
-import br.com.gamedate.repositorys.PlaceRepository;
-import br.com.gamedate.service.PlaceService;
+import br.com.futeba.models.Place;
+import br.com.futeba.repositorys.PlaceRepository;
+import br.com.futeba.service.PlaceService;
 
 @Service("EstabelecimentoService")
 public class PlaceServiceImpl implements PlaceService {
@@ -14,32 +14,32 @@ public class PlaceServiceImpl implements PlaceService {
     private PlaceRepository repository;
 
     @Override
-    public Place salvarEstabelecimento(final Place estabelecimento) {
+    public Place save(final Place estabelecimento) {
         return repository.save(estabelecimento);
     }
 
     @Override
-    public Iterable<Place> localizarTodosEstabelecimento() {
+    public Iterable<Place> findAll() {
         return repository.findAll();
     }
 
     @Override
-    public Place atualizarEstabelecimento(final Place estabelecimento) {
+    public Place update(final Place estabelecimento) {
         return repository.save(estabelecimento);
     }
 
     @Override
-    public Place localizarPorId(final Integer id) {
+    public Place findById(final Integer id) {
         return repository.findOne(id);
     }
 
     @Override
-    public void deletarEstabelecimentoPorId(final Integer id) {
+    public void deleteById(final Integer id) {
         repository.delete(id);
     }
 
     @Override
-    public void deletarTodosEstabelecimentos() {
+    public void deleteAll() {
         repository.deleteAll();
     }
 }

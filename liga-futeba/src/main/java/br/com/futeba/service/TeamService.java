@@ -1,7 +1,7 @@
-package br.com.gamedate.service;
+package br.com.futeba.service;
 
-import br.com.gamedate.dtos.StatisticsDTO;
-import br.com.gamedate.models.Team;
+import br.com.futeba.dtos.StatisticsDTO;
+import br.com.futeba.models.Team;
 
 public interface TeamService {
 

@@ -1,22 +1,22 @@
-package br.com.gamedate.service;
+package br.com.futeba.service;
 
-import br.com.gamedate.dtos.PlayerStatisticsDTO;
-import br.com.gamedate.models.Player;
+import br.com.futeba.dtos.PlayerStatisticsDTO;
+import br.com.futeba.models.Player;
 
 public interface PlayerService {
 
-    Player salvarAtleta(Player atleta);
+    Player save(Player atleta);
 
-    Iterable<Player> localizarTodosAtletas();
+    Iterable<Player> findAll();
 
-    Player localizarPorId(Integer id);
+    Player findById(Integer id);
 
-    Player atualizarAtleta(Player atleta);
+    Player update(Player atleta);
 
-    void deletarPosicaoPorId(Integer id);
+    void deleteById(Integer id);
 
-    void deletarTodasPosicoes();
+    void deleteAll();
 
-	Iterable<PlayerStatisticsDTO> getEstatisticasAtletas(Integer year);
+	Iterable<PlayerStatisticsDTO> getPlayerStatistics(Integer year);
 
 }

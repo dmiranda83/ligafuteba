@@ -1,4 +1,4 @@
-package br.com.gamedate.service.impl;
+package br.com.futeba.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,10 +6,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.com.gamedate.dtos.StatisticsDTO;
-import br.com.gamedate.models.Team;
-import br.com.gamedate.repositorys.TeamRepository;
-import br.com.gamedate.service.TeamService;
+import br.com.futeba.dtos.StatisticsDTO;
+import br.com.futeba.models.Team;
+import br.com.futeba.repositorys.TeamRepository;
+import br.com.futeba.service.TeamService;
 
 @Service("EquipeService")
 public class TeamServiceImpl implements TeamService {

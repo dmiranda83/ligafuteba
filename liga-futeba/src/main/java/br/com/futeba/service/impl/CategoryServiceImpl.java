@@ -1,11 +1,11 @@
-package br.com.gamedate.service.impl;
+package br.com.futeba.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.com.gamedate.models.Category;
-import br.com.gamedate.repositorys.CategoryRepository;
-import br.com.gamedate.service.CategoryService;
+import br.com.futeba.models.Category;
+import br.com.futeba.repositorys.CategoryRepository;
+import br.com.futeba.service.CategoryService;
 
 @Service("EsporteService")
 public class CategoryServiceImpl implements CategoryService {
@@ -14,32 +14,32 @@ public class CategoryServiceImpl implements CategoryService {
     private CategoryRepository repository;
 
     @Override
-    public Category salvarEsporte(final Category esporte) {
+    public Category save(final Category esporte) {
         return repository.save(esporte);
     }
 
     @Override
-    public Iterable<Category> localizarTodosEsportes() {
+    public Iterable<Category> findAll() {
         return repository.findAll();
     }
 
     @Override
-    public Category localizarPorId(final Integer id) {
+    public Category findById(final Integer id) {
         return repository.findOne(id);
     }
 
     @Override
-    public Category atualizarEsporte(final Category esporte) {
+    public Category update(final Category esporte) {
         return repository.saveAndFlush(esporte);
     }
 
     @Override
-    public void deletarPosicaoPorId(final Integer id) {
+    public void delete(final Integer id) {
         repository.delete(id);
     }
 
     @Override
-    public void deletarTodasPosicoes() {
+    public void deleteAll() {
         repository.deleteAll();
     }
 

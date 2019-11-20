@@ -1,4 +1,4 @@
-package br.com.gamedate.controller;
+package br.com.futeba.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.gamedate.dtos.StatisticsDTO;
-import br.com.gamedate.models.Team;
-import br.com.gamedate.service.TeamService;
+import br.com.futeba.dtos.StatisticsDTO;
+import br.com.futeba.models.Team;
+import br.com.futeba.service.TeamService;
 
 @RestController
 @CrossOrigin (origins = "*") 

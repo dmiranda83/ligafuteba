@@ -1,4 +1,4 @@
-package br.com.gamedate.controller;
+package br.com.futeba.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,12 +14,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.gamedate.models.Place;
-import br.com.gamedate.service.PlaceService;
+import br.com.futeba.models.Place;
+import br.com.futeba.service.PlaceService;
 
 @RestController
 @CrossOrigin (origins = "*")
-@RequestMapping("/api/v1/estabelecimento")
+@RequestMapping("/api/v1/place")
 public class PlaceControllerV1 {
 
     private static final Logger logger = LoggerFactory.getLogger(PlaceControllerV1.class);
@@ -27,63 +27,63 @@ public class PlaceControllerV1 {
     @Autowired
     private PlaceService service;
 
-    @PostMapping("/salvar")
-    public String cadastrar(@RequestBody final Place estabelecimento) {
+    @PostMapping("/save")
+    public String save(@RequestBody final Place place) {
 
         try {
 
-            service.salvarEstabelecimento(estabelecimento);
+            service.save(place);
 
         } catch (Exception e) {
-            return "Erro ao cadastrar estabelecimento: " + e.toString();
+            return "Error saving place: " + e.toString();
         }
-        return "Estabelecimento cadastrado com sucesso! (id = " + estabelecimento.getId() + " nome = " + estabelecimento.getNome() + ")";
+        return "Place successfully save! (id = " + place.getId() + " nome = " + place.getName() + ")";
     }
 
-    @GetMapping("/listar")
+    @GetMapping("/list")
     public @ResponseBody Iterable<Place> listar() {
-        logger.info("Listando todos estabelecimentos");
-        return service.localizarTodosEstabelecimento();
+        logger.info("Listing all places");
+        return service.findAll();
     }
 
-    @PutMapping("/atualizar/{id}")
-    public Place atualizarEstabelecimento(@PathVariable("id") final Integer id, @RequestBody final Place estabelecimento) {
+    @PutMapping("/update/{id}")
+    public Place update(@PathVariable("id") final Integer id, @RequestBody final Place place) {
 
-        logger.info("Atualizando Estabelecimento de id {}", id);
-        Place estabelecimentoAtual = service.localizarPorId(id);
+        logger.info("Updating id place {}", id);
+        Place currentPlace = service.findById(id);
 
-        if (estabelecimentoAtual == null) {
-            logger.error("Estabelecimento com id {} nao encontrada.", id);
-            return estabelecimentoAtual;
+        if (currentPlace == null) {
+            logger.error("id place {} not found.", id);
+            return currentPlace;
         }
 
-        estabelecimentoAtual.setNome(estabelecimento.getNome());
-        estabelecimentoAtual.setTipo(estabelecimento.getTipo());
-        estabelecimentoAtual.setEndereco(estabelecimento.getEndereco());
-        estabelecimentoAtual.setCidade(estabelecimento.getCidade());
-        estabelecimentoAtual.setBairro(estabelecimento.getBairro());
-        estabelecimentoAtual.setCep(estabelecimento.getCep());
+        currentPlace.setName(place.getName());
+        currentPlace.setType(place.getType());
+        currentPlace.setAddress(place.getAddress());
+        currentPlace.setCity(place.getCity());
+        currentPlace.setBairro(place.getBairro());
+        currentPlace.setCep(place.getCep());
 
-        return service.atualizarEstabelecimento(estabelecimentoAtual);
+        return service.update(currentPlace);
     }
 
-    @DeleteMapping("/deletar/{id}")
-    public String deletarEstabelecimento(@PathVariable("id") final Integer id) {
+    @DeleteMapping("/delete/{id}")
+    public String delete(@PathVariable("id") final Integer id) {
 
-        logger.info("Deletando Estabelecimento de id {}", id);
-        Place estabelecimentoAtual = service.localizarPorId(id);
+        logger.info("Deleting place id {}", id);
+        Place currentPlace = service.findById(id);
 
-        if (estabelecimentoAtual == null) {
-            logger.error("Estabelecimento com id {} nao encontrada.", id);
+        if (currentPlace == null) {
+            logger.error("Id place {} not found.", id);
         }
-        service.deletarEstabelecimentoPorId(id);
-        return "Estabelecimento deletado com sucesso! (id = " + estabelecimentoAtual.getId() + " nome = " + estabelecimentoAtual.getNome() + ")";
+        service.deleteById(id);
+        return "Place delete successfully! (id = " + currentPlace.getId() + " nome = " + currentPlace.getName() + ")";
     }
 
     @DeleteMapping("/deletar")
-    public void deletarTodasEstabelecimento() {
+    public void delete() {
 
-        logger.info("Deletando todos estabelecimentos");
-        service.deletarTodosEstabelecimentos();
+        logger.info("deleting all places");
+        service.deleteAll();
     }
 }

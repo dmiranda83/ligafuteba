@@ -1,4 +1,4 @@
-package br.com.gamedate.repositorys;
+package br.com.futeba.repositorys;
 
 import java.util.List;
 
@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import br.com.gamedate.models.Player;
+import br.com.futeba.models.Player;
 
 public interface PlayerRepository extends JpaRepository<Player, Integer> {
 

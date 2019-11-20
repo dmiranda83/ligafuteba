@@ -1,4 +1,4 @@
-package br.com.gamedate.controller;
+package br.com.futeba.controller;
 
 
 import java.util.List;
@@ -17,12 +17,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.gamedate.models.Game;
-import br.com.gamedate.service.GameService;
+import br.com.futeba.models.Game;
+import br.com.futeba.service.GameService;
 
 @RestController
 @CrossOrigin (origins = "*")
-@RequestMapping("/api/v1/jogo")
+@RequestMapping("/api/v1/game")
 public class GameControllerV1 {
 
     private static final Logger logger = LoggerFactory.getLogger(GameControllerV1.class);
@@ -30,68 +30,68 @@ public class GameControllerV1 {
     @Autowired
     private GameService service;
 
-    @PostMapping("/salvar")
-    public String cadastrar(@RequestBody final Game jogo) {
+    @PostMapping("/save")
+    public String save(@RequestBody final Game game) {
 
         try {
-            service.salvarJogo(jogo);
+            service.save(game);
 
         } catch (Exception e) {
-            return "Erro ao cadastrar jogo: " + e.toString();
+            return "Error! Game not save: " + e.toString();
         }
-        return "Jogo cadastrado com sucesso! (id = " + jogo.getId() + ")";
+        return "Game successfully save! (id = " + game.getId() + ")";
     }
 
-    @GetMapping("/listar/{year}")
-    public @ResponseBody List<Game> listar(@PathVariable("year") final Integer year) {
-        return service.localizarTodosJogos(year);
+    @GetMapping("/list/{year}")
+    public @ResponseBody List<Game> list(@PathVariable("year") final Integer year) {
+        return service.findAll(year);
     }
 
-    @PutMapping("/atualizar/{id}")
-    public Game atualizarJogo(@PathVariable("id") final Integer id, @RequestBody final Game jogo) {
+    @PutMapping("/update/{id}")
+    public Game updateGame(@PathVariable("id") final Integer id, @RequestBody final Game game) {
 
-        logger.info("Atualizando Jogo de id {}", id);
-        Game jogoAtual = service.localizarPorId(id);
+        logger.info("Updating id game {}", id);
+        Game currentGame = service.findById(id);
 
-        if (jogoAtual == null) {
-            logger.error("Jogo com id {} nao encontrada.", id);
-            return jogoAtual;
+        if (currentGame == null) {
+            logger.error("Id game {} not found.", id);
+            return currentGame;
         }
         
-        logger.info("Gols Mandante {}", jogo.getGamePlayerData());
-        logger.info("Gols Visitante {}", jogo.getGolsVisitante());
-        logger.info("Ass Mandante {}", jogo.getAssMandante());
-        logger.info("Ass Visitante {}", jogo.getAssVisitante());
+        logger.info("Home goals {}", game.getGamePlayerData());
+        logger.info("Away goals {}", game.getAwayGoals());
+        logger.info("Home assists {}", game.getHomeAssists());
+        logger.info("Away assists {}", game.getAwayAssists());
 
-        jogoAtual.setEquipeMandante(jogo.getEquipeMandante());
-        jogoAtual.setEquipeVisitante(jogo.getEquipeVisitante());
-        jogoAtual.setGamePlayerData(jogo.getGamePlayerData());
-        jogoAtual.setGolsVisitante(jogo.getGolsVisitante());
-        jogoAtual.setAssMandante(jogo.getAssMandante());
-        jogoAtual.setAssVisitante(jogo.getAssVisitante());
-        jogoAtual.setTotalGolsMandante(jogo.getTotalGolsMandante());
-        jogoAtual.setTotalGolsVisitante(jogo.getTotalGolsVisitante());
-        jogoAtual.setPontos(jogo.getPontos());
+        currentGame.setHomeTeam(game.getHomeTeam());
+        currentGame.setAwayTeam(game.getAwayTeam());
+        currentGame.setGamePlayerData(game.getGamePlayerData());
+        currentGame.setAwayGoals(game.getAwayGoals());
+        currentGame.setHomeAssists(game.getHomeAssists());
+        currentGame.setAwayAssists(game.getAwayAssists());
+        currentGame.setHomeTeamTotalGoals(game.getHomeTeamTotalGoals());
+        currentGame.setAwayTeamTotalGoals(game.getAwayTeamTotalGoals());
+        currentGame.setPoints(game.getPoints());
 
-        return service.atualizarJogo(jogoAtual);
+        return service.update(currentGame);
     }
 
-    @DeleteMapping("/deletar/{id}")
-    public void deletarPosicao(@PathVariable("id") final Integer id) {
+    @DeleteMapping("/delete/{id}")
+    public void delete(@PathVariable("id") final Integer id) {
 
-        logger.info("Deletando Jogo de id {}", id);
-        Game jogoAtual = service.localizarPorId(id);
+        logger.info("Deleting id game {}", id);
+        Game currentGame = service.findById(id);
 
-        if (jogoAtual == null) {
-            logger.error("Jogo com id {} nao encontrada.", id);
+        if (currentGame == null) {
+            logger.error("Id game {} not found.", id);
         }
-        service.deletarPosicaoPorId(id);
+        service.deleteById(id);
     }
 
-    @DeleteMapping("/deletar")
-    public void deletarTodasPosicao() {
+    @DeleteMapping("/delete")
+    public void deleteAllGames() {
 
-        logger.info("Deletando todos os jogos");
-        service.deletarTodasPosicoes();
+        logger.info("Deleting all games");
+        service.deleteAll();
     }
 }

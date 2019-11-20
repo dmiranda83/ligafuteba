@@ -1,4 +1,4 @@
-package br.com.gamedate;
+package br.com.futeba;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

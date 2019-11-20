@@ -1,4 +1,4 @@
-package br.com.gamedate.models;
+package br.com.futeba.models;
 
 import java.io.Serializable;
 
@@ -34,11 +34,11 @@ public class Category implements Serializable{
         this.id = id;
     }
 
-    public String getNome() {
+    public String getName() {
         return nome;
     }
 
-    public void setNome(final String nome) {
+    public void setName(final String nome) {
         this.nome = nome;
     }
 }

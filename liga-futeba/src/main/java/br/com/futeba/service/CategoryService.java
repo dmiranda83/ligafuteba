@@ -1,19 +1,19 @@
-package br.com.gamedate.service;
+package br.com.futeba.service;
 
-import br.com.gamedate.models.Category;
+import br.com.futeba.models.Category;
 
 public interface CategoryService {
 
-    Category salvarEsporte(Category esporte);
+    Category save(Category esporte);
 
-    Iterable<Category> localizarTodosEsportes();
+    Iterable<Category> findAll();
 
-    Category localizarPorId(Integer id);
+    Category findById(Integer id);
 
-    Category atualizarEsporte(Category esporteAtual);
+    Category update(Category esporteAtual);
 
-    void deletarPosicaoPorId(Integer id);
+    void delete(Integer id);
 
-    void deletarTodasPosicoes();
+    void deleteAll();
 
 }

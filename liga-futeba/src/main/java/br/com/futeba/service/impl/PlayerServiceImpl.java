@@ -1,4 +1,4 @@
-package br.com.gamedate.service.impl;
+package br.com.futeba.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,10 +6,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.com.gamedate.dtos.PlayerStatisticsDTO;
-import br.com.gamedate.models.Player;
-import br.com.gamedate.repositorys.PlayerRepository;
-import br.com.gamedate.service.PlayerService;
+import br.com.futeba.dtos.PlayerStatisticsDTO;
+import br.com.futeba.models.Player;
+import br.com.futeba.repositorys.PlayerRepository;
+import br.com.futeba.service.PlayerService;
 
 @Service("AtletaService")
 public class PlayerServiceImpl implements PlayerService {
@@ -18,38 +18,38 @@ public class PlayerServiceImpl implements PlayerService {
     private PlayerRepository repository;
 
     @Override
-    public Player salvarAtleta(final Player atleta) {
+    public Player save(final Player atleta) {
         return repository.save(atleta);
     }
 
     @Override
-    public Iterable<Player> localizarTodosAtletas() {
+    public Iterable<Player> findAll() {
         return repository.findAll();
     }
 
     @Override
-    public Player localizarPorId(final Integer id) {
+    public Player findById(final Integer id) {
         return repository.findOne(id);
     }
 
     @Override
-    public Player atualizarAtleta(final Player atleta) {
+    public Player update(final Player atleta) {
         return repository.saveAndFlush(atleta);
     }
 
     @Override
-    public void deletarPosicaoPorId(final Integer id) {
+    public void deleteById(final Integer id) {
         repository.delete(id);
     }
 
     @Override
-    public void deletarTodasPosicoes() {
+    public void deleteAll() {
         repository.deleteAll();
     }
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public Iterable<PlayerStatisticsDTO> getEstatisticasAtletas(Integer year) {
+	public Iterable<PlayerStatisticsDTO> getPlayerStatistics(Integer year) {
 		List<Object[]> result = (List<Object[]>) repository.getEstatisticasAtleta(year);
 		List<PlayerStatisticsDTO> estatisticasAtletasDTOs = new ArrayList<>();
 		

@@ -1,4 +1,4 @@
-package br.com.gamedate.models;
+package br.com.futeba.models;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -51,27 +51,27 @@ public class Player implements Serializable {
         this.id = id;
     }
 
-    public String getNome() {
+    public String getName() {
         return nome;
     }
 
-    public void setNome(final String nome) {
+    public void setName(final String nome) {
         this.nome = nome;
     }
 
-    public Position getPosicoes() {
+    public Position getPosition() {
         return posicao;
     }
 
-    public void setPosicoes(final Position posicoes) {
+    public void setPosition(final Position posicoes) {
         this.posicao = posicoes;
     }
 
-    public List<Team> getEquipes() {
+    public List<Team> getTeams() {
         return equipes;
     }
 
-    public void setEquipes(final List<Team> equipes) {
+    public void setTeams(final List<Team> equipes) {
         this.equipes = equipes;
     }
 }

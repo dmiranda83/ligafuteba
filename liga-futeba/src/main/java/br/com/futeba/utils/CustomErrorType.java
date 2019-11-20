@@ -1,4 +1,4 @@
-package br.com.gamedate.utils;
+package br.com.futeba.utils;
 
 public class CustomErrorType {
     private String errorMessage;

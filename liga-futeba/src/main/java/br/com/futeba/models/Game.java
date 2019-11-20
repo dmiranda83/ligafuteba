@@ -1,4 +1,4 @@
-package br.com.gamedate.models;
+package br.com.futeba.models;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
@@ -99,19 +99,19 @@ public class Game implements Serializable {
         this.local = local;
     }
 
-    public Team getEquipeMandante() {
+    public Team getHomeTeam() {
         return equipeMandante;
     }
 
-    public void setEquipeMandante(final Team equipeMandante) {
+    public void setHomeTeam(final Team equipeMandante) {
         this.equipeMandante = equipeMandante;
     }
 
-    public Team getEquipeVisitante() {
+    public Team getAwayTeam() {
         return equipeVisitante;
     }
 
-    public void setEquipeVisitante(final Team equipeVisitante) {
+    public void setAwayTeam(final Team equipeVisitante) {
         this.equipeVisitante = equipeVisitante;
     }
 
@@ -123,11 +123,11 @@ public class Game implements Serializable {
         this.gamePlayerData = gamePlayerData;
     }
 
-    public Set<GamePlayerData> getGolsVisitante() {
+    public Set<GamePlayerData> getAwayGoals() {
         return golsVisitante;
     }
 
-    public void setGolsVisitante(final Set<GamePlayerData> golsVisitante) {
+    public void setAwayGoals(final Set<GamePlayerData> golsVisitante) {
         this.golsVisitante = golsVisitante;
     }
 
@@ -139,43 +139,43 @@ public class Game implements Serializable {
 		this.quadro = quadro;
 	}
 
-	public Integer getTotalGolsMandante() {
+	public Integer getHomeTeamTotalGoals() {
 		return totalGolsMandante;
 	}
 
-	public void setTotalGolsMandante(Integer totalGolsMandante) {
+	public void setHomeTeamTotalGoals(Integer totalGolsMandante) {
 		this.totalGolsMandante = totalGolsMandante;
 	}
 
-	public Integer getTotalGolsVisitante() {
+	public Integer getAwayTeamTotalGoals() {
 		return totalGolsVisitante;
 	}
 
-	public void setTotalGolsVisitante(Integer totalGolsVisitante) {
+	public void setAwayTeamTotalGoals(Integer totalGolsVisitante) {
 		this.totalGolsVisitante = totalGolsVisitante;
 	}
 
-	public Integer getPontos() {
+	public Integer getPoints() {
 		return pontos;
 	}
 
-	public void setPontos(Integer pontos) {
+	public void setPoints(Integer pontos) {
 		this.pontos = pontos;
 	}
 
-	public Set<Assists> getAssMandante() {
+	public Set<Assists> getHomeAssists() {
 		return assMandante;
 	}
 
-	public void setAssMandante(Set<Assists> assMandante) {
+	public void setHomeAssists(Set<Assists> assMandante) {
 		this.assMandante = assMandante;
 	}
 
-	public Set<Assists> getAssVisitante() {
+	public Set<Assists> getAwayAssists() {
 		return assVisitante;
 	}
 
-	public void setAssVisitante(Set<Assists> assVisitante) {
+	public void setAwayAssists(Set<Assists> assVisitante) {
 		this.assVisitante = assVisitante;
 	}
 

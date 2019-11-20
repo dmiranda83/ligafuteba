@@ -1,4 +1,4 @@
-package br.com.gamedate.controller;
+package br.com.futeba.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,12 +14,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.gamedate.models.Category;
-import br.com.gamedate.service.CategoryService;
+import br.com.futeba.models.Category;
+import br.com.futeba.service.CategoryService;
 
 @RestController
 @CrossOrigin (origins = "*")
-@RequestMapping("/api/v1/esporte")
+@RequestMapping("/api/v1/teamCategory")
 public class TeamCategoryControllerV1 {
 
     private static final Logger logger = LoggerFactory.getLogger(TeamCategoryControllerV1.class);
@@ -27,57 +27,57 @@ public class TeamCategoryControllerV1 {
     @Autowired
     private CategoryService service;
 
-    @PostMapping("/salvar")
-    public String cadastrar(@RequestBody final Category esporte) {
+    @PostMapping("/save")
+    public String save(@RequestBody final Category teamCategory) {
 
         try {
 
-            service.salvarEsporte(esporte);
+            service.save(teamCategory);
 
         } catch (Exception e) {
-            return "Erro ao cadastrar esporte: " + e.toString();
+            return "Error saving team category: " + e.toString();
         }
-        return "Esporte cadastrado com sucesso! (id = " + esporte.getId() + ")";
+        return "Team category save sucessfully! (id = " + teamCategory.getId() + ")";
     }
 
-    @GetMapping("/listar")
-    public @ResponseBody Iterable<Category> listar() {
-        logger.info("Listando todos esportes");
-        return service.localizarTodosEsportes();
+    @GetMapping("/list")
+    public @ResponseBody Iterable<Category> list() {
+        logger.info("Listing all team category");
+        return service.findAll();
     }
 
-    @PutMapping("/atualizar/{id}")
-    public Category atualizarEsporte(@PathVariable("id") final Integer id, @RequestBody final Category esporte) {
+    @PutMapping("/update/{id}")
+    public Category update(@PathVariable("id") final Integer id, @RequestBody final Category teamCategory) {
 
-        logger.info("Atualizando Esporte de id {}", id);
-        Category esporteAtual = service.localizarPorId(id);
+        logger.info("Updating team category id {}", id);
+        Category currentTeamCategory = service.findById(id);
 
-        if (esporteAtual == null) {
-            logger.error("Esporte com id {} nao encontrado.", id);
-            return esporteAtual;
+        if (currentTeamCategory == null) {
+            logger.error("Team category id {} not found.", id);
+            return currentTeamCategory;
         }
 
-        esporteAtual.setNome(esporte.getNome());
+        currentTeamCategory.setName(teamCategory.getName());
 
-        return service.atualizarEsporte(esporteAtual);
+        return service.update(currentTeamCategory);
     }
 
-    @DeleteMapping("/deletar/{id}")
-    public void deletarPosicao(@PathVariable("id") final Integer id) {
+    @DeleteMapping("/delete/{id}")
+    public void delete(@PathVariable("id") final Integer id) {
 
-        logger.info("Deletando Esporte de id {}", id);
-        Category esporteAtual = service.localizarPorId(id);
+        logger.info("Deleting team category id {}", id);
+        Category currentTeamCategory = service.findById(id);
 
-        if (esporteAtual == null) {
-            logger.error("Esporte com id {} nao encontrada.", id);
+        if (currentTeamCategory == null) {
+            logger.error("Team category id {} not found.", id);
         }
-        service.deletarPosicaoPorId(id);
+        service.delete(id);
     }
 
-    @DeleteMapping("/deletar")
-    public void deletarTodasPosicao() {
+    @DeleteMapping("/delete")
+    public void delete() {
 
-        logger.info("Deletando todos esportes");
-        service.deletarTodasPosicoes();
+        logger.info("Deleting all team category");
+        service.deleteAll();
     }
 }

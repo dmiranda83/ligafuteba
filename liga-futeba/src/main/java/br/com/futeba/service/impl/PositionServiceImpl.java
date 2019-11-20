@@ -1,11 +1,11 @@
-package br.com.gamedate.service.impl;
+package br.com.futeba.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.com.gamedate.models.Position;
-import br.com.gamedate.repositorys.PositionRepository;
-import br.com.gamedate.service.PositionService;
+import br.com.futeba.models.Position;
+import br.com.futeba.repositorys.PositionRepository;
+import br.com.futeba.service.PositionService;
 
 @Service("PosicaoService")
 public class PositionServiceImpl implements PositionService {
@@ -14,18 +14,18 @@ public class PositionServiceImpl implements PositionService {
     private PositionRepository repository;
 
     @Override
-    public Position savePosition(final Position posicao) {
+    public Position save(final Position posicao) {
         return repository.save(posicao);
     }
 
     @Override
-    public Iterable<Position> findAllPositions() {
+    public Iterable<Position> findAll() {
         return repository.findAll();
     }
 
     @Override
-    public Position updatePosition(final Position posicao) {
-        return savePosition(posicao);
+    public Position update(final Position posicao) {
+        return save(posicao);
     }
 
     @Override
@@ -34,12 +34,12 @@ public class PositionServiceImpl implements PositionService {
     }
 
     @Override
-    public void deletePositionById(final Integer id) {
+    public void delete(final Integer id) {
         repository.delete(id);
     }
 
     @Override
-    public void deleteAllPositions() {
+    public void deleteAll() {
         repository.deleteAll();
     }
 }

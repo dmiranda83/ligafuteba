@@ -1,20 +1,20 @@
-package br.com.gamedate.service;
+package br.com.futeba.service;
 
-import br.com.gamedate.models.Position;
+import br.com.futeba.models.Position;
 
 public interface PositionService {
 
-    Position savePosition(Position position);
+    Position save(Position position);
 
-    Iterable<Position> findAllPositions();
+    Iterable<Position> findAll();
 
-    Position updatePosition(Position position);
+    Position update(Position position);
 
     Position findById(Integer id);
 
-    void deletePositionById(Integer id);
+    void delete(Integer id);
 
-    void deleteAllPositions();
+    void deleteAll();
 
 
 }

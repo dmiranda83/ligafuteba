@@ -1,4 +1,4 @@
-package br.com.gamedate.dtos;
+package br.com.futeba.dtos;
 
 public class StatisticsDTO {
 	

@@ -1,4 +1,4 @@
-package br.com.gamedate.models;
+package br.com.futeba.models;
 
 import java.io.Serializable;
 import java.util.ArrayList;
