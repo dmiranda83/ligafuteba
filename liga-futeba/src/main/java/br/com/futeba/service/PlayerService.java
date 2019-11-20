@@ -17,6 +17,6 @@ public interface PlayerService {
 
     void deleteAll();
 
-	Iterable<PlayerStatisticsDTO> getPlayerStatistics(Integer year);
+	Iterable<PlayerStatisticsDTO> getPlayerStats(Integer year);
 
 }

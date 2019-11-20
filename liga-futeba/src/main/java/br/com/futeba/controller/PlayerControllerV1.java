@@ -45,10 +45,11 @@ public class PlayerControllerV1 {
         logger.info("Listing all players");
         return service.findAll();
     }
-    @GetMapping("/statistics/{year}")
-    public @ResponseBody Iterable<PlayerStatisticsDTO> getStatistics(@PathVariable("year") final Integer year) {
-    	logger.info("Listing player statistics");
-    	return service.getPlayerStatistics(year);
+    
+    @GetMapping("/stats/{year}")
+    public @ResponseBody Iterable<PlayerStatisticsDTO> getStats(@PathVariable("year") final Integer year) {
+    	logger.info("Loading player stats");
+    	return service.getPlayerStats(year);
     }
 
     @PutMapping("/update/{id}")

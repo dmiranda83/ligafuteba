@@ -20,7 +20,7 @@ import br.com.futeba.service.TeamService;
 
 @RestController
 @CrossOrigin (origins = "*") 
-@RequestMapping("/api/v1/equipe")
+@RequestMapping("/api/v1/team")
 public class TeamControllerV1 {
 
     private static final Logger logger = LoggerFactory.getLogger(TeamControllerV1.class);
@@ -29,68 +29,68 @@ public class TeamControllerV1 {
     private TeamService service;
 
     @PostMapping("/salvar")
-    public String cadastrar(@RequestBody final Team equipe) {
+    public String save(@RequestBody final Team team) {
 
         try {
 
-            service.salvarEquipe(equipe);
+            service.save(team);
 
         } catch (Exception e) {
-            return "Erro ao cadastrar equipe: " + e.toString();
+            return "Error save team: " + e.toString();
         }
-        return "Equipe cadastrado com sucesso! (id = " + equipe.getId() + " nome = " + equipe.getNome() + ")";
+        return "Team save sucessfully! (id = " + team.getId() + " nome = " + team.getName() + ")";
     }
 
-    @GetMapping("/listar")
-    public @ResponseBody Iterable<Team> listar() {
-        return service.localizarTodasEquipes();
+    @GetMapping("/list")
+    public @ResponseBody Iterable<Team> list() {
+        return service.findAll();
     }
     
-    @GetMapping("/estatisticas/{year}")
-    public @ResponseBody Iterable<StatisticsDTO> getEstatisticas(@PathVariable("year") final Integer year) {
+    
+    @GetMapping("/stats/{year}")
+    public @ResponseBody Iterable<StatisticsDTO> getStats(@PathVariable("year") final Integer year) {
     	logger.info("Loading team stats");
-    	return service.getEstatisticas(year);
+    	return service.getTeamStats(year);
     }
 
-    @PutMapping("/atualizar/{id}")
-    public Team atualizarEquipe(@PathVariable("id") final Integer id, @RequestBody final Team equipe) {
+    @PutMapping("/update/{id}")
+    public Team update(@PathVariable("id") final Integer id, @RequestBody final Team team) {
 
-        logger.info("Atualizando Equipe de id {}", id);
-        Team equipeAtual = service.localizarPorId(id);
+        logger.info("Updating team id {}", id);
+        Team currentTeam = service.findById(id);
 
-        if (equipeAtual == null) {
-            logger.error("Equipe com id {} nao encontrada.", id);
-            return equipeAtual;
+        if (currentTeam == null) {
+            logger.error("Team id {} not found.", id);
+            return currentTeam;
         }
 
-        equipeAtual.setNome(equipe.getNome());
-        equipeAtual.setVisitante(equipe.getVisitante());
-        equipeAtual.setResponsibleName(equipe.getResponsibleName());
-        equipeAtual.setPhoneContact1(equipe.getPhoneContact1());
-        equipeAtual.setPhoneContact2(equipe.getPhoneContact2());
-        equipeAtual.setEsporte(equipe.getEsporte());
-        equipeAtual.setEstabelecimento(equipe.getEstabelecimento());
-        equipeAtual.setAtletas(equipe.getAtletas());
+        currentTeam.setName(team.getName());
+        currentTeam.setAway(team.getAway());
+        currentTeam.setResponsibleName(team.getResponsibleName());
+        currentTeam.setPhoneContact1(team.getPhoneContact1());
+        currentTeam.setPhoneContact2(team.getPhoneContact2());
+        currentTeam.setCategory(team.getCategory());
+        currentTeam.setPlace(team.getPlace());
+        currentTeam.setPlayers(team.getPlayers());
 
-        return service.atualizarEquipe(equipeAtual);
+        return service.update(currentTeam);
     }
 
-    @DeleteMapping("/deletar/{id}")
-    public void deletarPosicao(@PathVariable("id") final Integer id) {
+    @DeleteMapping("/delete/{id}")
+    public void delete(@PathVariable("id") final Integer id) {
 
-        logger.info("Deletando Atleta de id {}", id);
-        Team equipeAtual = service.localizarPorId(id);
+        logger.info("Deleting team id {}", id);
+        Team currentTeam = service.findById(id);
 
-        if (equipeAtual == null) {
-            logger.error("Atleta com id {} nao encontrada.", id);
+        if (currentTeam == null) {
+            logger.error("Team id {} not found.", id);
         }
-        service.deletarPosicaoPorId(id);
+        service.delete(id);
     }
 
-    @DeleteMapping("/deletar")
-    public void deletarTodasPosicao() {
-
-        logger.info("Deletando todos atletas");
-        service.deletarTodasPosicoes();
+    @DeleteMapping("/delete")
+    public void delete() {
+        logger.info("Deleting all teams");
+        service.delete();
     }
 }

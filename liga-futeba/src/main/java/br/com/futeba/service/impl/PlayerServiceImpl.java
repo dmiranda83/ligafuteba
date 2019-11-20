@@ -49,7 +49,7 @@ public class PlayerServiceImpl implements PlayerService {
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public Iterable<PlayerStatisticsDTO> getPlayerStatistics(Integer year) {
+	public Iterable<PlayerStatisticsDTO> getPlayerStats(Integer year) {
 		List<Object[]> result = (List<Object[]>) repository.getEstatisticasAtleta(year);
 		List<PlayerStatisticsDTO> estatisticasAtletasDTOs = new ArrayList<>();
 		

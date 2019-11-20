@@ -5,18 +5,18 @@ import br.com.futeba.models.Team;
 
 public interface TeamService {
 
-    Team salvarEquipe(Team equipe);
+    Team save(Team equipe);
 
-    Iterable<Team> localizarTodasEquipes();
+    Iterable<Team> findAll();
 
-    Team localizarPorId(Integer id);
+    Team findById(Integer id);
 
-    Team atualizarEquipe(Team equipe);
+    Team update(Team equipe);
 
-    void deletarPosicaoPorId(Integer id);
+    void delete(Integer id);
 
-    void deletarTodasPosicoes();
+    void delete();
 
-	Iterable<StatisticsDTO> getEstatisticas(Integer year);
+	Iterable<StatisticsDTO> getTeamStats(Integer year);
 
 }

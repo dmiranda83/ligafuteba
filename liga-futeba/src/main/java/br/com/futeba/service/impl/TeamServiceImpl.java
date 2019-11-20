@@ -18,37 +18,37 @@ public class TeamServiceImpl implements TeamService {
     private TeamRepository repository;
 
     @Override
-    public Team salvarEquipe(final Team equipe) {
+    public Team save(final Team equipe) {
         return repository.save(equipe);
     }
 
     @Override
-    public Iterable<Team> localizarTodasEquipes() {
+    public Iterable<Team> findAll() {
         return repository.findAll();
     }
 
     @Override
-    public Team localizarPorId(final Integer id) {
+    public Team findById(final Integer id) {
         return repository.findOne(id);
     }
 
     @Override
-    public Team atualizarEquipe(final Team equipe) {
+    public Team update(final Team equipe) {
         return repository.saveAndFlush(equipe);
     }
 
     @Override
-    public void deletarPosicaoPorId(final Integer id) {
+    public void delete(final Integer id) {
         repository.delete(id);
     }
 
     @Override
-    public void deletarTodasPosicoes() {
+    public void delete() {
         repository.deleteAll();
     }
 
 	@Override
-	public Iterable<StatisticsDTO> getEstatisticas(Integer year) {
+	public Iterable<StatisticsDTO> getTeamStats(Integer year) {
 		List<Object[]> result = (List<Object[]>) repository.getTeamStats(year);
 		List<StatisticsDTO> estatisticasDTOs = new ArrayList<>();
 		

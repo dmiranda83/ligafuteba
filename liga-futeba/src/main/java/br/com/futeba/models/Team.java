@@ -63,11 +63,11 @@ public class Team implements Serializable {
     @OneToMany(mappedBy = "equipeVisitante")
     private List<Game> jogo;
 
-    public Boolean getVisitante() {
+    public Boolean getAway() {
         return visitante;
     }
 
-    public void setVisitante(final Boolean visitante) {
+    public void setAway(final Boolean visitante) {
         this.visitante = visitante;
     }
 
@@ -79,11 +79,11 @@ public class Team implements Serializable {
         this.id = id;
     }
 
-    public String getNome() {
+    public String getName() {
         return nome;
     }
 
-    public void setNome(final String nome) {
+    public void setName(final String nome) {
         this.nome = nome;
     }
 
@@ -111,27 +111,27 @@ public class Team implements Serializable {
         this.phoneContact2 = phoneContact2;
     }
 
-    public Category getEsporte() {
+    public Category getCategory() {
         return esporte;
     }
 
-    public void setEsporte(final Category esporte) {
+    public void setCategory(final Category esporte) {
         this.esporte = esporte;
     }
 
-    public Place getEstabelecimento() {
+    public Place getPlace() {
         return estabelecimento;
     }
 
-    public void setEstabelecimento(final Place estabelecimento) {
+    public void setPlace(final Place estabelecimento) {
         this.estabelecimento = estabelecimento;
     }
 
-    public List<Player> getAtletas() {
+    public List<Player> getPlayers() {
         return atletas;
     }
 
-    public void setAtletas(final List<Player> atletas) {
+    public void setPlayers(final List<Player> atletas) {
         this.atletas = atletas;
     }
 }
