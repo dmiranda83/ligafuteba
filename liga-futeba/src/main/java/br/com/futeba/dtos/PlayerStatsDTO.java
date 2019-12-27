@@ -1,24 +1,24 @@
 package br.com.futeba.dtos;
 
-public class PlayerStatisticsDTO {
+public class PlayerStatsDTO {
 	
-	private Object nome;
-	private Object gols;
+	private Object name;
+	private Object goals;
 	private Object assists;
-	private Object mediaGols;
-	private Object freq;
+	private Object goalsAverage;
+	private Object frequency;
 	
-	public Object getNome() {
-		return nome;
+	public Object getName() {
+		return name;
 	}
-	public void setNome(Object nome) {
-		this.nome = nome;
+	public void setName(Object name) {
+		this.name = name;
 	}
-	public Object getGols() {
-		return gols;
+	public Object getGoals() {
+		return goals;
 	}
-	public void setGols(Object gols) {
-		this.gols = gols;
+	public void setGoals(Object goals) {
+		this.goals = goals;
 	}
 	public Object getAssists() {
 		return assists;
@@ -26,17 +26,17 @@ public class PlayerStatisticsDTO {
 	public void setAssists(Object assists) {
 		this.assists = assists;
 	}
-	public Object getFreq() {
-		return freq;
+	public Object getFrequency() {
+		return frequency;
 	}
-	public void setFreq(Object freq) {
-		this.freq = freq;
+	public void setFrequency(Object frequency) {
+		this.frequency = frequency;
 	}
-	public Object getMediaGols() {
-		return mediaGols;
+	public Object getGoalsAverage() {
+		return goalsAverage;
 	}
-	public void setMediaGols(Object mediaGols) {
-		this.mediaGols = mediaGols;
+	public void setGoalsAverage(Object goalsAverage) {
+		this.goalsAverage = goalsAverage;
 	}
 
 }

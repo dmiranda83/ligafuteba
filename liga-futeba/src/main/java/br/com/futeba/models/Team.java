@@ -19,7 +19,7 @@ import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-@Entity(name = "equipes")
+@Entity(name = "team")
 public class Team implements Serializable {
 
     private static final long serialVersionUID = 3457244849292203050L;
@@ -29,15 +29,15 @@ public class Team implements Serializable {
     }
 
     @Id
-    @Column(name = "equipe_id", nullable = false)
+    @Column(name = "team_id", nullable = false)
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
     @NotNull
-    private String nome;
+    private String name;
 
     @NotNull
-    private Boolean visitante;
+    private Boolean away;
 
     @NotNull
     private String responsibleName;
@@ -48,27 +48,27 @@ public class Team implements Serializable {
     private String phoneContact2;
 
     @ManyToOne
-    @JoinColumn(name = "esporte_id", referencedColumnName = "esporte_id")
-    private Category esporte;
+    @JoinColumn(name = "category_id", referencedColumnName = "category_id")
+    private Category category;
 
     @ManyToOne
-    @JoinColumn(name = "estabelecimento_id", referencedColumnName = "estabelecimento_id")
-    private Place estabelecimento;
+    @JoinColumn(name = "place_id", referencedColumnName = "place_id")
+    private Place place;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "equipe_atleta", joinColumns = { @JoinColumn(name = "equipe_id") }, inverseJoinColumns = { @JoinColumn(name = "atleta_id") })
-    @JsonIgnoreProperties("equipes")
-    private List<Player> atletas = new ArrayList<>();
+    @JoinTable(name = "team_player", joinColumns = { @JoinColumn(name = "team_id") }, inverseJoinColumns = { @JoinColumn(name = "player_id") })
+    @JsonIgnoreProperties("teams")
+    private List<Player> players = new ArrayList<>();
 
-    @OneToMany(mappedBy = "equipeVisitante")
-    private List<Game> jogo;
+    @OneToMany(mappedBy = "awayTeam")
+    private List<Game> game;
 
     public Boolean getAway() {
-        return visitante;
+        return away;
     }
 
-    public void setAway(final Boolean visitante) {
-        this.visitante = visitante;
+    public void setAway(final Boolean away) {
+        this.away = away;
     }
 
     public Integer getId() {
@@ -80,11 +80,11 @@ public class Team implements Serializable {
     }
 
     public String getName() {
-        return nome;
+        return name;
     }
 
-    public void setName(final String nome) {
-        this.nome = nome;
+    public void setName(final String name) {
+        this.name = name;
     }
 
     public String getResponsibleName() {
@@ -112,26 +112,26 @@ public class Team implements Serializable {
     }
 
     public Category getCategory() {
-        return esporte;
+        return category;
     }
 
-    public void setCategory(final Category esporte) {
-        this.esporte = esporte;
+    public void setCategory(final Category category) {
+        this.category = category;
     }
 
     public Place getPlace() {
-        return estabelecimento;
+        return place;
     }
 
-    public void setPlace(final Place estabelecimento) {
-        this.estabelecimento = estabelecimento;
+    public void setPlace(final Place place) {
+        this.place = place;
     }
 
     public List<Player> getPlayers() {
-        return atletas;
+        return players;
     }
 
-    public void setPlayers(final List<Player> atletas) {
-        this.atletas = atletas;
+    public void setPlayers(final List<Player> players) {
+        this.players = players;
     }
 }

@@ -9,7 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 
-@Entity(name = "esportes")
+@Entity(name = "category")
 public class Category implements Serializable{
 
 	private static final long serialVersionUID = -1295682222773267245L;
@@ -19,12 +19,12 @@ public class Category implements Serializable{
     }
 
     @Id
-    @Column(name = "esporte_id", nullable = false)
+    @Column(name = "category_id", nullable = false)
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
     @NotNull
-    private String nome;
+    private String name;
 
     public Integer getId() {
         return id;
@@ -35,10 +35,10 @@ public class Category implements Serializable{
     }
 
     public String getName() {
-        return nome;
+        return name;
     }
 
-    public void setName(final String nome) {
-        this.nome = nome;
+    public void setName(final String name) {
+        this.name = name;
     }
 }

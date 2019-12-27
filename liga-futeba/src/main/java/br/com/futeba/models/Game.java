@@ -15,54 +15,54 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
-@Entity(name = "jogos")
+@Entity(name = "game")
 public class Game implements Serializable {
 
     private static final long serialVersionUID = 2531069826794464004L;
 
     @Id
-    @Column(name = "jogo_id", nullable = false)
+    @Column(name = "game_id", nullable = false)
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    private Timestamp data;
+    private Timestamp date;
 
-    private Timestamp hora;
+    private Timestamp hour;
     
-    private Integer quadro;
+    private Integer squad;
 
     @ManyToOne
-    @JoinColumn(name = "estabelecimento_id", referencedColumnName = "estabelecimento_id")
-    private Place local;
+    @JoinColumn(name = "place_id", referencedColumnName = "place_id")
+    private Place place;
 
     @ManyToOne(optional = true)
-    @JoinColumn(name = "equipe_mandante_id", referencedColumnName = "equipe_id")
-    private Team equipeMandante;
+    @JoinColumn(name = "home_team_id", referencedColumnName = "team_id")
+    private Team homeTeam;
 
     @OneToMany(cascade = CascadeType.ALL, fetch=FetchType.LAZY)
     private Set<GamePlayerData> gamePlayerData;
     
     @OneToMany(cascade = CascadeType.ALL, fetch=FetchType.LAZY)
-    private Set<GamePlayerData> golsMandante;
+    private Set<GamePlayerData> homeGoals;
     
     @OneToMany(cascade = CascadeType.ALL, fetch=FetchType.LAZY)
-    private Set<Assists> assMandante;
+    private Set<Assist> homeAssists;
 
     @ManyToOne(optional = true)
-    @JoinColumn(name = "equipe_visitante_id", referencedColumnName = "equipe_id")
-    private Team equipeVisitante;
+    @JoinColumn(name = "away_team_id", referencedColumnName = "team_id")
+    private Team awayTeam;
 
     @OneToMany(cascade = CascadeType.ALL, fetch=FetchType.EAGER)
-    private Set<GamePlayerData> golsVisitante;
+    private Set<GamePlayerData> awayGoals;
     
     @OneToMany(cascade = CascadeType.ALL, fetch=FetchType.EAGER)
-    private Set<Assists> assVisitante;
+    private Set<Assist> awayAssists;
     
-    private Integer totalGolsMandante;
+    private Integer homeTeamTotalGoals;
     
-    private Integer totalGolsVisitante;
+    private Integer awayTeamTotalGoals;
     
-    private Integer pontos;
+    private Integer points;
 
     public Game() {
     }
@@ -75,44 +75,44 @@ public class Game implements Serializable {
         this.id = id;
     }
 
-    public Timestamp getData() {
-        return data;
+    public Timestamp getDate() {
+        return date;
     }
 
-    public void setData(final Timestamp data) {
-        this.data = data;
+    public void setDate(final Timestamp date) {
+        this.date = date;
     }
 
-    public Timestamp getHora() {
-        return hora;
+    public Timestamp getHour() {
+        return hour;
     }
 
-    public void setHora(final Timestamp hora) {
-        this.hora = hora;
+    public void setHour(final Timestamp hour) {
+        this.hour = hour;
     }
 
-    public Place getLocal() {
-        return local;
+    public Place getPlace() {
+        return place;
     }
 
-    public void setLocal(final Place local) {
-        this.local = local;
+    public void setPlace(final Place place) {
+        this.place = place;
     }
 
     public Team getHomeTeam() {
-        return equipeMandante;
+        return homeTeam;
     }
 
-    public void setHomeTeam(final Team equipeMandante) {
-        this.equipeMandante = equipeMandante;
+    public void setHomeTeam(final Team homeTeam) {
+        this.homeTeam = homeTeam;
     }
 
     public Team getAwayTeam() {
-        return equipeVisitante;
+        return awayTeam;
     }
 
-    public void setAwayTeam(final Team equipeVisitante) {
-        this.equipeVisitante = equipeVisitante;
+    public void setAwayTeam(final Team awayTeam) {
+        this.awayTeam = awayTeam;
     }
 
     public Set<GamePlayerData> getGamePlayerData() {
@@ -124,66 +124,66 @@ public class Game implements Serializable {
     }
 
     public Set<GamePlayerData> getAwayGoals() {
-        return golsVisitante;
+        return awayGoals;
     }
 
-    public void setAwayGoals(final Set<GamePlayerData> golsVisitante) {
-        this.golsVisitante = golsVisitante;
+    public void setAwayGoals(final Set<GamePlayerData> awayGoals) {
+        this.awayGoals = awayGoals;
     }
 
-	public Integer getQuadro() {
-		return quadro;
+	public Integer getSquad() {
+		return squad;
 	}
 
-	public void setQuadro(Integer quadro) {
-		this.quadro = quadro;
+	public void setSquad(Integer squad) {
+		this.squad = squad;
 	}
 
 	public Integer getHomeTeamTotalGoals() {
-		return totalGolsMandante;
+		return homeTeamTotalGoals;
 	}
 
-	public void setHomeTeamTotalGoals(Integer totalGolsMandante) {
-		this.totalGolsMandante = totalGolsMandante;
+	public void setHomeTeamTotalGoals(Integer homeTeamTotalGoals) {
+		this.homeTeamTotalGoals = homeTeamTotalGoals;
 	}
 
 	public Integer getAwayTeamTotalGoals() {
-		return totalGolsVisitante;
+		return awayTeamTotalGoals;
 	}
 
-	public void setAwayTeamTotalGoals(Integer totalGolsVisitante) {
-		this.totalGolsVisitante = totalGolsVisitante;
+	public void setAwayTeamTotalGoals(Integer awayTeamTotalGoals) {
+		this.awayTeamTotalGoals = awayTeamTotalGoals;
 	}
 
 	public Integer getPoints() {
-		return pontos;
+		return points;
 	}
 
-	public void setPoints(Integer pontos) {
-		this.pontos = pontos;
+	public void setPoints(Integer points) {
+		this.points = points;
 	}
 
-	public Set<Assists> getHomeAssists() {
-		return assMandante;
+	public Set<Assist> getHomeAssists() {
+		return homeAssists;
 	}
 
-	public void setHomeAssists(Set<Assists> assMandante) {
-		this.assMandante = assMandante;
+	public void setHomeAssists(Set<Assist> homeAssists) {
+		this.homeAssists = homeAssists;
 	}
 
-	public Set<Assists> getAwayAssists() {
-		return assVisitante;
+	public Set<Assist> getAwayAssists() {
+		return awayAssists;
 	}
 
-	public void setAwayAssists(Set<Assists> assVisitante) {
-		this.assVisitante = assVisitante;
+	public void setAwayAssists(Set<Assist> awayAssists) {
+		this.awayAssists = awayAssists;
 	}
 
-	public Set<GamePlayerData> getGolsMandante() {
-		return golsMandante;
+	public Set<GamePlayerData> homeGoals() {
+		return homeGoals;
 	}
 
-	public void setGolsMandante(Set<GamePlayerData> golsMandante) {
-		this.golsMandante = golsMandante;
+	public void setGolsMandante(Set<GamePlayerData> homeGoals) {
+		this.homeGoals = homeGoals;
 	}
 }

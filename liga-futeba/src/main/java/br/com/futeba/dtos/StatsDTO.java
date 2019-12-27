@@ -1,6 +1,6 @@
 package br.com.futeba.dtos;
 
-public class StatisticsDTO {
+public class StatsDTO {
 	
 	private Object quadro;
 	private Object pontos;

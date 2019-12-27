@@ -11,7 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
-@Entity(name = "gols")
+@Entity(name = "gamePlayerData")
 public class GamePlayerData implements Serializable {
 
     private static final long serialVersionUID = -8413600343702476736L;
@@ -35,12 +35,12 @@ public class GamePlayerData implements Serializable {
     private Integer playedGame;
 
     @ManyToOne(optional = true)
-    @JoinColumn(name = "atleta_id", referencedColumnName = "atleta_id")
+    @JoinColumn(name = "player_id", referencedColumnName = "player_id")
     private Player player;
     
     @ManyToOne(optional = true)
-    @JoinColumn(name = "equipe_id", referencedColumnName = "equipe_id")
-    private Team equipe;
+    @JoinColumn(name = "team_id", referencedColumnName = "team_id")
+    private Team team;
 
     public Integer getId() {
         return id;
@@ -66,12 +66,12 @@ public class GamePlayerData implements Serializable {
         this.player = player;
     }
 
-	public Team getEquipe() {
-		return equipe;
+	public Team getTeam() {
+		return team;
 	}
 
-	public void setEquipe(Team equipe) {
-		this.equipe = equipe;
+	public void setTeam(Team team) {
+		this.team = team;
 	}
 
 	public Integer getPresence() {

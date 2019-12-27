@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.futeba.dtos.StatisticsDTO;
+import br.com.futeba.dtos.StatsDTO;
 import br.com.futeba.models.Team;
 import br.com.futeba.service.TeamService;
 
@@ -48,7 +48,7 @@ public class TeamControllerV1 {
     
     
     @GetMapping("/stats/{year}")
-    public @ResponseBody Iterable<StatisticsDTO> getStats(@PathVariable("year") final Integer year) {
+    public @ResponseBody Iterable<StatsDTO> getStats(@PathVariable("year") final Integer year) {
     	logger.info("Loading team stats");
     	return service.getTeamStats(year);
     }

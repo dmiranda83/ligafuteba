@@ -6,7 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.com.futeba.dtos.StatisticsDTO;
+import br.com.futeba.dtos.StatsDTO;
 import br.com.futeba.models.Team;
 import br.com.futeba.repositorys.TeamRepository;
 import br.com.futeba.service.TeamService;
@@ -48,13 +48,13 @@ public class TeamServiceImpl implements TeamService {
     }
 
 	@Override
-	public Iterable<StatisticsDTO> getTeamStats(Integer year) {
+	public Iterable<StatsDTO> getTeamStats(Integer year) {
 		List<Object[]> result = (List<Object[]>) repository.getTeamStats(year);
-		List<StatisticsDTO> estatisticasDTOs = new ArrayList<>();
+		List<StatsDTO> estatisticasDTOs = new ArrayList<>();
 		
 		if (result != null && !result.isEmpty()){
 			for (Object[] object : result) {
-				StatisticsDTO estatisticasDTO = new StatisticsDTO();
+				StatsDTO estatisticasDTO = new StatsDTO();
 				
 				estatisticasDTO.setQuadro(object[0]);
 				estatisticasDTO.setPontos(object[1]);

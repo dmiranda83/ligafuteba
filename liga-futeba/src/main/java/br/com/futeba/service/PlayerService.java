@@ -1,6 +1,6 @@
 package br.com.futeba.service;
 
-import br.com.futeba.dtos.PlayerStatisticsDTO;
+import br.com.futeba.dtos.PlayerStatsDTO;
 import br.com.futeba.models.Player;
 
 public interface PlayerService {
@@ -17,6 +17,6 @@ public interface PlayerService {
 
     void deleteAll();
 
-	Iterable<PlayerStatisticsDTO> getPlayerStats(Integer year);
+	Iterable<PlayerStatsDTO> getPlayerStats(Integer year);
 
 }

@@ -9,13 +9,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 
-@Entity(name = "posicoes")
+@Entity(name = "position")
 public class Position implements Serializable{
 
 	private static final long serialVersionUID = 4662709053886605457L;
 
 	@Id
-    @Column(name = "posicao_id", nullable = false)
+    @Column(name = "position_id", nullable = false)
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 

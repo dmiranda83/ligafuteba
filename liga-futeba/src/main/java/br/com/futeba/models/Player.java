@@ -18,26 +18,26 @@ import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-@Entity(name = "atletas")
+@Entity(name = "player")
 public class Player implements Serializable {
 
     private static final long serialVersionUID = 2531069826794464004L;
 
     @Id
-    @Column(name = "atleta_id", nullable = false)
+    @Column(name = "player_id", nullable = false)
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
     @NotNull
-    private String nome;
+    private String name;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "posicao_id", referencedColumnName = "posicao_id")
-    private Position posicao;
+    @JoinColumn(name = "position_id", referencedColumnName = "position_id")
+    private Position position;
 
-    @ManyToMany(mappedBy = "atletas", cascade= {CascadeType.PERSIST, CascadeType.REMOVE}, fetch=FetchType.EAGER)
-    @JsonIgnoreProperties("atletas")
-    private List<Team> equipes = new ArrayList<>();
+    @ManyToMany(mappedBy = "players", cascade= {CascadeType.PERSIST, CascadeType.REMOVE}, fetch=FetchType.EAGER)
+    @JsonIgnoreProperties("players")
+    private List<Team> teams = new ArrayList<>();
 
     public Player() {
     	//default constructor
@@ -52,26 +52,26 @@ public class Player implements Serializable {
     }
 
     public String getName() {
-        return nome;
+        return name;
     }
 
-    public void setName(final String nome) {
-        this.nome = nome;
+    public void setName(final String name) {
+        this.name = name;
     }
 
     public Position getPosition() {
-        return posicao;
+        return position;
     }
 
-    public void setPosition(final Position posicoes) {
-        this.posicao = posicoes;
+    public void setPosition(final Position position) {
+        this.position = position;
     }
 
     public List<Team> getTeams() {
-        return equipes;
+        return teams;
     }
 
-    public void setTeams(final List<Team> equipes) {
-        this.equipes = equipes;
+    public void setTeams(final List<Team> teams) {
+        this.teams = teams;
     }
 }

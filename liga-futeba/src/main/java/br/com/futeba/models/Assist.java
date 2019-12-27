@@ -11,13 +11,13 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
-@Entity(name = "assistencias")
-public class Assists implements Serializable {
+@Entity(name = "assist")
+public class Assist implements Serializable {
 
 
 	private static final long serialVersionUID = -3633732656049254149L;
 
-	public Assists() {
+	public Assist() {
 		//default constructor
     }
 
@@ -30,12 +30,12 @@ public class Assists implements Serializable {
     private Integer qtdAssist;
 
     @ManyToOne(optional = true)
-    @JoinColumn(name = "atleta_id", referencedColumnName = "atleta_id")
-    private Player atleta;
+    @JoinColumn(name = "player_id", referencedColumnName = "player_id")
+    private Player player;
     
     @ManyToOne(optional = true)
-    @JoinColumn(name = "equipe_id", referencedColumnName = "equipe_id")
-    private Team equipe;
+    @JoinColumn(name = "team_id", referencedColumnName = "team_id")
+    private Team team;
 
     public Integer getId() {
         return id;
@@ -45,12 +45,12 @@ public class Assists implements Serializable {
         this.id = id;
     }
 
-    public Player getAtleta() {
-        return atleta;
+    public Player getPlayer() {
+        return player;
     }
 
-    public void setAtleta(final Player atleta) {
-        this.atleta = atleta;
+    public void setPlayer(final Player player) {
+        this.player = player;
     }
 
 	public Integer getQtdAssist() {
@@ -61,11 +61,11 @@ public class Assists implements Serializable {
 		this.qtdAssist = qtdAssist;
 	}
 
-	public Team getEquipe() {
-		return equipe;
+	public Team getTeam() {
+		return team;
 	}
 
-	public void setEquipe(Team equipe) {
-		this.equipe = equipe;
+	public void setTeam(Team team) {
+		this.team = team;
 	}
 }

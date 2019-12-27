@@ -14,11 +14,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.futeba.models.Game;
 import br.com.futeba.service.GameService;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 
 @RestController
 @CrossOrigin (origins = "*")
@@ -42,7 +46,13 @@ public class GameControllerV1 {
         return "Game successfully save! (id = " + game.getId() + ")";
     }
 
-    @GetMapping("/list/{year}")
+    @GetMapping(value = "/list/{year}", produces = "application/json")
+    @ApiOperation(value = "Return a list of games by year")
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Return a list of games"),
+        @ApiResponse(code = 403, message = "You do not have permission to access this feature"),
+        @ApiResponse(code = 500, message = "An exception was thrown"),
+    })
     public @ResponseBody List<Game> list(@PathVariable("year") final Integer year) {
         return service.findAll(year);
     }

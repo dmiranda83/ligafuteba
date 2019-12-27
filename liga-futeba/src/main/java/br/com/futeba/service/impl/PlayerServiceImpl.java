@@ -6,7 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.com.futeba.dtos.PlayerStatisticsDTO;
+import br.com.futeba.dtos.PlayerStatsDTO;
 import br.com.futeba.models.Player;
 import br.com.futeba.repositorys.PlayerRepository;
 import br.com.futeba.service.PlayerService;
@@ -49,19 +49,19 @@ public class PlayerServiceImpl implements PlayerService {
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public Iterable<PlayerStatisticsDTO> getPlayerStats(Integer year) {
+	public Iterable<PlayerStatsDTO> getPlayerStats(Integer year) {
 		List<Object[]> result = (List<Object[]>) repository.getEstatisticasAtleta(year);
-		List<PlayerStatisticsDTO> estatisticasAtletasDTOs = new ArrayList<>();
+		List<PlayerStatsDTO> estatisticasAtletasDTOs = new ArrayList<>();
 		
 		if (result != null && !result.isEmpty()){
 			for (Object[] object : result) {
-				PlayerStatisticsDTO estatisticaAtletaDTO = new PlayerStatisticsDTO();
+				PlayerStatsDTO estatisticaAtletaDTO = new PlayerStatsDTO();
 				
-				estatisticaAtletaDTO.setNome(object[0]);
-				estatisticaAtletaDTO.setGols(object[1]);
+				estatisticaAtletaDTO.setName(object[0]);
+				estatisticaAtletaDTO.setGoals(object[1]);
 				estatisticaAtletaDTO.setAssists(object[2]);
-				estatisticaAtletaDTO.setFreq(object[3]);
-				estatisticaAtletaDTO.setMediaGols(object[4]);
+				estatisticaAtletaDTO.setFrequency(object[3]);
+				estatisticaAtletaDTO.setGoalsAverage(object[4]);
 				
 				estatisticasAtletasDTOs.add(estatisticaAtletaDTO);
 			}

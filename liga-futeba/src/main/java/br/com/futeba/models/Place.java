@@ -9,24 +9,24 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 
-@Entity(name = "estabelecimentos")
+@Entity(name = "place")
 public class Place implements Serializable{
 
 	private static final long serialVersionUID = 2062908763035875940L;
 
 	@Id
-    @Column(name = "estabelecimento_id", nullable = false)
+    @Column(name = "place_id", nullable = false)
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
     @NotNull
-    private String nome;
+    private String name;
 
-    private String tipo;
-    private String endereco;
-    private String cidade;
-    private String bairro;
-    private String cep;
+    private String type;
+    private String address;
+    private String city;
+    private String neighborhood;
+    private String zipCode;
 
     public Place() {
     }
@@ -40,51 +40,51 @@ public class Place implements Serializable{
     }
 
     public String getName() {
-        return nome;
+        return name;
     }
 
-    public void setName(final String nome) {
-        this.nome = nome;
+    public void setName(final String name) {
+        this.name = name;
     }
 
     public String getType() {
-        return tipo;
+        return type;
     }
 
-    public void setType(final String tipo) {
-        this.tipo = tipo;
+    public void setType(final String type) {
+        this.type = type;
     }
 
     public String getAddress() {
-        return endereco;
+        return address;
     }
 
-    public void setAddress(final String endereco) {
-        this.endereco = endereco;
+    public void setAddress(final String address) {
+        this.address = address;
     }
 
     public String getCity() {
-        return cidade;
+        return city;
     }
 
-    public void setCity(final String cidade) {
-        this.cidade = cidade;
+    public void setCity(final String city) {
+        this.city = city;
     }
 
-    public String getBairro() {
-        return bairro;
+    public String getNeighborhood() {
+        return neighborhood;
     }
 
-    public void setBairro(final String bairro) {
-        this.bairro = bairro;
+    public void setNeighborhood(final String neighborhood) {
+        this.neighborhood = neighborhood;
     }
 
-    public String getCep() {
-        return cep;
+    public String getZipCode() {
+        return zipCode;
     }
 
-    public void setCep(final String cep) {
-        this.cep = cep;
+    public void setZipCode(final String zipCode) {
+        this.zipCode = zipCode;
     }
 
 }

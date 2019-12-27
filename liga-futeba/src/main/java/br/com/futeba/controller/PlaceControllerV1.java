@@ -29,9 +29,7 @@ public class PlaceControllerV1 {
 
     @PostMapping("/save")
     public String save(@RequestBody final Place place) {
-
         try {
-
             service.save(place);
 
         } catch (Exception e) {
@@ -61,8 +59,8 @@ public class PlaceControllerV1 {
         currentPlace.setType(place.getType());
         currentPlace.setAddress(place.getAddress());
         currentPlace.setCity(place.getCity());
-        currentPlace.setBairro(place.getBairro());
-        currentPlace.setCep(place.getCep());
+        currentPlace.setNeighborhood(place.getNeighborhood());
+        currentPlace.setZipCode(place.getZipCode());
 
         return service.update(currentPlace);
     }
