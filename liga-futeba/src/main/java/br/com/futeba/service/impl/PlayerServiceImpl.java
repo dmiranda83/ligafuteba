@@ -2,6 +2,7 @@ package br.com.futeba.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,18 +29,18 @@ public class PlayerServiceImpl implements PlayerService {
     }
 
     @Override
-    public Player findById(final Integer id) {
-        return repository.findOne(id);
+    public Optional<Player> findById(final Integer id) {
+        return repository.findById(id);
     }
 
     @Override
-    public Player update(final Player atleta) {
+    public Optional<Player> update(final Optional<Player> atleta) {
         return repository.saveAndFlush(atleta);
     }
 
     @Override
     public void deleteById(final Integer id) {
-        repository.delete(id);
+        repository.deleteById(id);
     }
 
     @Override

@@ -1,5 +1,7 @@
 package br.com.futeba.controller;
 
+import java.util.Optional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,38 +56,37 @@ public class TeamControllerV1 {
     }
 
     @PutMapping("/update/{id}")
-    public Team update(@PathVariable("id") final Integer id, @RequestBody final Team team) {
+    public Optional<Team> update(@PathVariable("id") final Integer id, @RequestBody final Team team) {
 
-        logger.info("Updating team id {}", id);
-        Team currentTeam = service.findById(id);
+        Optional<Team> currentTeam = service.findById(id);
 
-        if (currentTeam == null) {
-            logger.error("Team id {} not found.", id);
-            return currentTeam;
+        if (currentTeam.isPresent()) {
+        	logger.info("Updating team id {}", id);
+        	currentTeam.get().setName(team.getName());
+        	currentTeam.get().setAway(team.getAway());
+        	currentTeam.get().setResponsibleName(team.getResponsibleName());
+        	currentTeam.get().setPhoneContact1(team.getPhoneContact1());
+        	currentTeam.get().setPhoneContact2(team.getPhoneContact2());
+        	currentTeam.get().setCategory(team.getCategory());
+        	currentTeam.get().setPlace(team.getPlace());
+        	currentTeam.get().setPlayers(team.getPlayers());
+        	return service.update(currentTeam);
+        }else {
+        	logger.error("Team id {} not found.", id);
+        	return currentTeam;
         }
-
-        currentTeam.setName(team.getName());
-        currentTeam.setAway(team.getAway());
-        currentTeam.setResponsibleName(team.getResponsibleName());
-        currentTeam.setPhoneContact1(team.getPhoneContact1());
-        currentTeam.setPhoneContact2(team.getPhoneContact2());
-        currentTeam.setCategory(team.getCategory());
-        currentTeam.setPlace(team.getPlace());
-        currentTeam.setPlayers(team.getPlayers());
-
-        return service.update(currentTeam);
     }
 
     @DeleteMapping("/delete/{id}")
     public void delete(@PathVariable("id") final Integer id) {
+        Optional<Team> currentTeam = service.findById(id);
 
-        logger.info("Deleting team id {}", id);
-        Team currentTeam = service.findById(id);
-
-        if (currentTeam == null) {
-            logger.error("Team id {} not found.", id);
+        if (currentTeam.isPresent()) {
+        	logger.info("Deleting team id {}", id);
+        	service.delete(id);
+        }else {
+        	logger.error("Team id {} not found.", id);
         }
-        service.delete(id);
     }
 
     @DeleteMapping("/delete")

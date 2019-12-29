@@ -1,6 +1,7 @@
 package br.com.futeba.service.impl;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,23 +27,22 @@ public class GameServiceImpl implements GameService {
     }
 
     @Override
-    public Game findById(final Integer id) {
-        return repository.findOne(id);
+    public Optional<Game> findById(final Integer id) {
+        return repository.findById(id);
     }
 
     @Override
-    public Game update(final Game game) {
+    public Optional<Game> update(Optional<Game> game) {
         return repository.saveAndFlush(game);
     }
 
     @Override
     public void deleteById(final Integer id) {
-        repository.delete(id);
+        repository.deleteById(id);
     }
 
     @Override
     public void deleteAll() {
         repository.deleteAll();
     }
-
 }

@@ -2,55 +2,55 @@ package br.com.futeba.dtos;
 
 public class StatsDTO {
 	
-	private Object quadro;
-	private Object pontos;
-	private Object golsMarcados;
-	private Object golsSofridos;
-	private Object saldoDeGol;
-	private Object jogos;
-	private Object aproveitamento;
+	private Object squad;
+	private Object points;
+	private Object scoredGoals;
+	private Object concededGoals;
+	private Object balanceGoals;
+	private Object games;
+	private Object winPercentage;
 	
-	public Object getQuadro() {
-		return quadro;
+	public Object getSquad() {
+		return squad;
 	}
-	public void setQuadro(Object quadro) {
-		this.quadro = quadro;
+	public void setSquad(Object quadro) {
+		this.squad = quadro;
 	}
-	public Object getPontos() {
-		return pontos;
+	public Object getPoints() {
+		return points;
 	}
-	public void setPontos(Object pontos) {
-		this.pontos = pontos;
+	public void setPoints(Object pontos) {
+		this.points = pontos;
 	}
 	public Object getGolsMarcados() {
-		return golsMarcados;
+		return scoredGoals;
 	}
 	public void setGolsMarcados(Object golsMarcados) {
-		this.golsMarcados = golsMarcados;
+		this.scoredGoals = golsMarcados;
 	}
 	public Object getGolsSofridos() {
-		return golsSofridos;
+		return concededGoals;
 	}
 	public void setGolsSofridos(Object golsSofridos) {
-		this.golsSofridos = golsSofridos;
+		this.concededGoals = golsSofridos;
 	}
 	public Object getSaldoDeGol() {
-		return saldoDeGol;
+		return balanceGoals;
 	}
 	public void setSaldoDeGol(Object saldoDeGol) {
-		this.saldoDeGol = saldoDeGol;
+		this.balanceGoals = saldoDeGol;
 	}
 	public Object getJogos() {
-		return jogos;
+		return games;
 	}
 	public void setJogos(Object jogos) {
-		this.jogos = jogos;
+		this.games = jogos;
 	}
 	public Object getAproveitamento() {
-		return aproveitamento;
+		return winPercentage;
 	}
 	public void setAproveitamento(Object aproveitamento) {
-		this.aproveitamento = aproveitamento;
+		this.winPercentage = aproveitamento;
 	}
 	
 }

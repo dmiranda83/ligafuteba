@@ -1,5 +1,7 @@
 package br.com.futeba.service;
 
+import java.util.Optional;
+
 import br.com.futeba.models.Position;
 
 public interface PositionService {
@@ -8,9 +10,9 @@ public interface PositionService {
 
     Iterable<Position> findAll();
 
-    Position update(Position position);
+    Optional<Position> update(Optional<Position> currentPlayerPosition);
 
-    Position findById(Integer id);
+    Optional<Position> findById(Integer id);
 
     void delete(Integer id);
 

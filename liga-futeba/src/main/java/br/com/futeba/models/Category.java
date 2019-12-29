@@ -14,10 +14,6 @@ public class Category implements Serializable{
 
 	private static final long serialVersionUID = -1295682222773267245L;
 
-	public Category() {
-		//Default constructor
-    }
-
     @Id
     @Column(name = "category_id", nullable = false)
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -25,6 +21,15 @@ public class Category implements Serializable{
 
     @NotNull
     private String name;
+    
+    public Category() {
+		//Default constructor
+    }
+    
+    public Category(String name) {
+    	this.name = name;
+    }
+    
 
     public Integer getId() {
         return id;

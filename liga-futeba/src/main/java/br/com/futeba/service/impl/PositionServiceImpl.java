@@ -1,8 +1,11 @@
 package br.com.futeba.service.impl;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.com.futeba.models.Player;
 import br.com.futeba.models.Position;
 import br.com.futeba.repositorys.PositionRepository;
 import br.com.futeba.service.PositionService;
@@ -24,18 +27,18 @@ public class PositionServiceImpl implements PositionService {
     }
 
     @Override
-    public Position update(final Position posicao) {
-        return save(posicao);
+    public Optional<Position> update(final Optional<Position> posicao) {
+        return repository.saveAndFlush(posicao);
     }
 
     @Override
-    public Position findById(final Integer id) {
-        return repository.findOne(id);
+    public Optional<Position> findById(final Integer id) {
+        return repository.findById(id);
     }
 
     @Override
     public void delete(final Integer id) {
-        repository.delete(id);
+        repository.deleteById(id);
     }
 
     @Override

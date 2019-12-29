@@ -1,5 +1,7 @@
 package br.com.futeba.controller;
 
+import java.util.Optional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,31 +49,32 @@ public class TeamCategoryControllerV1 {
     }
 
     @PutMapping("/update/{id}")
-    public Category update(@PathVariable("id") final Integer id, @RequestBody final Category teamCategory) {
+    public Optional<Category> update(@PathVariable("id") final Integer id, @RequestBody final Category teamCategory) {
 
-        logger.info("Updating team category id {}", id);
-        Category currentTeamCategory = service.findById(id);
+        Optional<Category> currentTeamCategory = service.findById(id);
 
-        if (currentTeamCategory == null) {
-            logger.error("Team category id {} not found.", id);
-            return currentTeamCategory;
+        if (currentTeamCategory.isPresent()) {
+        	logger.info("Updating team category id {}", id);
+        	currentTeamCategory.get().setName(teamCategory.getName());
+        	return service.update(currentTeamCategory);
+        }else {
+        	logger.error("Team category id {} not found.", id);
+        	return currentTeamCategory;
         }
 
-        currentTeamCategory.setName(teamCategory.getName());
 
-        return service.update(currentTeamCategory);
     }
 
     @DeleteMapping("/delete/{id}")
     public void delete(@PathVariable("id") final Integer id) {
+        Optional<Category> currentTeamCategory = service.findById(id);
 
         logger.info("Deleting team category id {}", id);
-        Category currentTeamCategory = service.findById(id);
-
-        if (currentTeamCategory == null) {
-            logger.error("Team category id {} not found.", id);
+        if (currentTeamCategory.isPresent()) {
+        	service.delete(id);
+        }else {
+        	logger.error("Team category id {} not found.", id);
         }
-        service.delete(id);
     }
 
     @DeleteMapping("/delete")

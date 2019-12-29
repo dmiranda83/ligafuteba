@@ -1,5 +1,7 @@
 package br.com.futeba.service.impl;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,18 +26,18 @@ public class PlaceServiceImpl implements PlaceService {
     }
 
     @Override
-    public Place update(final Place estabelecimento) {
-        return repository.save(estabelecimento);
+    public Optional<Place> update(final Optional<Place> estabelecimento) {
+        return repository.saveAndFlush(estabelecimento);
     }
 
     @Override
-    public Place findById(final Integer id) {
-        return repository.findOne(id);
+    public Optional<Place> findById(final Integer id) {
+        return repository.findById(id);
     }
 
     @Override
     public void deleteById(final Integer id) {
-        repository.delete(id);
+        repository.deleteById(id);
     }
 
     @Override

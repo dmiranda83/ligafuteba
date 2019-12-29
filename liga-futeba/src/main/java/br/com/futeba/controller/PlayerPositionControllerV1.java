@@ -1,5 +1,7 @@
 package br.com.futeba.controller;
 
+import java.util.Optional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,28 +45,30 @@ public class PlayerPositionControllerV1 {
     }
 
     @PutMapping("/update/{id}")
-    public Position update(@PathVariable("id") final Integer id, @RequestBody final Position position) {
+    public Optional<Position> update(@PathVariable("id") final Integer id, @RequestBody final Position position) {
 
-        logger.info("Updating player position id {}", id);
-        Position currentPlayerPosition = service.findById(id);
+        Optional<Position> currentPlayerPosition = service.findById(id);
 
-        if (currentPlayerPosition == null) {
-            logger.error("Player position id {} not found.", id);
-            return currentPlayerPosition;
+        if (currentPlayerPosition.isPresent()) {
+        	logger.info("Updating player position id {}", id);
+        	currentPlayerPosition.get().setName(position.getName());
+        	return service.update(currentPlayerPosition);
+        }else {
+        	logger.error("Player position id {} not found.", id);
+        	return currentPlayerPosition;
         }
-        return service.update(position);
     }
 
     @DeleteMapping("/delete/{id}")
     public void delete(@PathVariable("id") final Integer id) {
+        Optional<Position> currentPlayerPosition = service.findById(id);
 
-        logger.info("Deletando player position de id {}", id);
-        Position currentPlayerPosition = service.findById(id);
-
-        if (currentPlayerPosition == null) {
-            logger.error("Player position id {} not found.", id);
+        if (currentPlayerPosition.isPresent()) {
+        	logger.info("Deletando player position de id {}", id);
+        	service.delete(id);
+        }else {
+        	logger.error("Player position id {} not found.", id);
         }
-        service.delete(id);
     }
 
     @DeleteMapping("/delete")

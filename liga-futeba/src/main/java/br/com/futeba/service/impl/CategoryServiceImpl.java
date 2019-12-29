@@ -1,5 +1,7 @@
 package br.com.futeba.service.impl;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,23 +26,22 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public Category findById(final Integer id) {
-        return repository.findOne(id);
+    public Optional<Category> findById(final Integer id) {
+        return repository.findById(id);
     }
 
     @Override
-    public Category update(final Category esporte) {
+    public Optional<Category> update(final Optional<Category> esporte) {
         return repository.saveAndFlush(esporte);
     }
 
     @Override
     public void delete(final Integer id) {
-        repository.delete(id);
+        repository.deleteById(id);
     }
 
     @Override
     public void deleteAll() {
         repository.deleteAll();
     }
-
 }

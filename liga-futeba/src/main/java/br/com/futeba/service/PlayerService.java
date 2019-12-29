@@ -1,5 +1,7 @@
 package br.com.futeba.service;
 
+import java.util.Optional;
+
 import br.com.futeba.dtos.PlayerStatsDTO;
 import br.com.futeba.models.Player;
 
@@ -9,9 +11,9 @@ public interface PlayerService {
 
     Iterable<Player> findAll();
 
-    Player findById(Integer id);
+    Optional<Player> findById(Integer id);
 
-    Player update(Player atleta);
+    Optional<Player> update(Optional<Player> currentPlayer);
 
     void deleteById(Integer id);
 

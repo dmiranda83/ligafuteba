@@ -1,5 +1,7 @@
 package br.com.futeba.service;
 
+import java.util.Optional;
+
 import br.com.futeba.models.Place;
 
 public interface PlaceService {
@@ -8,11 +10,11 @@ public interface PlaceService {
 
     Iterable<Place> findAll();
 
-    Place findById(Integer id);
+    Optional<Place> findById(Integer id);
 
     void deleteById(Integer id);
 
     void deleteAll();
 
-    Place update(Place estabelecimento);
+    Optional<Place> update(Optional<Place> currentPlace);
 }

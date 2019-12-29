@@ -1,5 +1,7 @@
 package br.com.futeba.service;
 
+import java.util.Optional;
+
 import br.com.futeba.dtos.StatsDTO;
 import br.com.futeba.models.Team;
 
@@ -9,9 +11,9 @@ public interface TeamService {
 
     Iterable<Team> findAll();
 
-    Team findById(Integer id);
+    Optional<Team> findById(Integer id);
 
-    Team update(Team equipe);
+    Optional<Team> update(Optional<Team> currentTeam);
 
     void delete(Integer id);
 

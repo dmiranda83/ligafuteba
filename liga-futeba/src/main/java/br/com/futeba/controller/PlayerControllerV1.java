@@ -1,5 +1,7 @@
 package br.com.futeba.controller;
 
+import java.util.Optional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,33 +55,34 @@ public class PlayerControllerV1 {
     }
 
     @PutMapping("/update/{id}")
-    public Player update(@PathVariable("id") final Integer id, @RequestBody final Player player) {
+    public Optional<Player> update(@PathVariable("id") final Integer id, @RequestBody final Player player) {
 
-        logger.info("Updating player id {}", id);
-        Player currentPlayer = service.findById(id);
+        Optional<Player> currentPlayer = service.findById(id);
 
-        if (currentPlayer == null) {
-            logger.error("Player id {} not found.", id);
-            return currentPlayer;
+        if (currentPlayer.isPresent()) {
+        	logger.info("Updating player id {}", id);
+        	currentPlayer.get().setName(player.getName());
+        	currentPlayer.get().setPosition(player.getPosition());
+        	currentPlayer.get().setTeams(player.getTeams());
+        }else {
+        	logger.error("Player id {} not found.", id);
+        	return currentPlayer;
         }
 
-        currentPlayer.setName(player.getName());
-        currentPlayer.setPosition(player.getPosition());
-        currentPlayer.setTeams(player.getTeams());
 
         return service.update(currentPlayer);
     }
 
     @DeleteMapping("/delete/{id}")
     public void delete(@PathVariable("id") final Integer id) {
-
-        logger.info("Deleting player id {}", id);
-        Player currentPlayer = service.findById(id);
-
-        if (currentPlayer == null) {
-            logger.error("Player id {} not found.", id);
+        Optional<Player> currentPlayer = service.findById(id);
+        
+        if (currentPlayer.isPresent()) {
+        	logger.info("Deleting player id {}", id);
+        	service.deleteById(id);
+        }else {
+        	logger.error("Player id {} not found.", id);
         }
-        service.deleteById(id);
     }
 
     @DeleteMapping("/delete")

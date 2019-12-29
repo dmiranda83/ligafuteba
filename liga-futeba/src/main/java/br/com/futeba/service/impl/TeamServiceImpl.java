@@ -2,6 +2,7 @@ package br.com.futeba.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,18 +29,18 @@ public class TeamServiceImpl implements TeamService {
     }
 
     @Override
-    public Team findById(final Integer id) {
-        return repository.findOne(id);
+    public Optional<Team> findById(final Integer id) {
+        return repository.findById(id);
     }
 
     @Override
-    public Team update(final Team equipe) {
-        return repository.saveAndFlush(equipe);
+    public Optional<Team> update(final Optional<Team> team) {
+        return repository.saveAndFlush(team);
     }
 
     @Override
     public void delete(final Integer id) {
-        repository.delete(id);
+        repository.deleteById(id);
     }
 
     @Override
@@ -47,6 +48,7 @@ public class TeamServiceImpl implements TeamService {
         repository.deleteAll();
     }
 
+    @SuppressWarnings("unchecked")
 	@Override
 	public Iterable<StatsDTO> getTeamStats(Integer year) {
 		List<Object[]> result = (List<Object[]>) repository.getTeamStats(year);
@@ -56,8 +58,8 @@ public class TeamServiceImpl implements TeamService {
 			for (Object[] object : result) {
 				StatsDTO estatisticasDTO = new StatsDTO();
 				
-				estatisticasDTO.setQuadro(object[0]);
-				estatisticasDTO.setPontos(object[1]);
+				estatisticasDTO.setSquad(object[0]);
+				estatisticasDTO.setPoints(object[1]);
 				estatisticasDTO.setGolsMarcados(object[2]);
 				estatisticasDTO.setGolsSofridos(object[3]);
 				estatisticasDTO.setSaldoDeGol(object[4]);

@@ -1,5 +1,7 @@
 package br.com.futeba.service;
 
+import java.util.Optional;
+
 import br.com.futeba.models.Category;
 
 public interface CategoryService {
@@ -8,9 +10,9 @@ public interface CategoryService {
 
     Iterable<Category> findAll();
 
-    Category findById(Integer id);
+    Optional<Category> findById(Integer id);
 
-    Category update(Category esporteAtual);
+    Optional<Category> update(Optional<Category> currentTeamCategory);
 
     void delete(Integer id);
 

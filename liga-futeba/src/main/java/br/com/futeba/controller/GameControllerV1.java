@@ -2,6 +2,7 @@ package br.com.futeba.controller;
 
 
 import java.util.List;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,7 +15,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -58,44 +58,45 @@ public class GameControllerV1 {
     }
 
     @PutMapping("/update/{id}")
-    public Game updateGame(@PathVariable("id") final Integer id, @RequestBody final Game game) {
+    public Optional<Game> updateGame(@PathVariable("id") final Integer id, @RequestBody final Game game) {
 
         logger.info("Updating id game {}", id);
-        Game currentGame = service.findById(id);
+        Optional<Game> currentGame = service.findById(id);
 
-        if (currentGame == null) {
-            logger.error("Id game {} not found.", id);
-            return currentGame;
-        }
         
         logger.info("Home goals {}", game.getGamePlayerData());
         logger.info("Away goals {}", game.getAwayGoals());
         logger.info("Home assists {}", game.getHomeAssists());
         logger.info("Away assists {}", game.getAwayAssists());
-
-        currentGame.setHomeTeam(game.getHomeTeam());
-        currentGame.setAwayTeam(game.getAwayTeam());
-        currentGame.setGamePlayerData(game.getGamePlayerData());
-        currentGame.setAwayGoals(game.getAwayGoals());
-        currentGame.setHomeAssists(game.getHomeAssists());
-        currentGame.setAwayAssists(game.getAwayAssists());
-        currentGame.setHomeTeamTotalGoals(game.getHomeTeamTotalGoals());
-        currentGame.setAwayTeamTotalGoals(game.getAwayTeamTotalGoals());
-        currentGame.setPoints(game.getPoints());
-
+        
+		if(currentGame.isPresent()) {
+			currentGame.get().setHomeTeam(game.getHomeTeam());
+			currentGame.get().setAwayTeam(game.getAwayTeam());
+			currentGame.get().setGamePlayerData(game.getGamePlayerData());
+			currentGame.get().setAwayGoals(game.getAwayGoals());
+			currentGame.get().setHomeAssists(game.getHomeAssists());
+			currentGame.get().setAwayAssists(game.getAwayAssists());
+			currentGame.get().setHomeTeamTotalGoals(game.getHomeTeamTotalGoals());
+			currentGame.get().setAwayTeamTotalGoals(game.getAwayTeamTotalGoals());
+			currentGame.get().setPoints(game.getPoints());
+			
+		}else {
+				logger.error("Id game {} not found.", id);
+				return currentGame;
+		}
         return service.update(currentGame);
     }
 
     @DeleteMapping("/delete/{id}")
     public void delete(@PathVariable("id") final Integer id) {
+        Optional<Game> currentGame = service.findById(id);
 
-        logger.info("Deleting id game {}", id);
-        Game currentGame = service.findById(id);
-
-        if (currentGame == null) {
-            logger.error("Id game {} not found.", id);
+        if (currentGame.isPresent()) {
+        	logger.info("Deleting id game {}", id);
+        	service.deleteById(id);
+        }else {
+        	logger.error("Id game {} not found.", id);
         }
-        service.deleteById(id);
     }
 
     @DeleteMapping("/delete")

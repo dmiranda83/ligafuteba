@@ -1,5 +1,7 @@
 package br.com.futeba.controller;
 
+import java.util.Optional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,37 +47,38 @@ public class PlaceControllerV1 {
     }
 
     @PutMapping("/update/{id}")
-    public Place update(@PathVariable("id") final Integer id, @RequestBody final Place place) {
+    public Optional<Place> update(@PathVariable("id") final Integer id, @RequestBody final Place place) {
 
         logger.info("Updating id place {}", id);
-        Place currentPlace = service.findById(id);
-
-        if (currentPlace == null) {
-            logger.error("id place {} not found.", id);
+        Optional<Place> currentPlace = service.findById(id);
+        
+        if (currentPlace.isPresent()) {
+        	currentPlace.get().setName(place.getName());
+        	currentPlace.get().setType(place.getType());
+        	currentPlace.get().setAddress(place.getAddress());
+        	currentPlace.get().setCity(place.getCity());
+        	currentPlace.get().setNeighborhood(place.getNeighborhood());
+        	currentPlace.get().setZipCode(place.getZipCode());
+        }else {
+        	logger.error("id place {} not found.", id);
             return currentPlace;
         }
-
-        currentPlace.setName(place.getName());
-        currentPlace.setType(place.getType());
-        currentPlace.setAddress(place.getAddress());
-        currentPlace.setCity(place.getCity());
-        currentPlace.setNeighborhood(place.getNeighborhood());
-        currentPlace.setZipCode(place.getZipCode());
 
         return service.update(currentPlace);
     }
 
     @DeleteMapping("/delete/{id}")
     public String delete(@PathVariable("id") final Integer id) {
+        Optional<Place> currentPlace = service.findById(id);
 
-        logger.info("Deleting place id {}", id);
-        Place currentPlace = service.findById(id);
-
-        if (currentPlace == null) {
-            logger.error("Id place {} not found.", id);
+        if (currentPlace.isPresent()) {
+        	logger.info("Deleting place id {}", id);
+        	service.deleteById(id);
+        }else {
+        	logger.error("Id place {} not found.", id);
         }
-        service.deleteById(id);
-        return "Place delete successfully! (id = " + currentPlace.getId() + " nome = " + currentPlace.getName() + ")";
+        
+        return "Place delete successfully! (id = " + currentPlace.get().getId() + " nome = " + currentPlace.get().getName() + ")";
     }
 
     @DeleteMapping("/deletar")
