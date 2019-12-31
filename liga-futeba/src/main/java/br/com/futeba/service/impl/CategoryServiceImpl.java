@@ -9,39 +9,44 @@ import br.com.futeba.models.Category;
 import br.com.futeba.repositorys.CategoryRepository;
 import br.com.futeba.service.CategoryService;
 
-@Service("EsporteService")
+@Service("CategoryService")
 public class CategoryServiceImpl implements CategoryService {
 
-    @Autowired
-    private CategoryRepository repository;
+	@Autowired
+	private CategoryRepository repository;
 
-    @Override
-    public Category save(final Category esporte) {
-        return repository.save(esporte);
-    }
+	@Override
+	public Category save(final Category category) {
+		return repository.save(category);
+	}
 
-    @Override
-    public Iterable<Category> findAll() {
-        return repository.findAll();
-    }
+	@Override
+	public Optional<Category> findByName(String name) {
+		return repository.findByName(name);
+	}
 
-    @Override
-    public Optional<Category> findById(final Integer id) {
-        return repository.findById(id);
-    }
+	@Override
+	public Iterable<Category> findAll() {
+		return repository.findAll();
+	}
 
-    @Override
-    public Optional<Category> update(final Optional<Category> esporte) {
-        return repository.saveAndFlush(esporte);
-    }
+	@Override
+	public Optional<Category> findById(final Integer id) {
+		return repository.findById(id);
+	}
 
-    @Override
-    public void delete(final Integer id) {
-        repository.deleteById(id);
-    }
+	@Override
+	public Category update(final Optional<Category> category) {
+		return repository.saveAndFlush(category.get());
+	}
 
-    @Override
-    public void deleteAll() {
-        repository.deleteAll();
-    }
+	@Override
+	public void delete(final Integer id) {
+		repository.deleteById(id);
+	}
+
+	@Override
+	public void deleteAll() {
+		repository.deleteAll();
+	}
 }

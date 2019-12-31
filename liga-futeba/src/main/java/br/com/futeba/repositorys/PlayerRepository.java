@@ -22,5 +22,7 @@ public interface PlayerRepository extends JpaRepository<Player, Integer> {
     public List<?> getEstatisticasAtleta(@Param("year") Integer year);
 
 	public Optional<Player> saveAndFlush(Optional<Player> atleta);
+
+	public Optional<Player> findByName(String name);
     
 }

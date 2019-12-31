@@ -16,4 +16,6 @@ public interface TeamRepository extends JpaRepository<Team, Integer> {
 
 	public Optional<Team> saveAndFlush(Optional<Team> team);
 
+	public Optional<Team> findByName(String name);
+
 }

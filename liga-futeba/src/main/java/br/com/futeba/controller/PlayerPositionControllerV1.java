@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.futeba.models.Player;
 import br.com.futeba.models.Position;
 import br.com.futeba.service.PositionService;
 
@@ -37,6 +38,12 @@ public class PlayerPositionControllerV1 {
             return "Error saving player position: " + e.toString();
         }
         return "Player position save sucessfully! (id = " + position.getId() + " nome = " + position.getName() + ")";
+    }
+    
+    @GetMapping("/list/{name}")
+    public @ResponseBody Optional<Position> listByName(@PathVariable("name") String name){
+    	logger.info("Find position: {}", name);
+    	return service.findByName(name);
     }
 
     @GetMapping("/list")

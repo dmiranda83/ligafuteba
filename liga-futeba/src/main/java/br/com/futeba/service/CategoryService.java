@@ -6,16 +6,17 @@ import br.com.futeba.models.Category;
 
 public interface CategoryService {
 
-    Category save(Category esporte);
+	Category save(Category esporte);
 
-    Iterable<Category> findAll();
+	Iterable<Category> findAll();
 
-    Optional<Category> findById(Integer id);
+	Optional<Category> findById(Integer id);
 
-    Optional<Category> update(Optional<Category> currentTeamCategory);
+	Optional<Category> findByName(String name);
 
-    void delete(Integer id);
+	Category update(Optional<Category> currentTeamCategory);
 
-    void deleteAll();
+	void delete(Integer id);
 
+	void deleteAll();
 }

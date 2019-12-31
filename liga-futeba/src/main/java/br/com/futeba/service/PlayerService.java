@@ -15,10 +15,13 @@ public interface PlayerService {
 
     Optional<Player> update(Optional<Player> currentPlayer);
 
+    Optional<Player> findByName(String name);
+
     void deleteById(Integer id);
 
     void deleteAll();
 
 	Iterable<PlayerStatsDTO> getPlayerStats(Integer year);
+
 
 }

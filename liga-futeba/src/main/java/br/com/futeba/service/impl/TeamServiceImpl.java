@@ -12,7 +12,7 @@ import br.com.futeba.models.Team;
 import br.com.futeba.repositorys.TeamRepository;
 import br.com.futeba.service.TeamService;
 
-@Service("EquipeService")
+@Service("TeamService")
 public class TeamServiceImpl implements TeamService {
 
     @Autowired
@@ -32,6 +32,11 @@ public class TeamServiceImpl implements TeamService {
     public Optional<Team> findById(final Integer id) {
         return repository.findById(id);
     }
+    
+    @Override
+	public Optional<Team> findByName(String name) {
+		return repository.findByName(name);
+	}
 
     @Override
     public Optional<Team> update(final Optional<Team> team) {

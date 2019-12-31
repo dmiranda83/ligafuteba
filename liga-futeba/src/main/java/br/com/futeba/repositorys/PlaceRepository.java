@@ -10,4 +10,6 @@ public interface PlaceRepository extends JpaRepository<Place, Integer> {
 
 	Optional<Place> saveAndFlush(Optional<Place> estabelecimento);
 
+	Optional<Place> findByName(String name);
+
 }

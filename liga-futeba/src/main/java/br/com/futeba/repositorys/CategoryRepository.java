@@ -8,8 +8,6 @@ import br.com.futeba.models.Category;
 
 public interface CategoryRepository extends JpaRepository<Category, Integer> {
 
-    public Category findByName(String name);
-
-	public Optional<Category> saveAndFlush(Optional<Category> esporte);
+	public Optional<Category> findByName(String name);
 
 }

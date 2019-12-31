@@ -39,6 +39,12 @@ public class PlaceControllerV1 {
         }
         return "Place successfully save! (id = " + place.getId() + " nome = " + place.getName() + ")";
     }
+    
+    @GetMapping("/list/{name}")
+    public @ResponseBody Optional<Place> listByName(@PathVariable("name") String name){
+    	logger.info("Find place: {}", name);
+    	return service.findByName(name);
+    }
 
     @GetMapping("/list")
     public @ResponseBody Iterable<Place> listar() {

@@ -15,10 +15,13 @@ public interface TeamService {
 
     Optional<Team> update(Optional<Team> currentTeam);
 
+    Optional<Team> findByName(String name);
+    
     void delete(Integer id);
 
     void delete();
 
 	Iterable<StatsDTO> getTeamStats(Integer year);
+
 
 }

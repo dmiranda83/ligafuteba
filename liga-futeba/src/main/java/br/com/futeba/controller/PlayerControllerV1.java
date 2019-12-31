@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.futeba.dtos.PlayerStatsDTO;
+import br.com.futeba.models.Place;
 import br.com.futeba.models.Player;
 import br.com.futeba.service.PlayerService;
 
@@ -40,6 +41,12 @@ public class PlayerControllerV1 {
             return "Error saving player: " + e.toString();
         }
         return "Player successfully save! (id = " + player.getId() + " nome = " + player.getName() + ")";
+    }
+    
+    @GetMapping("/list/{name}")
+    public @ResponseBody Optional<Player> listByName(@PathVariable("name") String name){
+    	logger.info("Find player: {}", name);
+    	return service.findByName(name);
     }
 
     @GetMapping("/list")

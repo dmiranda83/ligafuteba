@@ -9,7 +9,7 @@ import br.com.futeba.models.Place;
 import br.com.futeba.repositorys.PlaceRepository;
 import br.com.futeba.service.PlaceService;
 
-@Service("EstabelecimentoService")
+@Service("PlaceService")
 public class PlaceServiceImpl implements PlaceService {
 
     @Autowired
@@ -19,7 +19,11 @@ public class PlaceServiceImpl implements PlaceService {
     public Place save(final Place estabelecimento) {
         return repository.save(estabelecimento);
     }
-
+    
+    @Override
+	public Optional<Place> findByName(String name) {
+		return repository.findByName(name);
+	}
     @Override
     public Iterable<Place> findAll() {
         return repository.findAll();

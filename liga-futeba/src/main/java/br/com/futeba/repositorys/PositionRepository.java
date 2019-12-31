@@ -11,4 +11,6 @@ public interface PositionRepository extends CrudRepository<Position, Integer> {
 
 	Optional<Position> saveAndFlush(Optional<Position> posicao);
 
+	Optional<Position> findByName(String name);
+
 }

@@ -12,7 +12,7 @@ import br.com.futeba.models.Player;
 import br.com.futeba.repositorys.PlayerRepository;
 import br.com.futeba.service.PlayerService;
 
-@Service("AtletaService")
+@Service("PlayerService")
 public class PlayerServiceImpl implements PlayerService {
 
     @Autowired
@@ -23,6 +23,11 @@ public class PlayerServiceImpl implements PlayerService {
         return repository.save(atleta);
     }
 
+    @Override
+	public Optional<Player> findByName(String name) {
+		return repository.findByName(name);
+	}
+    
     @Override
     public Iterable<Player> findAll() {
         return repository.findAll();

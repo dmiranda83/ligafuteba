@@ -20,67 +20,69 @@ import br.com.futeba.models.Category;
 import br.com.futeba.service.CategoryService;
 
 @RestController
-@CrossOrigin (origins = "*")
+@CrossOrigin(origins = "*")
 @RequestMapping("/api/v1/teamCategory")
 public class TeamCategoryControllerV1 {
 
-    private static final Logger logger = LoggerFactory.getLogger(TeamCategoryControllerV1.class);
+	private static final Logger logger = LoggerFactory.getLogger(TeamCategoryControllerV1.class);
 
-    @Autowired
-    private CategoryService service;
+	@Autowired
+	private CategoryService service;
 
-    @PostMapping("/save")
-    public String save(@RequestBody final Category teamCategory) {
+	@PostMapping("/save")
+	public String save(@RequestBody final Category teamCategory) {
+		try {
+			service.save(teamCategory);
+		} catch (Exception e) {
+			return "Error saving team category: " + e.toString();
+		}
+		return "Team category save sucessfully! (id = " + teamCategory.getId() + ")";
+	}
 
-        try {
+	@GetMapping("/list/{name}")
+	public @ResponseBody Optional<Category> listByName(@PathVariable("name") String name) {
+		logger.info("Find category: {}", name);
+		return service.findByName(name);
+	}
 
-            service.save(teamCategory);
+	@GetMapping("/listAll")
+	public @ResponseBody Iterable<Category> getAllCategories() {
+		logger.info("Listing all team category");
+		return service.findAll();
+	}
 
-        } catch (Exception e) {
-            return "Error saving team category: " + e.toString();
-        }
-        return "Team category save sucessfully! (id = " + teamCategory.getId() + ")";
-    }
+	@PutMapping("/update/{id}")
+	public Category update(@PathVariable("id") final Integer id, @RequestBody final Category teamCategory) {
 
-    @GetMapping("/list")
-    public @ResponseBody Iterable<Category> list() {
-        logger.info("Listing all team category");
-        return service.findAll();
-    }
+		Optional<Category> currentTeamCategory = service.findById(id);
 
-    @PutMapping("/update/{id}")
-    public Optional<Category> update(@PathVariable("id") final Integer id, @RequestBody final Category teamCategory) {
+		if (currentTeamCategory.isPresent()) {
+			logger.info("Updating team category id {}", id);
+			currentTeamCategory.get().setName(teamCategory.getName());
+			return service.update(currentTeamCategory);
+		} else {
+			logger.error("Team category id {} not found.", id);
+			return currentTeamCategory.get();
+		}
 
-        Optional<Category> currentTeamCategory = service.findById(id);
+	}
 
-        if (currentTeamCategory.isPresent()) {
-        	logger.info("Updating team category id {}", id);
-        	currentTeamCategory.get().setName(teamCategory.getName());
-        	return service.update(currentTeamCategory);
-        }else {
-        	logger.error("Team category id {} not found.", id);
-        	return currentTeamCategory;
-        }
+	@DeleteMapping("/delete/{id}")
+	public void delete(@PathVariable("id") final Integer id) {
+		Optional<Category> currentTeamCategory = service.findById(id);
 
+		logger.info("Deleting team category id {}", id);
+		if (currentTeamCategory.isPresent()) {
+			service.delete(id);
+		} else {
+			logger.error("Team category id {} not found.", id);
+		}
+	}
 
-    }
+	@DeleteMapping("/delete")
+	public void delete() {
 
-    @DeleteMapping("/delete/{id}")
-    public void delete(@PathVariable("id") final Integer id) {
-        Optional<Category> currentTeamCategory = service.findById(id);
-
-        logger.info("Deleting team category id {}", id);
-        if (currentTeamCategory.isPresent()) {
-        	service.delete(id);
-        }else {
-        	logger.error("Team category id {} not found.", id);
-        }
-    }
-
-    @DeleteMapping("/delete")
-    public void delete() {
-
-        logger.info("Deleting all team category");
-        service.deleteAll();
-    }
+		logger.info("Deleting all team category");
+		service.deleteAll();
+	}
 }

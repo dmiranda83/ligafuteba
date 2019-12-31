@@ -10,7 +10,7 @@ import br.com.futeba.models.Position;
 import br.com.futeba.repositorys.PositionRepository;
 import br.com.futeba.service.PositionService;
 
-@Service("PosicaoService")
+@Service("PositionService")
 public class PositionServiceImpl implements PositionService {
 
     @Autowired
@@ -21,6 +21,11 @@ public class PositionServiceImpl implements PositionService {
         return repository.save(posicao);
     }
 
+	@Override
+	public Optional<Position> findByName(String name) {
+		return repository.findByName(name);
+	}
+	
     @Override
     public Iterable<Position> findAll() {
         return repository.findAll();

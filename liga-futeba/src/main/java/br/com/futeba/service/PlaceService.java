@@ -12,9 +12,12 @@ public interface PlaceService {
 
     Optional<Place> findById(Integer id);
 
+    Optional<Place> findByName(String name);
+    
     void deleteById(Integer id);
 
     void deleteAll();
 
     Optional<Place> update(Optional<Place> currentPlace);
+
 }
