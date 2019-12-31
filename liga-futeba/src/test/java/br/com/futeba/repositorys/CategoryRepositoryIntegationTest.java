@@ -20,25 +20,27 @@ import br.com.futeba.models.Category;
 @SpringBootTest(classes = H2JpaConfig.class)
 public class CategoryRepositoryIntegationTest {
 
-	private static final String CATEGORY_NAME = "Futsal";
+	private static final String NAME_CATEGORY_FUTSAL = "Futsal";
+	private static final String NAME_CATEGORY_SOCCER = "Soccer";
+	private static final String NAME_CATEGORY_BASKETBALL = "Basketball";
 
 	@Autowired
 	private CategoryRepository categoryRepository;
 
 	private Category futsal;
-	private Category futebolCampo;
-	private Category basquete;
+	private Category soccer;
+	private Category basketball;
 
 	@Before
 	public void setUp() {
-		this.futsal = new Category("Futsal");
-		this.futebolCampo = new Category("Futebal de Campo");
-		this.basquete = new Category("Basquete");
+		this.futsal = new Category(NAME_CATEGORY_FUTSAL);
+		this.soccer = new Category(NAME_CATEGORY_SOCCER);
+		this.basketball = new Category(NAME_CATEGORY_BASKETBALL);
 	}
 
 	@Test
 	public void givenEmptyDBWhenFindByNameThenReturnEmptyOptional() {
-		Optional<Category> foundCategory = categoryRepository.findByName(CATEGORY_NAME);
+		Optional<Category> foundCategory = categoryRepository.findByName(NAME_CATEGORY_FUTSAL);
 
 		assertThat(foundCategory.isPresent()).isEqualTo(false);
 	}
@@ -47,84 +49,81 @@ public class CategoryRepositoryIntegationTest {
 	public void givenCategoryInDBWhenFindByNameThenReturnOptionalWithCategory() {
 		categoryRepository.save(futsal);
 
-		Optional<Category> foundCategory = categoryRepository.findByName(CATEGORY_NAME);
+		Optional<Category> foundCategory = categoryRepository.findByName(NAME_CATEGORY_FUTSAL);
 
 		assertThat(foundCategory.isPresent()).isEqualTo(true);
-		assertThat(foundCategory.get().getName()).isEqualTo(CATEGORY_NAME);
+		assertThat(foundCategory.get().getName()).isEqualTo(NAME_CATEGORY_FUTSAL);
 	}
 
 	@Test
 	public void givenAllCategoriesInDBWhenFindAllThenReturnOptionalWithAllCategories() {
 		categoryRepository.save(futsal);
-		categoryRepository.save(futebolCampo);
-		categoryRepository.save(basquete);
+		categoryRepository.save(soccer);
+		categoryRepository.save(basketball);
 
 		List<Category> foundAllCategories = categoryRepository.findAll();
 
 		assertThat(foundAllCategories.size()).isEqualTo(3);
 	}
 
-//	@Test
-//    public void testDeleteCategory() {
-//        Category category = new Category("Basquete");
-//        categoryRepository.save(category);
-//        categoryRepository.delete(category);
-//        
-//        Optional<Category> foundCategory = categoryRepository.findById(category.getId());
-//        
-//        assertTrue(!foundCategory.isPresent());
-//    }
-//	
-//	@Test
-//    public void findAllCategories() {
-//		Category category = new Category("Futebol de Campo");
-//		categoryRepository.save(category);
-//        List<Category> findAll = categoryRepository.findAll();
-//		assertNotNull(findAll);
-//    }
-//
-//	@Test
-//	public void findByCategoryId() {
-//		Category category = new Category("Futebol de Campo");
-//		categoryRepository.save(category);
-//		Optional<Category> foundCategory = categoryRepository.findById(category.getId());
-//		assertNotNull(category);
-//		assertEquals(category.getName(), foundCategory.get().getName());
-//	}
-//	
-//	@Test
-//	public void updateCategory() {
-//		Category category = new Category("Voleibol");
-//		categoryRepository.save(category);		
-//		
-//		Optional<Category> foundCategory = categoryRepository.findById(category.getId());
-//		foundCategory.get().setName("Futsal");
-//		Category savedCategory = categoryRepository.saveAndFlush(foundCategory.get());
-//		
-//		assertNotNull(category);
-//		assertEquals(foundCategory.get().getName(), savedCategory.getName());
-//	}
-//
-//    @Test
-//    public void deleteByCategoryIdTest() {
-//    	Category category = new Category("Voleibol");
-//    	Category categoryDelete = categoryRepository.save(category);
-//    	categoryRepository.deleteById(categoryDelete.getId());
-//    }
-//    
-//    @Test
-//    public void deleteAllCategoriesTest() {
-//    	Category voleibol = new Category("Voleibol");
-//    	Category futsal = new Category("Futsal");
-//    	categoryRepository.save(voleibol);
-//    	categoryRepository.save(futsal);
-//    	
-//    	categoryRepository.deleteAll();
-//    	
-//    	List<Category> allCategories = categoryRepository.findAll();
-//    	
-//    	assertTrue(allCategories.isEmpty());
-//    }
+	@Test
+	public void givenCategoryInDBWhenFindByIdThenReturnOptionalWithCategory() {
+		categoryRepository.save(futsal);
+
+		Optional<Category> foundCategory = categoryRepository.findById(futsal.getId());
+
+		assertThat(foundCategory.isPresent()).isEqualTo(true);
+		assertThat(foundCategory.get().getName()).isEqualTo(NAME_CATEGORY_FUTSAL);
+	}
+
+	@Test
+	public void givenCategoryInDBWhenDeleteThenReturnEmptyOptional() {
+		categoryRepository.save(futsal);
+		Optional<Category> categoryBeforeDelete = categoryRepository.findById(futsal.getId());
+		assertThat(categoryBeforeDelete.isPresent()).isEqualTo(true);
+
+		categoryRepository.delete(futsal);
+		Optional<Category> categoryAfterDelete = categoryRepository.findById(futsal.getId());
+		assertThat(categoryAfterDelete.isPresent()).isEqualTo(false);
+	}
+
+	@Test
+	public void givenCategoryInDBWhenDeleteByIdThenReturnEmptyOptional() {
+		categoryRepository.save(futsal);
+		Optional<Category> categoryBeforeDelete = categoryRepository.findById(futsal.getId());
+		assertThat(categoryBeforeDelete.isPresent()).isEqualTo(true);
+
+		categoryRepository.deleteById(futsal.getId());
+		Optional<Category> categoryAfterDelete = categoryRepository.findById(futsal.getId());
+		assertThat(categoryAfterDelete.isPresent()).isEqualTo(false);
+	}
+
+	@Test
+	public void givenCategoriesInDBWhenDeleteAllThenReturnEmptyOptional() {
+		categoryRepository.save(futsal);
+		categoryRepository.save(soccer);
+		categoryRepository.save(basketball);
+
+		List<Category> foundAllCategoriesBeforeDelete = categoryRepository.findAll();
+		assertThat(foundAllCategoriesBeforeDelete.isEmpty()).isEqualTo(false);
+
+		categoryRepository.deleteAll();
+
+		List<Category> foundAllCategoriesAfterDelete = categoryRepository.findAll();
+		assertThat(foundAllCategoriesAfterDelete.isEmpty()).isEqualTo(true);
+	}
+
+	@Test
+	public void givenCategoryInDBWhenUpdateThenReturnCategoryUpdated() {
+		categoryRepository.save(futsal);
+		Optional<Category> categoryBeforeUpdate = categoryRepository.findById(futsal.getId());
+		assertThat(categoryBeforeUpdate.get().getName()).isEqualTo(NAME_CATEGORY_FUTSAL);
+
+		futsal.setName(NAME_CATEGORY_SOCCER);
+		categoryRepository.saveAndFlush(futsal);
+		Optional<Category> categoryAfterUpdate = categoryRepository.findById(futsal.getId());
+		assertThat(categoryAfterUpdate.get().getName()).isEqualTo(NAME_CATEGORY_SOCCER);
+	}
 
 	@After
 	public void cleanUp() {

@@ -9,5 +9,4 @@ import br.com.futeba.models.Category;
 public interface CategoryRepository extends JpaRepository<Category, Integer> {
 
 	public Optional<Category> findByName(String name);
-
 }
