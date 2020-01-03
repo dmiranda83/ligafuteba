@@ -14,44 +14,43 @@ import javax.validation.constraints.NotNull;
 @Entity(name = "assist")
 public class Assist implements Serializable {
 
-
 	private static final long serialVersionUID = -3633732656049254149L;
 
 	public Assist() {
-		//default constructor
-    }
+		// default constructor
+	}
 
-    @Id
-    @Column(name = "assist_id", nullable = false)
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+	@Id
+	@Column(name = "assist_id", nullable = false)
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private long id;
 
-    @NotNull
-    private Integer qtdAssist;
+	@NotNull
+	private Integer qtdAssist;
 
-    @ManyToOne(optional = true)
-    @JoinColumn(name = "player_id", referencedColumnName = "player_id")
-    private Player player;
-    
-    @ManyToOne(optional = true)
-    @JoinColumn(name = "team_id", referencedColumnName = "team_id")
-    private Team team;
+	@ManyToOne(optional = true)
+	@JoinColumn(name = "player_id", referencedColumnName = "player_id")
+	private Player player;
 
-    public Integer getId() {
-        return id;
-    }
+	@ManyToOne(optional = true)
+	@JoinColumn(name = "team_id", referencedColumnName = "team_id")
+	private Team team;
 
-    public void setId(final Integer id) {
-        this.id = id;
-    }
+	public long getId() {
+		return id;
+	}
 
-    public Player getPlayer() {
-        return player;
-    }
+	public void setId(final long id) {
+		this.id = id;
+	}
 
-    public void setPlayer(final Player player) {
-        this.player = player;
-    }
+	public Player getPlayer() {
+		return player;
+	}
+
+	public void setPlayer(final Player player) {
+		this.player = player;
+	}
 
 	public Integer getQtdAssist() {
 		return qtdAssist;

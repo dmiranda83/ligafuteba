@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import br.com.futeba.models.Place;
 
-public interface PlaceRepository extends JpaRepository<Place, Integer> {
+public interface PlaceRepository extends JpaRepository<Place, Long> {
 
 	Optional<Place> saveAndFlush(Optional<Place> estabelecimento);
 

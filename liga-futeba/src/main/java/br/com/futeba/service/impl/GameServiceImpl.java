@@ -27,7 +27,7 @@ public class GameServiceImpl implements GameService {
     }
 
     @Override
-    public Optional<Game> findById(final Integer id) {
+    public Optional<Game> findById(final long id) {
         return repository.findById(id);
     }
 
@@ -37,7 +37,7 @@ public class GameServiceImpl implements GameService {
     }
 
     @Override
-    public void deleteById(final Integer id) {
+    public void deleteById(final long id) {
         repository.deleteById(id);
     }
 

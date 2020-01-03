@@ -10,11 +10,11 @@ public interface PlaceService {
 
     Iterable<Place> findAll();
 
-    Optional<Place> findById(Integer id);
+    Optional<Place> findById(long id);
 
     Optional<Place> findByName(String name);
     
-    void deleteById(Integer id);
+    void deleteById(long id);
 
     void deleteAll();
 

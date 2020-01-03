@@ -10,38 +10,38 @@ import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 
 @Entity(name = "position")
-public class Position implements Serializable{
+public class Position implements Serializable {
 
 	private static final long serialVersionUID = 4662709053886605457L;
 
 	@Id
-    @Column(name = "position_id", nullable = false)
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+	@Column(name = "position_id", nullable = false)
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private long id;
 
-    @NotNull
-    private String name;
+	@NotNull
+	private String name;
 
-    public Position() {
-    }
+	public Position() {
+	}
 
-    public Position(final String name) {
-        this.name = name;
-    }
+	public Position(final String name) {
+		this.name = name;
+	}
 
-    public Integer getId() {
-        return id;
-    }
+	public long getId() {
+		return id;
+	}
 
-    public void setId(final Integer id) {
-        this.id = id;
-    }
+	public void setId(final long id) {
+		this.id = id;
+	}
 
-    public String getName() {
-        return name;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public void setName(final String name) {
-        this.name = name;
-    }
+	public void setName(final String name) {
+		this.name = name;
+	}
 }

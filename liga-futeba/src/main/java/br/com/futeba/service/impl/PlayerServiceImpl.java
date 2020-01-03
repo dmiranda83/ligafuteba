@@ -34,7 +34,7 @@ public class PlayerServiceImpl implements PlayerService {
     }
 
     @Override
-    public Optional<Player> findById(final Integer id) {
+    public Optional<Player> findById(final long id) {
         return repository.findById(id);
     }
 
@@ -44,7 +44,7 @@ public class PlayerServiceImpl implements PlayerService {
     }
 
     @Override
-    public void deleteById(final Integer id) {
+    public void deleteById(final long id) {
         repository.deleteById(id);
     }
 

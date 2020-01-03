@@ -21,57 +21,57 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @Entity(name = "player")
 public class Player implements Serializable {
 
-    private static final long serialVersionUID = 2531069826794464004L;
+	private static final long serialVersionUID = 2531069826794464004L;
 
-    @Id
-    @Column(name = "player_id", nullable = false)
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+	@Id
+	@Column(name = "player_id", nullable = false)
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private long id;
 
-    @NotNull
-    private String name;
+	@NotNull
+	private String name;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "position_id", referencedColumnName = "position_id")
-    private Position position;
+	@ManyToOne(optional = false)
+	@JoinColumn(name = "position_id", referencedColumnName = "position_id")
+	private Position position;
 
-    @ManyToMany(mappedBy = "players", cascade= {CascadeType.PERSIST, CascadeType.REMOVE}, fetch=FetchType.EAGER)
-    @JsonIgnoreProperties("players")
-    private List<Team> teams = new ArrayList<>();
+	@ManyToMany(mappedBy = "players", cascade = { CascadeType.PERSIST, CascadeType.REMOVE }, fetch = FetchType.EAGER)
+	@JsonIgnoreProperties("players")
+	private List<Team> teams = new ArrayList<>();
 
-    public Player() {
-    	//default constructor
-    }
+	public Player() {
+		// default constructor
+	}
 
-    public Integer getId() {
-        return id;
-    }
+	public long getId() {
+		return id;
+	}
 
-    public void setId(final Integer id) {
-        this.id = id;
-    }
+	public void setId(final long id) {
+		this.id = id;
+	}
 
-    public String getName() {
-        return name;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public void setName(final String name) {
-        this.name = name;
-    }
+	public void setName(final String name) {
+		this.name = name;
+	}
 
-    public Position getPosition() {
-        return position;
-    }
+	public Position getPosition() {
+		return position;
+	}
 
-    public void setPosition(final Position position) {
-        this.position = position;
-    }
+	public void setPosition(final Position position) {
+		this.position = position;
+	}
 
-    public List<Team> getTeams() {
-        return teams;
-    }
+	public List<Team> getTeams() {
+		return teams;
+	}
 
-    public void setTeams(final List<Team> teams) {
-        this.teams = teams;
-    }
+	public void setTeams(final List<Team> teams) {
+		this.teams = teams;
+	}
 }

@@ -63,7 +63,7 @@ public class TeamControllerV1 {
     }
 
     @PutMapping("/update/{id}")
-    public Optional<Team> update(@PathVariable("id") final Integer id, @RequestBody final Team team) {
+    public Optional<Team> update(@PathVariable("id") final long id, @RequestBody final Team team) {
 
         Optional<Team> currentTeam = service.findById(id);
 
@@ -85,7 +85,7 @@ public class TeamControllerV1 {
     }
 
     @DeleteMapping("/delete/{id}")
-    public void delete(@PathVariable("id") final Integer id) {
+    public void delete(@PathVariable("id") final long id) {
         Optional<Team> currentTeam = service.findById(id);
 
         if (currentTeam.isPresent()) {

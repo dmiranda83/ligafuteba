@@ -17,7 +17,7 @@ public class Category implements Serializable {
 	@Id
 	@Column(name = "category_id", nullable = false)
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Integer id;
+	private Long id;
 
 	@NotNull
 	private String name;
@@ -30,11 +30,16 @@ public class Category implements Serializable {
 		this.name = name;
 	}
 
-	public Integer getId() {
+	public Category(long id, String name) {
+		this.id = id;
+		this.name = name;
+	}
+
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(final Integer id) {
+	public void setId(final Long id) {
 		this.id = id;
 	}
 

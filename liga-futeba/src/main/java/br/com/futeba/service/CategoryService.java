@@ -10,13 +10,13 @@ public interface CategoryService {
 
 	Iterable<Category> findAll();
 
-	Optional<Category> findById(Integer id);
+	Optional<Category> findById(Long id);
 
 	Optional<Category> findByName(String name);
 
 	Category update(Optional<Category> currentTeamCategory);
 
-	void delete(Integer id);
+	void delete(Long id);
 
 	void deleteAll();
 }

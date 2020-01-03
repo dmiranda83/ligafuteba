@@ -11,13 +11,13 @@ public interface TeamService {
 
     Iterable<Team> findAll();
 
-    Optional<Team> findById(Integer id);
+    Optional<Team> findById(long id);
 
     Optional<Team> update(Optional<Team> currentTeam);
 
     Optional<Team> findByName(String name);
     
-    void delete(Integer id);
+    void delete(long id);
 
     void delete();
 

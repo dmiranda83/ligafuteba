@@ -52,7 +52,7 @@ public class PlayerPositionControllerV1 {
     }
 
     @PutMapping("/update/{id}")
-    public Optional<Position> update(@PathVariable("id") final Integer id, @RequestBody final Position position) {
+    public Optional<Position> update(@PathVariable("id") final long id, @RequestBody final Position position) {
 
         Optional<Position> currentPlayerPosition = service.findById(id);
 
@@ -67,7 +67,7 @@ public class PlayerPositionControllerV1 {
     }
 
     @DeleteMapping("/delete/{id}")
-    public void delete(@PathVariable("id") final Integer id) {
+    public void delete(@PathVariable("id") final long id) {
         Optional<Position> currentPlayerPosition = service.findById(id);
 
         if (currentPlayerPosition.isPresent()) {

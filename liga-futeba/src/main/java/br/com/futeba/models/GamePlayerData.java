@@ -14,57 +14,57 @@ import javax.validation.constraints.NotNull;
 @Entity(name = "gamePlayerData")
 public class GamePlayerData implements Serializable {
 
-    private static final long serialVersionUID = -8413600343702476736L;
+	private static final long serialVersionUID = -8413600343702476736L;
 
-    public GamePlayerData() {
-    	//default constructor
-    }
+	public GamePlayerData() {
+		// default constructor
+	}
 
-    @Id
-    @Column(name = "gol_id", nullable = false)
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+	@Id
+	@Column(name = "gol_id", nullable = false)
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private long id;
 
-    @NotNull
-    private Integer goals;
-    
-    @NotNull
-    private Integer presence;
-    
-    @NotNull
-    private Integer playedGame;
+	@NotNull
+	private Integer goals;
 
-    @ManyToOne(optional = true)
-    @JoinColumn(name = "player_id", referencedColumnName = "player_id")
-    private Player player;
-    
-    @ManyToOne(optional = true)
-    @JoinColumn(name = "team_id", referencedColumnName = "team_id")
-    private Team team;
+	@NotNull
+	private Integer presence;
 
-    public Integer getId() {
-        return id;
-    }
+	@NotNull
+	private Integer playedGame;
 
-    public void setId(final Integer id) {
-        this.id = id;
-    }
+	@ManyToOne(optional = true)
+	@JoinColumn(name = "player_id", referencedColumnName = "player_id")
+	private Player player;
 
-    public Integer getGoals() {
-        return goals;
-    }
+	@ManyToOne(optional = true)
+	@JoinColumn(name = "team_id", referencedColumnName = "team_id")
+	private Team team;
 
-    public void setGoals(final Integer goals) {
-        this.goals = goals;
-    }
+	public long getId() {
+		return id;
+	}
 
-    public Player getPlayer() {
-        return player;
-    }
+	public void setId(final long id) {
+		this.id = id;
+	}
 
-    public void setPlayer(final Player player) {
-        this.player = player;
-    }
+	public Integer getGoals() {
+		return goals;
+	}
+
+	public void setGoals(final Integer goals) {
+		this.goals = goals;
+	}
+
+	public Player getPlayer() {
+		return player;
+	}
+
+	public void setPlayer(final Player player) {
+		this.player = player;
+	}
 
 	public Team getTeam() {
 		return team;

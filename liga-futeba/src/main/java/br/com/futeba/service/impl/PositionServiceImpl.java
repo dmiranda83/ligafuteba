@@ -37,12 +37,12 @@ public class PositionServiceImpl implements PositionService {
     }
 
     @Override
-    public Optional<Position> findById(final Integer id) {
+    public Optional<Position> findById(final long id) {
         return repository.findById(id);
     }
 
     @Override
-    public void delete(final Integer id) {
+    public void delete(final long id) {
         repository.deleteById(id);
     }
 

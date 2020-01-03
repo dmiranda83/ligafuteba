@@ -53,7 +53,7 @@ public class PlaceControllerV1 {
     }
 
     @PutMapping("/update/{id}")
-    public Optional<Place> update(@PathVariable("id") final Integer id, @RequestBody final Place place) {
+    public Optional<Place> update(@PathVariable("id") final long id, @RequestBody final Place place) {
 
         logger.info("Updating id place {}", id);
         Optional<Place> currentPlace = service.findById(id);
@@ -74,7 +74,7 @@ public class PlaceControllerV1 {
     }
 
     @DeleteMapping("/delete/{id}")
-    public String delete(@PathVariable("id") final Integer id) {
+    public String delete(@PathVariable("id") final long id) {
         Optional<Place> currentPlace = service.findById(id);
 
         if (currentPlace.isPresent()) {

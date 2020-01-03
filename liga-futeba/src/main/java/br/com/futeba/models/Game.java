@@ -18,118 +18,119 @@ import javax.persistence.OneToMany;
 @Entity(name = "game")
 public class Game implements Serializable {
 
-    private static final long serialVersionUID = 2531069826794464004L;
+	private static final long serialVersionUID = 2531069826794464004L;
 
-    @Id
-    @Column(name = "game_id", nullable = false)
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+	@Id
+	@Column(name = "game_id", nullable = false)
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private long id;
 
-    private Timestamp date;
+	private Timestamp date;
 
-    private Timestamp hour;
-    
-    private Integer squad;
+	private Timestamp hour;
 
-    @ManyToOne
-    @JoinColumn(name = "place_id", referencedColumnName = "place_id")
-    private Place place;
+	private Integer squad;
 
-    @ManyToOne(optional = true)
-    @JoinColumn(name = "home_team_id", referencedColumnName = "team_id")
-    private Team homeTeam;
+	@ManyToOne
+	@JoinColumn(name = "place_id", referencedColumnName = "place_id")
+	private Place place;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch=FetchType.LAZY)
-    private Set<GamePlayerData> gamePlayerData;
-    
-    @OneToMany(cascade = CascadeType.ALL, fetch=FetchType.LAZY)
-    private Set<GamePlayerData> homeGoals;
-    
-    @OneToMany(cascade = CascadeType.ALL, fetch=FetchType.LAZY)
-    private Set<Assist> homeAssists;
+	@ManyToOne(optional = true)
+	@JoinColumn(name = "home_team_id", referencedColumnName = "team_id")
+	private Team homeTeam;
 
-    @ManyToOne(optional = true)
-    @JoinColumn(name = "away_team_id", referencedColumnName = "team_id")
-    private Team awayTeam;
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private Set<GamePlayerData> gamePlayerData;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch=FetchType.EAGER)
-    private Set<GamePlayerData> awayGoals;
-    
-    @OneToMany(cascade = CascadeType.ALL, fetch=FetchType.EAGER)
-    private Set<Assist> awayAssists;
-    
-    private Integer homeTeamTotalGoals;
-    
-    private Integer awayTeamTotalGoals;
-    
-    private Integer points;
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private Set<GamePlayerData> homeGoals;
 
-    public Game() {
-    }
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private Set<Assist> homeAssists;
 
-    public Integer getId() {
-        return id;
-    }
+	@ManyToOne(optional = true)
+	@JoinColumn(name = "away_team_id", referencedColumnName = "team_id")
+	private Team awayTeam;
 
-    public void setId(final Integer id) {
-        this.id = id;
-    }
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	private Set<GamePlayerData> awayGoals;
 
-    public Timestamp getDate() {
-        return date;
-    }
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	private Set<Assist> awayAssists;
 
-    public void setDate(final Timestamp date) {
-        this.date = date;
-    }
+	private Integer homeTeamTotalGoals;
 
-    public Timestamp getHour() {
-        return hour;
-    }
+	private Integer awayTeamTotalGoals;
 
-    public void setHour(final Timestamp hour) {
-        this.hour = hour;
-    }
+	private Integer points;
 
-    public Place getPlace() {
-        return place;
-    }
+	public Game() {
+		// default contructor
+	}
 
-    public void setPlace(final Place place) {
-        this.place = place;
-    }
+	public long getId() {
+		return id;
+	}
 
-    public Team getHomeTeam() {
-        return homeTeam;
-    }
+	public void setId(final long id) {
+		this.id = id;
+	}
 
-    public void setHomeTeam(final Team homeTeam) {
-        this.homeTeam = homeTeam;
-    }
+	public Timestamp getDate() {
+		return date;
+	}
 
-    public Team getAwayTeam() {
-        return awayTeam;
-    }
+	public void setDate(final Timestamp date) {
+		this.date = date;
+	}
 
-    public void setAwayTeam(final Team awayTeam) {
-        this.awayTeam = awayTeam;
-    }
+	public Timestamp getHour() {
+		return hour;
+	}
 
-    public Set<GamePlayerData> getGamePlayerData() {
-        return gamePlayerData;
-    }
+	public void setHour(final Timestamp hour) {
+		this.hour = hour;
+	}
 
-    public void setGamePlayerData(final Set<GamePlayerData> gamePlayerData) {
-        this.gamePlayerData = gamePlayerData;
-    }
+	public Place getPlace() {
+		return place;
+	}
 
-    public Set<GamePlayerData> getAwayGoals() {
-        return awayGoals;
-    }
+	public void setPlace(final Place place) {
+		this.place = place;
+	}
 
-    public void setAwayGoals(final Set<GamePlayerData> awayGoals) {
-        this.awayGoals = awayGoals;
-    }
+	public Team getHomeTeam() {
+		return homeTeam;
+	}
+
+	public void setHomeTeam(final Team homeTeam) {
+		this.homeTeam = homeTeam;
+	}
+
+	public Team getAwayTeam() {
+		return awayTeam;
+	}
+
+	public void setAwayTeam(final Team awayTeam) {
+		this.awayTeam = awayTeam;
+	}
+
+	public Set<GamePlayerData> getGamePlayerData() {
+		return gamePlayerData;
+	}
+
+	public void setGamePlayerData(final Set<GamePlayerData> gamePlayerData) {
+		this.gamePlayerData = gamePlayerData;
+	}
+
+	public Set<GamePlayerData> getAwayGoals() {
+		return awayGoals;
+	}
+
+	public void setAwayGoals(final Set<GamePlayerData> awayGoals) {
+		this.awayGoals = awayGoals;
+	}
 
 	public Integer getSquad() {
 		return squad;

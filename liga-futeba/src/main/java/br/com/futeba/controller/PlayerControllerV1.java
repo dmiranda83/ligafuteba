@@ -62,7 +62,7 @@ public class PlayerControllerV1 {
     }
 
     @PutMapping("/update/{id}")
-    public Optional<Player> update(@PathVariable("id") final Integer id, @RequestBody final Player player) {
+    public Optional<Player> update(@PathVariable("id") final long id, @RequestBody final Player player) {
 
         Optional<Player> currentPlayer = service.findById(id);
 
@@ -81,7 +81,7 @@ public class PlayerControllerV1 {
     }
 
     @DeleteMapping("/delete/{id}")
-    public void delete(@PathVariable("id") final Integer id) {
+    public void delete(@PathVariable("id") final long id) {
         Optional<Player> currentPlayer = service.findById(id);
         
         if (currentPlayer.isPresent()) {

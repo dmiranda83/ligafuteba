@@ -29,7 +29,7 @@ public class TeamServiceImpl implements TeamService {
     }
 
     @Override
-    public Optional<Team> findById(final Integer id) {
+    public Optional<Team> findById(final long id) {
         return repository.findById(id);
     }
     
@@ -44,7 +44,7 @@ public class TeamServiceImpl implements TeamService {
     }
 
     @Override
-    public void delete(final Integer id) {
+    public void delete(final long id) {
         repository.deleteById(id);
     }
 

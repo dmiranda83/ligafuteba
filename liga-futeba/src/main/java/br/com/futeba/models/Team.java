@@ -22,116 +22,117 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @Entity(name = "team")
 public class Team implements Serializable {
 
-    private static final long serialVersionUID = 3457244849292203050L;
+	private static final long serialVersionUID = 3457244849292203050L;
 
-    public Team() {
-    	//Default constructor
-    }
+	public Team() {
+		// Default constructor
+	}
 
-    @Id
-    @Column(name = "team_id", nullable = false)
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+	@Id
+	@Column(name = "team_id", nullable = false)
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private long id;
 
-    @NotNull
-    private String name;
+	@NotNull
+	private String name;
 
-    @NotNull
-    private Boolean away;
+	@NotNull
+	private Boolean away;
 
-    @NotNull
-    private String responsibleName;
+	@NotNull
+	private String responsibleName;
 
-    @NotNull
-    private String phoneContact1;
-    
-    private String phoneContact2;
+	@NotNull
+	private String phoneContact1;
 
-    @ManyToOne
-    @JoinColumn(name = "category_id", referencedColumnName = "category_id")
-    private Category category;
+	private String phoneContact2;
 
-    @ManyToOne
-    @JoinColumn(name = "place_id", referencedColumnName = "place_id")
-    private Place place;
+	@ManyToOne
+	@JoinColumn(name = "category_id", referencedColumnName = "category_id")
+	private Category category;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "team_player", joinColumns = { @JoinColumn(name = "team_id") }, inverseJoinColumns = { @JoinColumn(name = "player_id") })
-    @JsonIgnoreProperties("teams")
-    private List<Player> players = new ArrayList<>();
+	@ManyToOne
+	@JoinColumn(name = "place_id", referencedColumnName = "place_id")
+	private Place place;
 
-    @OneToMany(mappedBy = "awayTeam")
-    private List<Game> game;
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(name = "team_player", joinColumns = { @JoinColumn(name = "team_id") }, inverseJoinColumns = {
+			@JoinColumn(name = "player_id") })
+	@JsonIgnoreProperties("teams")
+	private List<Player> players = new ArrayList<>();
 
-    public Boolean getAway() {
-        return away;
-    }
+	@OneToMany(mappedBy = "awayTeam")
+	private List<Game> game;
 
-    public void setAway(final Boolean away) {
-        this.away = away;
-    }
+	public Boolean getAway() {
+		return away;
+	}
 
-    public Integer getId() {
-        return id;
-    }
+	public void setAway(final Boolean away) {
+		this.away = away;
+	}
 
-    public void setId(final Integer id) {
-        this.id = id;
-    }
+	public long getId() {
+		return id;
+	}
 
-    public String getName() {
-        return name;
-    }
+	public void setId(final long id) {
+		this.id = id;
+	}
 
-    public void setName(final String name) {
-        this.name = name;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public String getResponsibleName() {
-        return responsibleName;
-    }
+	public void setName(final String name) {
+		this.name = name;
+	}
 
-    public void setResponsibleName(final String responsibleName) {
-        this.responsibleName = responsibleName;
-    }
+	public String getResponsibleName() {
+		return responsibleName;
+	}
 
-    public String getPhoneContact1() {
-        return phoneContact1;
-    }
+	public void setResponsibleName(final String responsibleName) {
+		this.responsibleName = responsibleName;
+	}
 
-    public void setPhoneContact1(final String phoneContact1) {
-        this.phoneContact1 = phoneContact1;
-    }
+	public String getPhoneContact1() {
+		return phoneContact1;
+	}
 
-    public String getPhoneContact2() {
-        return phoneContact2;
-    }
+	public void setPhoneContact1(final String phoneContact1) {
+		this.phoneContact1 = phoneContact1;
+	}
 
-    public void setPhoneContact2(final String phoneContact2) {
-        this.phoneContact2 = phoneContact2;
-    }
+	public String getPhoneContact2() {
+		return phoneContact2;
+	}
 
-    public Category getCategory() {
-        return category;
-    }
+	public void setPhoneContact2(final String phoneContact2) {
+		this.phoneContact2 = phoneContact2;
+	}
 
-    public void setCategory(final Category category) {
-        this.category = category;
-    }
+	public Category getCategory() {
+		return category;
+	}
 
-    public Place getPlace() {
-        return place;
-    }
+	public void setCategory(final Category category) {
+		this.category = category;
+	}
 
-    public void setPlace(final Place place) {
-        this.place = place;
-    }
+	public Place getPlace() {
+		return place;
+	}
 
-    public List<Player> getPlayers() {
-        return players;
-    }
+	public void setPlace(final Place place) {
+		this.place = place;
+	}
 
-    public void setPlayers(final List<Player> players) {
-        this.players = players;
-    }
+	public List<Player> getPlayers() {
+		return players;
+	}
+
+	public void setPlayers(final List<Player> players) {
+		this.players = players;
+	}
 }

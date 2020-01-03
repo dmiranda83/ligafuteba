@@ -12,11 +12,11 @@ public interface PositionService {
 
     Optional<Position> update(Optional<Position> currentPlayerPosition);
 
-    Optional<Position> findById(Integer id);
+    Optional<Position> findById(long id);
 
     Optional<Position> findByName(String name);
     
-    void delete(Integer id);
+    void delete(long id);
 
     void deleteAll();
 

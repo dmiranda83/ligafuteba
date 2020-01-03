@@ -58,7 +58,7 @@ public class GameControllerV1 {
     }
 
     @PutMapping("/update/{id}")
-    public Optional<Game> updateGame(@PathVariable("id") final Integer id, @RequestBody final Game game) {
+    public Optional<Game> updateGame(@PathVariable("id") final long id, @RequestBody final Game game) {
 
         logger.info("Updating id game {}", id);
         Optional<Game> currentGame = service.findById(id);
@@ -88,7 +88,7 @@ public class GameControllerV1 {
     }
 
     @DeleteMapping("/delete/{id}")
-    public void delete(@PathVariable("id") final Integer id) {
+    public void delete(@PathVariable("id") final long id) {
         Optional<Game> currentGame = service.findById(id);
 
         if (currentGame.isPresent()) {

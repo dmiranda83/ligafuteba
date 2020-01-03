@@ -35,12 +35,12 @@ public class PlaceServiceImpl implements PlaceService {
     }
 
     @Override
-    public Optional<Place> findById(final Integer id) {
+    public Optional<Place> findById(final long id) {
         return repository.findById(id);
     }
 
     @Override
-    public void deleteById(final Integer id) {
+    public void deleteById(final long id) {
         repository.deleteById(id);
     }
 

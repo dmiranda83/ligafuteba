@@ -5,6 +5,7 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.futeba.models.Category;
@@ -24,25 +26,30 @@ import br.com.futeba.service.CategoryService;
 @RequestMapping("/api/v1/teamCategory")
 public class TeamCategoryControllerV1 {
 
-	private static final Logger logger = LoggerFactory.getLogger(TeamCategoryControllerV1.class);
+	private static final Logger logger = LoggerFactory
+			.getLogger(TeamCategoryControllerV1.class);
 
 	@Autowired
 	private CategoryService service;
 
-	@PostMapping("/save")
-	public String save(@RequestBody final Category teamCategory) {
-		try {
-			service.save(teamCategory);
-		} catch (Exception e) {
-			return "Error saving team category: " + e.toString();
-		}
-		return "Team category save sucessfully! (id = " + teamCategory.getId() + ")";
+	@PostMapping("/")
+	@ResponseStatus(code = HttpStatus.CREATED)
+	public Category save(@RequestBody final Category teamCategory) {
+		return service.save(teamCategory);
 	}
 
-	@GetMapping("/list/{name}")
-	public @ResponseBody Optional<Category> listByName(@PathVariable("name") String name) {
+	@GetMapping("/list/name/{name}")
+	public @ResponseBody Optional<Category> getCategoryByName(
+			@PathVariable("name") String name) {
 		logger.info("Find category: {}", name);
 		return service.findByName(name);
+	}
+
+	@GetMapping("/list/{id}")
+	public @ResponseBody Optional<Category> getCategoryById(
+			@PathVariable("id") Long id) {
+		logger.info("Find category id: {}", id);
+		return service.findById(id);
 	}
 
 	@GetMapping("/listAll")
@@ -52,7 +59,8 @@ public class TeamCategoryControllerV1 {
 	}
 
 	@PutMapping("/update/{id}")
-	public Category update(@PathVariable("id") final Integer id, @RequestBody final Category teamCategory) {
+	public Category update(@PathVariable("id") final long id,
+			@RequestBody final Category teamCategory) {
 
 		Optional<Category> currentTeamCategory = service.findById(id);
 
@@ -68,7 +76,7 @@ public class TeamCategoryControllerV1 {
 	}
 
 	@DeleteMapping("/delete/{id}")
-	public void delete(@PathVariable("id") final Integer id) {
+	public void delete(@PathVariable("id") final long id) {
 		Optional<Category> currentTeamCategory = service.findById(id);
 
 		logger.info("Deleting team category id {}", id);

@@ -11,13 +11,13 @@ public interface PlayerService {
 
     Iterable<Player> findAll();
 
-    Optional<Player> findById(Integer id);
+    Optional<Player> findById(long id);
 
     Optional<Player> update(Optional<Player> currentPlayer);
 
     Optional<Player> findByName(String name);
 
-    void deleteById(Integer id);
+    void deleteById(long id);
 
     void deleteAll();
 
