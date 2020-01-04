@@ -1,4 +1,4 @@
-package br.com.futeba.repositorys;
+package br.com.futeba.repositories;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

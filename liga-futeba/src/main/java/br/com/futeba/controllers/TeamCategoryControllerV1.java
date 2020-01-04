@@ -94,13 +94,6 @@ public class TeamCategoryControllerV1 {
 		}
 	}
 
-	private ResponseEntity<Category> getHttpStatusBadRequest(String errorKey,
-			String defaultMessage) {
-		return ResponseEntity.badRequest().headers(HeaderUtil
-				.createFailureAlert(ENTITY_NAME, errorKey, defaultMessage))
-				.body(null);
-	}
-
 	@PutMapping("/{id}")
 	public ResponseEntity<Category> update(@PathVariable Long id,
 			@RequestBody Category teamCategory) {
@@ -118,39 +111,25 @@ public class TeamCategoryControllerV1 {
 		return ResponseEntity.noContent().build();
 	}
 
-	// @PutMapping("/update/{id}")
-	// public Category update(@PathVariable Long id,
-	// @RequestBody Category teamCategory) {
-	//
-	// Optional<Category> currentTeamCategory = service.findById(id);
-	//
-	// if (currentTeamCategory.isPresent()) {
-	// logger.info("Updating team category id {}", id);
-	// currentTeamCategory.get().setName(teamCategory.getName());
-	// return service.update(currentTeamCategory);
-	// } else {
-	// logger.error("Team category id {} not found.", id);
-	// return currentTeamCategory.get();
-	// }
-	//
-	// }
-
 	@DeleteMapping("/delete/{id}")
-	public void delete(@PathVariable("id") final long id) {
-		Optional<Category> currentTeamCategory = service.findById(id);
-
+	public ResponseEntity<Category> delete(@PathVariable("id") final long id) {
 		logger.info("Deleting team category id {}", id);
-		if (currentTeamCategory.isPresent()) {
-			service.delete(id);
-		} else {
-			logger.error("Team category id {} not found.", id);
-		}
+		service.deleteById(id);
+		return ResponseEntity.ok().headers(HeaderUtil
+				.createEntityDeletionAlert(ENTITY_NAME, String.valueOf(id)))
+				.build();
 	}
 
 	@DeleteMapping("/delete")
 	public void delete() {
-
 		logger.info("Deleting all team category");
 		service.deleteAll();
+	}
+
+	private ResponseEntity<Category> getHttpStatusBadRequest(String errorKey,
+			String defaultMessage) {
+		return ResponseEntity.badRequest().headers(HeaderUtil
+				.createFailureAlert(ENTITY_NAME, errorKey, defaultMessage))
+				.body(null);
 	}
 }

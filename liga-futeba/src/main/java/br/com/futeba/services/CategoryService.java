@@ -17,7 +17,7 @@ public interface CategoryService {
 
 	Category update(Optional<Category> currentTeamCategory);
 
-	void delete(Long id);
+	void deleteById(Long id);
 
 	void deleteAll();
 }

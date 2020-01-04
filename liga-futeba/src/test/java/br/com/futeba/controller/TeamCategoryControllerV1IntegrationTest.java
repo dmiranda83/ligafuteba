@@ -46,7 +46,7 @@ public class TeamCategoryControllerV1IntegrationTest {
 	private static final String NAME_CATEGORY_SOCCER = "Soccer";
 	private static final String NAME_CATEGORY_BASKETBALL = "Basketball";
 
-	private static final ObjectMapper om = new ObjectMapper();
+	private static final ObjectMapper mapper = new ObjectMapper();
 
 	@Autowired
 	private MockMvc mvc;
@@ -125,12 +125,37 @@ public class TeamCategoryControllerV1IntegrationTest {
 	public void givenTeamCategories_whenSaveCategory_thenStatus201()
 			throws Exception {
 		mvc.perform(post("/api/v1/teamCategory/")
-				.content(om.writeValueAsString(this.basketball))
+				.content(mapper.writeValueAsString(this.basketball))
 				.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON))
 				.andDo(print()).andExpect(status().isCreated())
 				.andExpect(jsonPath("$.id", is(1)))
 				.andExpect(jsonPath("$.name", is(NAME_CATEGORY_FUTSAL)));
 
 		verify(service, times(1)).save(any(Category.class));;
+	}
+
+	@Test
+	public void givenTeamCategories_whenSaveExistingCategory_thenStatus400()
+			throws Exception {
+		mvc.perform(post("/api/v1/teamCategory/")
+				.content(mapper.writeValueAsString(this.futsal))
+				.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON))
+				.andDo(print()).andExpect(status().isBadRequest());
+
+		verify(service, times(0)).save(any(Category.class));;
+	}
+
+	@Test
+	public void givenTeamCategories_whenSaveCategoryWithEmptyName_thenStatus400()
+			throws Exception {
+
+		this.futsal.setId(null);
+
+		mvc.perform(post("/api/v1/teamCategory/")
+				.content(mapper.writeValueAsString(this.futsal))
+				.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON))
+				.andDo(print()).andExpect(status().isBadRequest());
+
+		verify(service, times(0)).save(any(Category.class));;
 	}
 }

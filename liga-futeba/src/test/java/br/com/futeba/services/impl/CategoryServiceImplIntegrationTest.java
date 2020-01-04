@@ -1,4 +1,4 @@
-package br.com.futeba.service.impl;
+package br.com.futeba.services.impl;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
