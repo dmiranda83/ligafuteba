@@ -15,6 +15,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import br.com.futeba.config.H2JpaConfig;
 import br.com.futeba.models.Category;
+import br.com.futeba.repositories.CategoryRepository;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = H2JpaConfig.class)

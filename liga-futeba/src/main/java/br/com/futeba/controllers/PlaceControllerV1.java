@@ -1,4 +1,4 @@
-package br.com.futeba.controller;
+package br.com.futeba.controllers;
 
 import java.util.Optional;
 
@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.futeba.models.Place;
-import br.com.futeba.service.PlaceService;
+import br.com.futeba.services.PlaceService;
 
 @RestController
 @CrossOrigin (origins = "*")

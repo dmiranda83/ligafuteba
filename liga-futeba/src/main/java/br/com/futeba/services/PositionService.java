@@ -1,4 +1,4 @@
-package br.com.futeba.service;
+package br.com.futeba.services;
 
 import java.util.Optional;
 

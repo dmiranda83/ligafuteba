@@ -1,4 +1,4 @@
-package br.com.futeba.service.impl;
+package br.com.futeba.services.impl;
 
 import java.util.Optional;
 
@@ -7,8 +7,8 @@ import org.springframework.stereotype.Service;
 
 import br.com.futeba.models.Player;
 import br.com.futeba.models.Position;
-import br.com.futeba.repositorys.PositionRepository;
-import br.com.futeba.service.PositionService;
+import br.com.futeba.repositories.PositionRepository;
+import br.com.futeba.services.PositionService;
 
 @Service("PositionService")
 public class PositionServiceImpl implements PositionService {

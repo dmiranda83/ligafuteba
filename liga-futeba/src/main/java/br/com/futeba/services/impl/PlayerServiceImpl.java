@@ -1,4 +1,4 @@
-package br.com.futeba.service.impl;
+package br.com.futeba.services.impl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,8 +9,8 @@ import org.springframework.stereotype.Service;
 
 import br.com.futeba.dtos.PlayerStatsDTO;
 import br.com.futeba.models.Player;
-import br.com.futeba.repositorys.PlayerRepository;
-import br.com.futeba.service.PlayerService;
+import br.com.futeba.repositories.PlayerRepository;
+import br.com.futeba.services.PlayerService;
 
 @Service("PlayerService")
 public class PlayerServiceImpl implements PlayerService {

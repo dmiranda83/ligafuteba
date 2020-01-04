@@ -18,8 +18,9 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
+import br.com.futeba.controllers.TeamCategoryControllerV1;
 import br.com.futeba.models.Category;
-import br.com.futeba.service.CategoryService;
+import br.com.futeba.services.CategoryService;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(TeamCategoryControllerV1.class)

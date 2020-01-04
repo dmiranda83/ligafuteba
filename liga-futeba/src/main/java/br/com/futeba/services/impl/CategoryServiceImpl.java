@@ -1,13 +1,14 @@
-package br.com.futeba.service.impl;
+package br.com.futeba.services.impl;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.futeba.models.Category;
-import br.com.futeba.repositorys.CategoryRepository;
-import br.com.futeba.service.CategoryService;
+import br.com.futeba.repositories.CategoryRepository;
+import br.com.futeba.services.CategoryService;
 
 @Service("CategoryService")
 public class CategoryServiceImpl implements CategoryService {
@@ -26,7 +27,7 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
-	public Iterable<Category> findAll() {
+	public List<Category> findAll() {
 		return repository.findAll();
 	}
 

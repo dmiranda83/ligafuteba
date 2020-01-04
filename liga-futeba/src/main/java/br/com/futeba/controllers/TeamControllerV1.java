@@ -1,4 +1,4 @@
-package br.com.futeba.controller;
+package br.com.futeba.controllers;
 
 import java.util.Optional;
 
@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.futeba.dtos.StatsDTO;
 import br.com.futeba.models.Position;
 import br.com.futeba.models.Team;
-import br.com.futeba.service.TeamService;
+import br.com.futeba.services.TeamService;
 
 @RestController
 @CrossOrigin (origins = "*") 

@@ -1,4 +1,4 @@
-package br.com.futeba.service.impl;
+package br.com.futeba.services.impl;
 
 import java.util.Optional;
 
@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.futeba.models.Place;
-import br.com.futeba.repositorys.PlaceRepository;
-import br.com.futeba.service.PlaceService;
+import br.com.futeba.repositories.PlaceRepository;
+import br.com.futeba.services.PlaceService;
 
 @Service("PlaceService")
 public class PlaceServiceImpl implements PlaceService {

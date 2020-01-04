@@ -15,8 +15,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import br.com.futeba.models.Category;
-import br.com.futeba.repositorys.CategoryRepository;
-import br.com.futeba.service.CategoryService;
+import br.com.futeba.repositories.CategoryRepository;
+import br.com.futeba.services.CategoryService;
+import br.com.futeba.services.impl.CategoryServiceImpl;
 
 @RunWith(SpringRunner.class)
 public class CategoryServiceImplIntegrationTest {

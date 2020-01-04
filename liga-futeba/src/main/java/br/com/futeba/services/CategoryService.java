@@ -1,5 +1,6 @@
-package br.com.futeba.service;
+package br.com.futeba.services;
 
+import java.util.List;
 import java.util.Optional;
 
 import br.com.futeba.models.Category;
@@ -8,7 +9,7 @@ public interface CategoryService {
 
 	Category save(Category esporte);
 
-	Iterable<Category> findAll();
+	List<Category> findAll();
 
 	Optional<Category> findById(Long id);
 

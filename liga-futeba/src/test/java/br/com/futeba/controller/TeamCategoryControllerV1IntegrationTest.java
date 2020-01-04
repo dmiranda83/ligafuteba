@@ -34,7 +34,7 @@ import com.google.common.net.HttpHeaders;
 
 import br.com.futeba.GameDateApplication;
 import br.com.futeba.models.Category;
-import br.com.futeba.service.CategoryService;
+import br.com.futeba.services.CategoryService;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK, classes = GameDateApplication.class)
@@ -125,7 +125,7 @@ public class TeamCategoryControllerV1IntegrationTest {
 	public void givenTeamCategories_whenSaveCategory_thenStatus201()
 			throws Exception {
 		mvc.perform(post("/api/v1/teamCategory/")
-				.content(om.writeValueAsString(this.futsal))
+				.content(om.writeValueAsString(this.basketball))
 				.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON))
 				.andDo(print()).andExpect(status().isCreated())
 				.andExpect(jsonPath("$.id", is(1)))

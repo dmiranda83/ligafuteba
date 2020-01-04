@@ -1,4 +1,4 @@
-package br.com.futeba.controller;
+package br.com.futeba.controllers;
 
 
 import java.util.List;
@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.futeba.models.Game;
-import br.com.futeba.service.GameService;
+import br.com.futeba.services.GameService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
