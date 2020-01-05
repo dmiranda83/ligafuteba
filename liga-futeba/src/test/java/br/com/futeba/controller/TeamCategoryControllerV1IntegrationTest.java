@@ -82,7 +82,7 @@ public class TeamCategoryControllerV1IntegrationTest {
 	@Test
 	public void givenTeamCategories_whenListAllCategories_thenStatus200()
 			throws Exception {
-		mvc.perform(get("/api/v1/teamCategory/listAll")
+		mvc.perform(get("/api/v1/teamCategory/")
 				.contentType(MediaType.APPLICATION_JSON)).andDo(print())
 				.andExpect(status().isOk())
 				.andExpect(content()
