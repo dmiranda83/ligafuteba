@@ -70,10 +70,12 @@ public class TeamCategoryControllerV1 {
 	public ResponseEntity<Category> save(@RequestBody Category teamCategory) {
 
 		logger.debug("REST request to save Category: {}", teamCategory);
+
 		Optional<Category> foundCategory = service
 				.findByName(teamCategory.getName());
-		if (foundCategory.isPresent() && teamCategory.getName()
-				.equals(foundCategory.get().getName())) {
+		if (teamCategory.getName() == null
+				|| (foundCategory.isPresent() && teamCategory.getName()
+						.equals(foundCategory.get().getName()))) {
 			return getHttpStatusBadRequest("categoryExists",
 					"A new category cannot exist");
 		}
