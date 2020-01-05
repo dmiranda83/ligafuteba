@@ -4,8 +4,10 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -45,6 +47,7 @@ public class TeamCategoryControllerV1IntegrationTest {
 	private static final String NAME_CATEGORY_FUTSAL = "Futsal";
 	private static final String NAME_CATEGORY_SOCCER = "Soccer";
 	private static final String NAME_CATEGORY_BASKETBALL = "Basketball";
+	private static final String NONEXISTENT_CATEGORY_NAME = "Nonexistent";
 
 	private static final ObjectMapper mapper = new ObjectMapper();
 
@@ -72,10 +75,12 @@ public class TeamCategoryControllerV1IntegrationTest {
 				.willReturn(Optional.of(futsal));
 		given(service.findById(futsal.getId())).willReturn(Optional.of(futsal));
 		given(service.save(any(Category.class))).willReturn(this.futsal);
+		doNothing().when(service).deleteById(1L);
+		doNothing().when(service).deleteAll();
 	}
 
 	@Test
-	public void givenTeamCategories_whenGetAllCategories_thenStatus200()
+	public void givenTeamCategories_whenListAllCategories_thenStatus200()
 			throws Exception {
 		mvc.perform(get("/api/v1/teamCategory/listAll")
 				.contentType(MediaType.APPLICATION_JSON)).andDo(print())
@@ -94,9 +99,9 @@ public class TeamCategoryControllerV1IntegrationTest {
 	}
 
 	@Test
-	public void givenTeamCategories_whenGetCategoryById_thenStatus200()
+	public void givenTeamCategories_whenListCategoryById_thenStatus200()
 			throws Exception {
-		mvc.perform(get("/api/v1/teamCategory/list/1")
+		mvc.perform(get("/api/v1/teamCategory/1")
 				.contentType(MediaType.APPLICATION_JSON)).andDo(print())
 				.andExpect(status().isOk())
 				.andExpect(content()
@@ -108,17 +113,36 @@ public class TeamCategoryControllerV1IntegrationTest {
 	}
 
 	@Test
-	public void givenTeamCategories_whenGetCategoryByName_thenStatus200()
+	public void givenTeamCategories_whenListCategoryByNonexistentId_thenStatus404()
 			throws Exception {
-		mvc.perform(
-				get("/api/v1/teamCategory/list/name/" + NAME_CATEGORY_FUTSAL)
-						.contentType(MediaType.APPLICATION_JSON))
-				.andDo(print()).andExpect(status().isOk())
+		mvc.perform(get("/api/v1/teamCategory/5")
+				.contentType(MediaType.APPLICATION_JSON)).andDo(print())
+				.andExpect(status().isNotFound());
+
+		verify(service, times(1)).findById(5L);
+	}
+
+	@Test
+	public void givenTeamCategories_whenListCategoryByName_thenStatus200()
+			throws Exception {
+		mvc.perform(get("/api/v1/teamCategory/list/" + NAME_CATEGORY_FUTSAL)
+				.contentType(MediaType.APPLICATION_JSON)).andDo(print())
+				.andExpect(status().isOk())
 				.andExpect(content()
 						.contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
 				.andExpect(jsonPath("$.name").value(NAME_CATEGORY_FUTSAL));
 
 		verify(service, times(1)).findByName(NAME_CATEGORY_FUTSAL);
+	}
+	@Test
+	public void givenTeamCategories_whenListCategoryByNonexistentName_thenStatus404()
+			throws Exception {
+		mvc.perform(
+				get("/api/v1/teamCategory/list/" + NONEXISTENT_CATEGORY_NAME)
+						.contentType(MediaType.APPLICATION_JSON))
+				.andDo(print()).andExpect(status().isNotFound());
+
+		verify(service, times(1)).findByName(NONEXISTENT_CATEGORY_NAME);
 	}
 
 	@Test
@@ -149,13 +173,33 @@ public class TeamCategoryControllerV1IntegrationTest {
 	public void givenTeamCategories_whenSaveCategoryWithEmptyName_thenStatus400()
 			throws Exception {
 
-		this.futsal.setId(null);
+		this.futsal.setName(null);
 
 		mvc.perform(post("/api/v1/teamCategory/")
 				.content(mapper.writeValueAsString(this.futsal))
 				.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON))
 				.andDo(print()).andExpect(status().isBadRequest());
 
-		verify(service, times(0)).save(any(Category.class));;
+		verify(service, times(0)).save(any(Category.class));
 	}
+
+	@Test
+	public void givenTeamCategories_whenDeleteCategory_thenStatus200()
+			throws Exception {
+		mvc.perform(delete("/api/v1/teamCategory/")
+				.accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk());
+
+		verify(service, times(1)).deleteAll();
+	}
+
+	@Test
+	public void givenTeamCategories_whenDeleteCategoryById_thenStatus200()
+			throws Exception {
+
+		mvc.perform(delete("/api/v1/teamCategory/1")).andDo(print())
+				.andExpect(status().isOk());
+
+		verify(service, times(1)).deleteById(1L);
+	}
+
 }
