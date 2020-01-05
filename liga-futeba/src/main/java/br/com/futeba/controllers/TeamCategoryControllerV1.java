@@ -38,13 +38,13 @@ public class TeamCategoryControllerV1 {
 	@Autowired
 	private CategoryService service;
 
-	@GetMapping("/listAll")
+	@GetMapping("/")
 	public ResponseEntity<List<Category>> listAll() {
 		logger.info("Listing all team category");
 		return ResponseEntity.ok().body(service.findAll());
 	}
 
-	@GetMapping("/list/{id}")
+	@GetMapping("/{id}")
 	public ResponseEntity<Category> listById(@PathVariable Long id) {
 		logger.info("Find category id: {}", id);
 		Optional<Category> category = service.findById(id);
@@ -54,8 +54,8 @@ public class TeamCategoryControllerV1 {
 						HttpStatus.NOT_FOUND));
 	}
 
-	@GetMapping("/list/name/{name}")
-	public ResponseEntity<Category> getCategoryByName(
+	@GetMapping("/list/{name}")
+	public ResponseEntity<Category> listByName(
 			@PathVariable("name") String name) {
 		logger.info("Find category: {}", name);
 		Optional<Category> category = service.findByName(name);
@@ -111,8 +111,9 @@ public class TeamCategoryControllerV1 {
 		return ResponseEntity.noContent().build();
 	}
 
-	@DeleteMapping("/delete/{id}")
-	public ResponseEntity<Category> delete(@PathVariable("id") final long id) {
+	@DeleteMapping("/{id}")
+	public ResponseEntity<Category> deleteById(
+			@PathVariable("id") final long id) {
 		logger.info("Deleting team category id {}", id);
 		service.deleteById(id);
 		return ResponseEntity.ok().headers(HeaderUtil
@@ -120,7 +121,7 @@ public class TeamCategoryControllerV1 {
 				.build();
 	}
 
-	@DeleteMapping("/delete")
+	@DeleteMapping("/")
 	public void delete() {
 		logger.info("Deleting all team category");
 		service.deleteAll();
