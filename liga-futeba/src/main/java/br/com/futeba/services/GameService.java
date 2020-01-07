@@ -9,14 +9,16 @@ public interface GameService {
 
 	Game save(Game game);
 
-    List<Game> findAll(Integer year);
+	List<Game> findAll();
 
-    Optional<Game> findById(long id);
+	List<Game> findByYear(Integer year);
 
-    Optional<Game> update(Optional<Game> currentGame);
+	Optional<Game> findById(long id);
 
-    void deleteAll();
+	Optional<Game> update(Optional<Game> currentGame);
 
-    void deleteById(long id);
+	void deleteAll();
+
+	void deleteById(long id);
 
 }

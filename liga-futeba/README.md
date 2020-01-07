@@ -1,37 +1,42 @@
-Sample REST CRUD API with Spring Boot, Mysql, JPA and Hibernate
+# Sample REST CRUD API with Spring Boot, Mysql, JPA and Hibernate
 
-Steps to Setup
+## Steps to Setup
 
-1. Clone the application
+### 1. Clone the application
+https://github.com/dmiranda83/ligafuteba.git
 
-https://github.com/givanthak/spring-boot-rest-api-tutorial.git
-2. Create Mysql database
-
-create database user_database
-3. Change mysql username and password as per your installation
-
+### 2. Create Mysql database
+ create database liga_futeba
+ 
+### 3. Change mysql username and password as per your installation
 open src/main/resources/application.properties
 
 change spring.datasource.username and spring.datasource.password as per your mysql installation
 
-4. Build and run the app using maven
+### 4. Build and run the app using maven
 
-mvn package
-java -jar target/spring-boot-rest-api-tutorial-0.0.1-SNAPSHOT.jar
+## mvn package
+java -jar target/futeba-0.0.1-SNAPSHOT.war
+
 Alternatively, you can run the app without packaging it using -
 
-mvn spring-boot:run
+## mvn spring-boot:run
 The app will start running at http://localhost:8080.
 
-Explore Rest APIs
-The app defines following CRUD APIs.
+## Explore Rest APIs
 
-GET /api/v1/users
+### 1. Team categories
 
-POST /api/v1/users
+GET /api/v1/teamCategories
 
-GET /api/v1/users/{userId}
+GET /api/v1/teamCategories/{categoryId}
 
-PUT /api/v1/users/{userId}
+GET /api/v1/teamCategories/list/{categoryName}
 
-DELETE /api/v1/users/{userId}
+POST /api/v1/teamCategories
+
+PUT /api/v1/teamCategories/{categoryId}
+
+DELETE /api/v1/teamCategories
+
+DELETE /api/v1/teamCategories/{categoryId}

@@ -23,7 +23,7 @@ public class Game implements Serializable {
 	@Id
 	@Column(name = "game_id", nullable = false)
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private long id;
+	private Long id;
 
 	private Timestamp date;
 
@@ -68,11 +68,24 @@ public class Game implements Serializable {
 		// default contructor
 	}
 
-	public long getId() {
+	public Game(Long id, Team homeTeam, Team awayTeam) {
+		super();
+		this.id = id;
+		this.homeTeam = homeTeam;
+		this.awayTeam = awayTeam;
+	}
+
+	public Game(Team homeTeam, Team awayTeam) {
+		super();
+		this.homeTeam = homeTeam;
+		this.awayTeam = awayTeam;
+	}
+
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(final long id) {
+	public void setId(final Long id) {
 		this.id = id;
 	}
 

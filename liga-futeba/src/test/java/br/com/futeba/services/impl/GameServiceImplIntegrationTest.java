@@ -22,7 +22,7 @@ import br.com.futeba.services.CategoryService;
 import br.com.futeba.utils.TestUtil;
 
 @RunWith(SpringRunner.class)
-public class CategoryServiceImplIntegrationTest {
+public class GameServiceImplIntegrationTest {
 
 	@TestConfiguration
 	static class CategoryServiceImplTestContextConfguration {

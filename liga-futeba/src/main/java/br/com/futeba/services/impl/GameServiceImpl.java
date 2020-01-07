@@ -13,36 +13,41 @@ import br.com.futeba.services.GameService;
 @Service("GameService")
 public class GameServiceImpl implements GameService {
 
-    @Autowired
-    private GameRepository repository;
+	@Autowired
+	private GameRepository repository;
 
-    @Override
-    public Game save(final Game game) {
-        return repository.save(game);
-    }
+	@Override
+	public Game save(final Game game) {
+		return repository.save(game);
+	}
 
-    @Override
-    public List<Game> findAll(Integer year) {
-        return repository.getGames(year);
-    }
+	@Override
+	public List<Game> findAll() {
+		return repository.findAll();
+	}
 
-    @Override
-    public Optional<Game> findById(final long id) {
-        return repository.findById(id);
-    }
+	@Override
+	public List<Game> findByYear(Integer year) {
+		return repository.getGames(year);
+	}
 
-    @Override
-    public Optional<Game> update(Optional<Game> game) {
-        return repository.saveAndFlush(game);
-    }
+	@Override
+	public Optional<Game> findById(final long id) {
+		return repository.findById(id);
+	}
 
-    @Override
-    public void deleteById(final long id) {
-        repository.deleteById(id);
-    }
+	@Override
+	public Optional<Game> update(Optional<Game> game) {
+		return repository.saveAndFlush(game);
+	}
 
-    @Override
-    public void deleteAll() {
-        repository.deleteAll();
-    }
+	@Override
+	public void deleteById(final long id) {
+		repository.deleteById(id);
+	}
+
+	@Override
+	public void deleteAll() {
+		repository.deleteAll();
+	}
 }

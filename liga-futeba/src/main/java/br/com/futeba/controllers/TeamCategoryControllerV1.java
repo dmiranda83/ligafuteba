@@ -27,7 +27,7 @@ import br.com.futeba.utils.HeaderUtil;
 
 @RestController
 @CrossOrigin(origins = "*")
-@RequestMapping("/api/v1/teamCategory")
+@RequestMapping("/api/v1")
 public class TeamCategoryControllerV1 {
 
 	private static final String ENTITY_NAME = "category";
@@ -38,13 +38,13 @@ public class TeamCategoryControllerV1 {
 	@Autowired
 	private CategoryService service;
 
-	@GetMapping("/")
+	@GetMapping("/teamCategories")
 	public ResponseEntity<List<Category>> listAll() {
 		logger.info("Listing all team category");
 		return ResponseEntity.ok().body(service.findAll());
 	}
 
-	@GetMapping("/{id}")
+	@GetMapping("/teamCategories/{id}")
 	public ResponseEntity<Category> listById(@PathVariable Long id) {
 		logger.info("Find category id: {}", id);
 		Optional<Category> category = service.findById(id);
@@ -54,7 +54,7 @@ public class TeamCategoryControllerV1 {
 						HttpStatus.NOT_FOUND));
 	}
 
-	@GetMapping("/list/{name}")
+	@GetMapping("/teamCategories/list/{name}")
 	public ResponseEntity<Category> listByName(
 			@PathVariable("name") String name) {
 		logger.info("Find category: {}", name);
@@ -66,11 +66,8 @@ public class TeamCategoryControllerV1 {
 
 	}
 
-	@PostMapping("/")
+	@PostMapping("/teamCategories")
 	public ResponseEntity<Category> save(@RequestBody Category teamCategory) {
-
-		logger.debug("REST request to save Category: {}", teamCategory);
-
 		Optional<Category> foundCategory = service
 				.findByName(teamCategory.getName());
 		if (teamCategory.getName() == null
@@ -96,7 +93,7 @@ public class TeamCategoryControllerV1 {
 		}
 	}
 
-	@PutMapping("/{id}")
+	@PutMapping("/teamCategories/{id}")
 	public ResponseEntity<Category> update(@PathVariable Long id,
 			@RequestBody Category teamCategory) {
 
@@ -113,7 +110,7 @@ public class TeamCategoryControllerV1 {
 		return ResponseEntity.noContent().build();
 	}
 
-	@DeleteMapping("/{id}")
+	@DeleteMapping("/teamCategories/{id}")
 	public ResponseEntity<Category> deleteById(
 			@PathVariable("id") final long id) {
 		logger.info("Deleting team category id {}", id);
@@ -123,7 +120,7 @@ public class TeamCategoryControllerV1 {
 				.build();
 	}
 
-	@DeleteMapping("/")
+	@DeleteMapping("/teamCategories")
 	public void delete() {
 		logger.info("Deleting all team category");
 		service.deleteAll();

@@ -28,6 +28,24 @@ public class Team implements Serializable {
 		// Default constructor
 	}
 
+	public Team(long id, String name, Boolean away, String responsibleName,
+			String phoneContact1) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.away = away;
+		this.responsibleName = responsibleName;
+		this.phoneContact1 = phoneContact1;
+	}
+	public Team(String name, Boolean away, String responsibleName,
+			String phoneContact1) {
+		super();
+		this.name = name;
+		this.away = away;
+		this.responsibleName = responsibleName;
+		this.phoneContact1 = phoneContact1;
+	}
+
 	@Id
 	@Column(name = "team_id", nullable = false)
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -56,8 +74,9 @@ public class Team implements Serializable {
 	private Place place;
 
 	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(name = "team_player", joinColumns = { @JoinColumn(name = "team_id") }, inverseJoinColumns = {
-			@JoinColumn(name = "player_id") })
+	@JoinTable(name = "team_player", joinColumns = {
+			@JoinColumn(name = "team_id")}, inverseJoinColumns = {
+					@JoinColumn(name = "player_id")})
 	@JsonIgnoreProperties("teams")
 	private List<Player> players = new ArrayList<>();
 

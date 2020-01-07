@@ -37,17 +37,13 @@ import com.google.common.net.HttpHeaders;
 import br.com.futeba.GameDateApplication;
 import br.com.futeba.models.Category;
 import br.com.futeba.services.CategoryService;
+import br.com.futeba.utils.TestUtil;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK, classes = GameDateApplication.class)
 @AutoConfigureMockMvc
 @TestPropertySource(locations = "classpath:application-integrationtest.properties")
 public class TeamCategoryControllerV1IntegrationTest {
-
-	private static final String NAME_CATEGORY_FUTSAL = "Futsal";
-	private static final String NAME_CATEGORY_SOCCER = "Soccer";
-	private static final String NAME_CATEGORY_BASKETBALL = "Basketball";
-	private static final String NONEXISTENT_CATEGORY_NAME = "Nonexistent";
 
 	private static final ObjectMapper mapper = new ObjectMapper();
 
@@ -65,9 +61,9 @@ public class TeamCategoryControllerV1IntegrationTest {
 
 	@Before
 	public void setUp() {
-		this.futsal = new Category(1L, NAME_CATEGORY_FUTSAL);
-		this.soccer = new Category(2L, NAME_CATEGORY_SOCCER);
-		this.basketball = new Category(3L, NAME_CATEGORY_BASKETBALL);
+		this.futsal = new Category(1L, TestUtil.NAME_CATEGORY_FUTSAL);
+		this.soccer = new Category(2L, TestUtil.NAME_CATEGORY_SOCCER);
+		this.basketball = new Category(3L, TestUtil.NAME_CATEGORY_BASKETBALL);
 
 		this.allCategories = Arrays.asList(futsal, soccer, basketball);
 		given(service.findAll()).willReturn(allCategories);
@@ -82,18 +78,21 @@ public class TeamCategoryControllerV1IntegrationTest {
 	@Test
 	public void givenTeamCategories_whenListAllCategories_thenStatus200()
 			throws Exception {
-		mvc.perform(get("/api/v1/teamCategory/")
+		mvc.perform(get("/api/v1/teamCategories")
 				.contentType(MediaType.APPLICATION_JSON)).andDo(print())
 				.andExpect(status().isOk())
 				.andExpect(content()
 						.contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
 				.andExpect(jsonPath("$", hasSize(3)))
 				.andExpect(jsonPath("$.[0].id", is(1)))
-				.andExpect(jsonPath("$.[0].name").value(NAME_CATEGORY_FUTSAL))
+				.andExpect(jsonPath("$.[0].name")
+						.value(TestUtil.NAME_CATEGORY_FUTSAL))
 				.andExpect(jsonPath("$.[1].id", is(2)))
-				.andExpect(jsonPath("$.[1].name").value(NAME_CATEGORY_SOCCER))
-				.andExpect(jsonPath("$.[2].id", is(3))).andExpect(
-						jsonPath("$.[2].name").value(NAME_CATEGORY_BASKETBALL));
+				.andExpect(jsonPath("$.[1].name")
+						.value(TestUtil.NAME_CATEGORY_SOCCER))
+				.andExpect(jsonPath("$.[2].id", is(3)))
+				.andExpect(jsonPath("$.[2].name")
+						.value(TestUtil.NAME_CATEGORY_BASKETBALL));
 
 		verify(service, times(1)).findAll();
 	}
@@ -101,13 +100,13 @@ public class TeamCategoryControllerV1IntegrationTest {
 	@Test
 	public void givenTeamCategories_whenListCategoryById_thenStatus200()
 			throws Exception {
-		mvc.perform(get("/api/v1/teamCategory/1")
+		mvc.perform(get("/api/v1/teamCategories/1")
 				.contentType(MediaType.APPLICATION_JSON)).andDo(print())
 				.andExpect(status().isOk())
 				.andExpect(content()
 						.contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-				.andExpect(jsonPath("$.id", is(1)))
-				.andExpect(jsonPath("$.name", is(NAME_CATEGORY_FUTSAL)));
+				.andExpect(jsonPath("$.id", is(1))).andExpect(
+						jsonPath("$.name", is(TestUtil.NAME_CATEGORY_FUTSAL)));
 
 		verify(service, times(1)).findById(1L);
 	}
@@ -115,7 +114,7 @@ public class TeamCategoryControllerV1IntegrationTest {
 	@Test
 	public void givenTeamCategories_whenListCategoryByNonexistentId_thenStatus404()
 			throws Exception {
-		mvc.perform(get("/api/v1/teamCategory/5")
+		mvc.perform(get("/api/v1/teamCategories/5")
 				.contentType(MediaType.APPLICATION_JSON)).andDo(print())
 				.andExpect(status().isNotFound());
 
@@ -125,35 +124,38 @@ public class TeamCategoryControllerV1IntegrationTest {
 	@Test
 	public void givenTeamCategories_whenListCategoryByName_thenStatus200()
 			throws Exception {
-		mvc.perform(get("/api/v1/teamCategory/list/" + NAME_CATEGORY_FUTSAL)
-				.contentType(MediaType.APPLICATION_JSON)).andDo(print())
-				.andExpect(status().isOk())
+		mvc.perform(get(
+				"/api/v1/teamCategories/list/" + TestUtil.NAME_CATEGORY_FUTSAL)
+						.contentType(MediaType.APPLICATION_JSON))
+				.andDo(print()).andExpect(status().isOk())
 				.andExpect(content()
 						.contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-				.andExpect(jsonPath("$.name").value(NAME_CATEGORY_FUTSAL));
+				.andExpect(jsonPath("$.name")
+						.value(TestUtil.NAME_CATEGORY_FUTSAL));
 
-		verify(service, times(1)).findByName(NAME_CATEGORY_FUTSAL);
+		verify(service, times(1)).findByName(TestUtil.NAME_CATEGORY_FUTSAL);
 	}
 	@Test
 	public void givenTeamCategories_whenListCategoryByNonexistentName_thenStatus404()
 			throws Exception {
-		mvc.perform(
-				get("/api/v1/teamCategory/list/" + NONEXISTENT_CATEGORY_NAME)
+		mvc.perform(get("/api/v1/teamCategories/list/"
+				+ TestUtil.NONEXISTENT_CATEGORY_NAME)
 						.contentType(MediaType.APPLICATION_JSON))
 				.andDo(print()).andExpect(status().isNotFound());
 
-		verify(service, times(1)).findByName(NONEXISTENT_CATEGORY_NAME);
+		verify(service, times(1))
+				.findByName(TestUtil.NONEXISTENT_CATEGORY_NAME);
 	}
 
 	@Test
 	public void givenTeamCategories_whenSaveCategory_thenStatus201()
 			throws Exception {
-		mvc.perform(post("/api/v1/teamCategory/")
+		mvc.perform(post("/api/v1/teamCategories")
 				.content(mapper.writeValueAsString(this.basketball))
 				.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON))
 				.andDo(print()).andExpect(status().isCreated())
-				.andExpect(jsonPath("$.id", is(1)))
-				.andExpect(jsonPath("$.name", is(NAME_CATEGORY_FUTSAL)));
+				.andExpect(jsonPath("$.id", is(1))).andExpect(
+						jsonPath("$.name", is(TestUtil.NAME_CATEGORY_FUTSAL)));
 
 		verify(service, times(1)).save(any(Category.class));;
 	}
@@ -161,7 +163,7 @@ public class TeamCategoryControllerV1IntegrationTest {
 	@Test
 	public void givenTeamCategories_whenSaveExistingCategory_thenStatus400()
 			throws Exception {
-		mvc.perform(post("/api/v1/teamCategory/")
+		mvc.perform(post("/api/v1/teamCategories")
 				.content(mapper.writeValueAsString(this.futsal))
 				.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON))
 				.andDo(print()).andExpect(status().isBadRequest());
@@ -175,7 +177,7 @@ public class TeamCategoryControllerV1IntegrationTest {
 
 		this.futsal.setName(null);
 
-		mvc.perform(post("/api/v1/teamCategory/")
+		mvc.perform(post("/api/v1/teamCategories")
 				.content(mapper.writeValueAsString(this.futsal))
 				.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON))
 				.andDo(print()).andExpect(status().isBadRequest());
@@ -186,7 +188,7 @@ public class TeamCategoryControllerV1IntegrationTest {
 	@Test
 	public void givenTeamCategories_whenDeleteCategory_thenStatus200()
 			throws Exception {
-		mvc.perform(delete("/api/v1/teamCategory/")
+		mvc.perform(delete("/api/v1/teamCategories")
 				.accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk());
 
 		verify(service, times(1)).deleteAll();
@@ -196,7 +198,7 @@ public class TeamCategoryControllerV1IntegrationTest {
 	public void givenTeamCategories_whenDeleteCategoryById_thenStatus200()
 			throws Exception {
 
-		mvc.perform(delete("/api/v1/teamCategory/1")).andDo(print())
+		mvc.perform(delete("/api/v1/teamCategories/1")).andDo(print())
 				.andExpect(status().isOk());
 
 		verify(service, times(1)).deleteById(1L);

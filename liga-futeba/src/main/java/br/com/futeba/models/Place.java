@@ -9,6 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 
+import org.springframework.util.StringUtils;
+
 @Entity(name = "place")
 public class Place implements Serializable {
 
@@ -87,4 +89,7 @@ public class Place implements Serializable {
 		this.zipCode = zipCode;
 	}
 
+	public Boolean isPlaceWithoutZipCode() {
+		return StringUtils.isEmpty(this.zipCode);
+	}
 }

@@ -1,5 +1,6 @@
 package br.com.futeba.controllers;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.slf4j.Logger;
@@ -20,77 +21,82 @@ import br.com.futeba.models.Place;
 import br.com.futeba.services.PlaceService;
 
 @RestController
-@CrossOrigin (origins = "*")
+@CrossOrigin(origins = "*")
 @RequestMapping("/api/v1/place")
 public class PlaceControllerV1 {
 
-    private static final Logger logger = LoggerFactory.getLogger(PlaceControllerV1.class);
+	private static final Logger logger = LoggerFactory
+			.getLogger(PlaceControllerV1.class);
 
-    @Autowired
-    private PlaceService service;
+	@Autowired
+	private PlaceService service;
 
-    @PostMapping("/save")
-    public String save(@RequestBody final Place place) {
-        try {
-            service.save(place);
+	@PostMapping("/save")
+	public String save(@RequestBody final Place place) {
+		try {
+			service.save(place);
 
-        } catch (Exception e) {
-            return "Error saving place: " + e.toString();
-        }
-        return "Place successfully save! (id = " + place.getId() + " nome = " + place.getName() + ")";
-    }
-    
-    @GetMapping("/list/{name}")
-    public @ResponseBody Optional<Place> listByName(@PathVariable("name") String name){
-    	logger.info("Find place: {}", name);
-    	return service.findByName(name);
-    }
+		} catch (Exception e) {
+			return "Error saving place: " + e.toString();
+		}
+		return "Place successfully save! (id = " + place.getId() + " nome = "
+				+ place.getName() + ")";
+	}
 
-    @GetMapping("/list")
-    public @ResponseBody Iterable<Place> listar() {
-        logger.info("Listing all places");
-        return service.findAll();
-    }
+	@GetMapping("/list/{name}")
+	public @ResponseBody Optional<Place> listByName(
+			@PathVariable("name") String name) {
+		logger.info("Find place: {}", name);
+		return service.findByName(name);
+	}
 
-    @PutMapping("/update/{id}")
-    public Optional<Place> update(@PathVariable("id") final long id, @RequestBody final Place place) {
+	@GetMapping("/list")
+	public @ResponseBody List<Place> listar() {
+		logger.info("Listing all places");
+		return service.findAll();
+	}
 
-        logger.info("Updating id place {}", id);
-        Optional<Place> currentPlace = service.findById(id);
-        
-        if (currentPlace.isPresent()) {
-        	currentPlace.get().setName(place.getName());
-        	currentPlace.get().setType(place.getType());
-        	currentPlace.get().setAddress(place.getAddress());
-        	currentPlace.get().setCity(place.getCity());
-        	currentPlace.get().setNeighborhood(place.getNeighborhood());
-        	currentPlace.get().setZipCode(place.getZipCode());
-        }else {
-        	logger.error("id place {} not found.", id);
-            return currentPlace;
-        }
+	@PutMapping("/update/{id}")
+	public Optional<Place> update(@PathVariable("id") final long id,
+			@RequestBody final Place place) {
 
-        return service.update(currentPlace);
-    }
+		logger.info("Updating id place {}", id);
+		Optional<Place> currentPlace = service.findById(id);
 
-    @DeleteMapping("/delete/{id}")
-    public String delete(@PathVariable("id") final long id) {
-        Optional<Place> currentPlace = service.findById(id);
+		if (currentPlace.isPresent()) {
+			currentPlace.get().setName(place.getName());
+			currentPlace.get().setType(place.getType());
+			currentPlace.get().setAddress(place.getAddress());
+			currentPlace.get().setCity(place.getCity());
+			currentPlace.get().setNeighborhood(place.getNeighborhood());
+			currentPlace.get().setZipCode(place.getZipCode());
+		} else {
+			logger.error("id place {} not found.", id);
+			return currentPlace;
+		}
 
-        if (currentPlace.isPresent()) {
-        	logger.info("Deleting place id {}", id);
-        	service.deleteById(id);
-        }else {
-        	logger.error("Id place {} not found.", id);
-        }
-        
-        return "Place delete successfully! (id = " + currentPlace.get().getId() + " nome = " + currentPlace.get().getName() + ")";
-    }
+		return service.update(currentPlace);
+	}
 
-    @DeleteMapping("/deletar")
-    public void delete() {
+	@DeleteMapping("/delete/{id}")
+	public String delete(@PathVariable("id") final long id) {
+		Optional<Place> currentPlace = service.findById(id);
 
-        logger.info("deleting all places");
-        service.deleteAll();
-    }
+		if (currentPlace.isPresent()) {
+			logger.info("Deleting place id {}", id);
+			service.deleteById(id);
+		} else {
+			logger.error("Id place {} not found.", id);
+		}
+
+		return "Place delete successfully! (id = " + currentPlace.get().getId()
+				+ " nome = " + currentPlace.get().getName() + ")";
+	}
+
+	@DeleteMapping("/deletar")
+	public void delete() {
+
+		logger.info("deleting all places");
+		service.deleteAll();
+	}
 }
