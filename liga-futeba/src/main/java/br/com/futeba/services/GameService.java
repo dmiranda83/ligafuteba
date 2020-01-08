@@ -21,4 +21,6 @@ public interface GameService {
 
 	void deleteById(Long id);
 
+	List<Game> listGamesByYear(Integer year);
+
 }

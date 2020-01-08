@@ -1,7 +1,8 @@
 package br.com.futeba.models;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -25,9 +26,9 @@ public class Game implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
-	private Timestamp date;
+	private LocalDate date;
 
-	private Timestamp hour;
+	private LocalDateTime hour;
 
 	private Integer squad;
 
@@ -89,19 +90,19 @@ public class Game implements Serializable {
 		this.id = id;
 	}
 
-	public Timestamp getDate() {
+	public LocalDate getDate() {
 		return date;
 	}
 
-	public void setDate(final Timestamp date) {
+	public void setDate(final LocalDate date) {
 		this.date = date;
 	}
 
-	public Timestamp getHour() {
+	public LocalDateTime getHour() {
 		return hour;
 	}
 
-	public void setHour(final Timestamp hour) {
+	public void setHour(final LocalDateTime hour) {
 		this.hour = hour;
 	}
 

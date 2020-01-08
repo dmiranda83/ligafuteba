@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import br.com.futeba.dtos.TeamStatsDTO;
+import br.com.futeba.models.Player;
 import br.com.futeba.models.Team;
 
 public interface TeamService {
@@ -23,5 +24,7 @@ public interface TeamService {
 	void deleteAll();
 
 	Iterable<TeamStatsDTO> getTeamStats(Integer year);
+
+	List<Team> listTeamByPlayer(Player player);
 
 }

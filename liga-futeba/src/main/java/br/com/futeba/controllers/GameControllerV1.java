@@ -66,7 +66,7 @@ public class GameControllerV1 {
 			@ApiResponse(code = 500, message = "An exception was thrown"),})
 	public @ResponseBody List<Game> listByYear(
 			@PathVariable("year") final Integer year) {
-		return service.findByYear(year);
+		return service.listGamesByYear(year);
 	}
 
 	@PostMapping("/games")

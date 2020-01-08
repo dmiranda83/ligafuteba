@@ -1,5 +1,6 @@
 package br.com.futeba.services.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -49,5 +50,18 @@ public class GameServiceImpl implements GameService {
 	@Override
 	public void deleteAll() {
 		repository.deleteAll();
+	}
+
+	@Override
+	public List<Game> listGamesByYear(Integer year) {
+		List<Game> listGamesByYear = new ArrayList<>();
+		repository.findAll().stream()
+				.filter(game -> isGameOfTheYear(game, year))
+				.forEach(listGamesByYear::add);
+		return listGamesByYear;
+	}
+
+	private Boolean isGameOfTheYear(Game game, Integer year) {
+		return Integer.valueOf(game.getDate().getYear()) == year;
 	}
 }

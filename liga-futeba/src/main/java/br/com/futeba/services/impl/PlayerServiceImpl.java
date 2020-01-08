@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import br.com.futeba.dtos.PlayerStatsDTO;
 import br.com.futeba.models.Player;
+import br.com.futeba.models.Team;
 import br.com.futeba.repositories.PlayerRepository;
 import br.com.futeba.services.PlayerService;
 
@@ -51,6 +52,15 @@ public class PlayerServiceImpl implements PlayerService {
 	@Override
 	public void deleteAll() {
 		repository.deleteAll();
+	}
+
+	@Override
+	public List<Player> listPlayerByTeam(Team team) {
+		List<Player> listPlayerByTeam = new ArrayList<>();
+		repository.findAll().stream()
+				.filter(player -> player.getTeams().contains(team))
+				.forEach(listPlayerByTeam::add);
+		return listPlayerByTeam;
 	}
 
 	@Override

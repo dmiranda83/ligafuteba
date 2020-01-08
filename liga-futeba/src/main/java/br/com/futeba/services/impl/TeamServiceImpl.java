@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.futeba.dtos.TeamStatsDTO;
+import br.com.futeba.models.Player;
 import br.com.futeba.models.Team;
 import br.com.futeba.repositories.TeamRepository;
 import br.com.futeba.services.TeamService;
@@ -51,6 +52,15 @@ public class TeamServiceImpl implements TeamService {
 	@Override
 	public void deleteAll() {
 		repository.deleteAll();
+	}
+
+	@Override
+	public List<Team> listTeamByPlayer(Player player) {
+		List<Team> listTeamByPlayer = new ArrayList<>();
+		repository.findAll().stream()
+				.filter(team -> team.getPlayers().contains(player))
+				.forEach(listTeamByPlayer::add);
+		return listTeamByPlayer;
 	}
 
 	@SuppressWarnings("unchecked")
