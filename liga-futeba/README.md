@@ -28,62 +28,101 @@ The app will start running at http://localhost:8080.
 ### 1. Team categories
 
 GET /api/v1/teamCategories
+
 GET /api/v1/teamCategories/{id}
+
 GET /api/v1/teamCategories/list/{name}
+
 GET /api/v1/teamCategories/list/{year}
+
 POST /api/v1/teamCategories
+
 PUT /api/v1/teamCategories/{id}
+
 DELETE /api/v1/teamCategories
+
 DELETE /api/v1/teamCategories/{id}
 
 ### 2. Game places
 
 GET /api/v1/places
+
 GET /api/v1/places/{id}
+
 GET /api/v1/places/list/{name}
+
 POST /api/v1/places
+
 PUT /api/v1/places/{id}
+
 DELETE /api/v1/places
+
 DELETE /api/v1/places/{id}
 
 ### 3. Player positions
 
 GET /api/v1/playerPositions
+
 GET /api/v1/playerPositions/{id}
+
 GET /api/v1/playerPositions/list/{name}
+
 POST /api/v1/playerPositions
+
 PUT /api/v1/playerPositions/{id}
+
 DELETE /api/v1/playerPositions
+
 DELETE /api/v1/playerPositions/{id}
 
 ### 4. Players
 
 GET /api/v1/players
+
 GET /api/v1/players/{id}
+
 GET /api/v1/players/list/{name}
+
 GET /api/v1/players/list/{year}
+
 POST /api/v1/players
+
 PUT /api/v1/players/{id}
+
 DELETE /api/v1/players
+
 DELETE /api/v1/players/{id}
 
 ### 5. Teams
 
 GET /api/v1/teams
+
 GET /api/v1/teams/{id}
+
 GET /api/v1/teams/list/{name}
+
 GET /api/v1/teams/list/{year}
+
 POST /api/v1/teams
+
 PUT /api/v1/teams/{id}
+
 DELETE /api/v1/teams
+
 DELETE /api/v1/teams/{id}
 
 ### 6. Games
 
 GET /api/v1/games
+
 GET /api/v1/games/{id}
+
 GET /api/v1/games/list/{year}
+
 POST /api/v1/games
+
 PUT /api/v1/games/{id}
+
 DELETE /api/v1/games
+
 DELETE /api/v1/games/{id}
