@@ -1,25 +1,24 @@
 package br.com.futeba.services;
 
+import java.util.List;
 import java.util.Optional;
 
 import br.com.futeba.models.Position;
 
 public interface PositionService {
 
-    Position save(Position position);
+	Position save(Position position);
 
-    Iterable<Position> findAll();
+	List<Position> findAll();
 
-    Optional<Position> update(Optional<Position> currentPlayerPosition);
+	Optional<Position> update(Optional<Position> currentPlayerPosition);
 
-    Optional<Position> findById(long id);
+	Optional<Position> findById(Long id);
 
-    Optional<Position> findByName(String name);
-    
-    void delete(long id);
+	Optional<Position> findByName(String name);
 
-    void deleteAll();
+	void deleteById(Long id);
 
-
+	void deleteAll();
 
 }

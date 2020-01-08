@@ -65,14 +65,14 @@ public class GameControllerV1IntegrationTest {
 
 	@Before
 	public void setUp() {
-		this.sanRemo = new Team(1L, TestUtil.SAN_REMO_TEAM, false,
-				TestUtil.RESPONSABLE_NAME, TestUtil.PHONE_NUMBER);
-		this.originais = new Team(2L, TestUtil.ORIGINAIS_TEAM, false,
-				TestUtil.RESPONSABLE_NAME, TestUtil.PHONE_NUMBER);
-		this.veneza = new Team(3L, TestUtil.VENEZA_TEAM, false,
-				TestUtil.RESPONSABLE_NAME, TestUtil.PHONE_NUMBER);
-		this.raca = new Team(4L, TestUtil.RACA_TEAM, false,
-				TestUtil.RESPONSABLE_NAME, TestUtil.PHONE_NUMBER);
+		this.sanRemo = new Team(1L, TestUtil.TEAM_SAN_REMO, false,
+				TestUtil.TEAM_RESPONSABLE, TestUtil.TEAM_RESPONSABLE_PHONE_NUMBER);
+		this.originais = new Team(2L, TestUtil.TEAM_ORIGINAIS, false,
+				TestUtil.TEAM_RESPONSABLE, TestUtil.TEAM_RESPONSABLE_PHONE_NUMBER);
+		this.veneza = new Team(3L, TestUtil.TEAM_VENEZA, false,
+				TestUtil.TEAM_RESPONSABLE, TestUtil.TEAM_RESPONSABLE_PHONE_NUMBER);
+		this.raca = new Team(4L, TestUtil.TEAM_RACA, false,
+				TestUtil.TEAM_RESPONSABLE, TestUtil.TEAM_RESPONSABLE_PHONE_NUMBER);
 
 		this.game1 = new Game(1L, this.sanRemo, this.raca);
 		this.game2 = new Game(1L, this.sanRemo, this.originais);
@@ -106,7 +106,7 @@ public class GameControllerV1IntegrationTest {
 				.andExpect(content()
 						.contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
 				.andExpect(jsonPath("$.id", is(1))).andExpect(jsonPath(
-						"$.homeTeam.name", is(TestUtil.SAN_REMO_TEAM)));
+						"$.homeTeam.name", is(TestUtil.TEAM_SAN_REMO)));
 
 		verify(service, times(1)).findById(1L);
 	}
@@ -128,7 +128,7 @@ public class GameControllerV1IntegrationTest {
 				.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON))
 				.andDo(print()).andExpect(status().isCreated())
 				.andExpect(jsonPath("$.id", is(1))).andExpect(jsonPath(
-						"$.homeTeam.name", is(TestUtil.SAN_REMO_TEAM)));
+						"$.homeTeam.name", is(TestUtil.TEAM_SAN_REMO)));
 
 		verify(service, times(1)).save(any(Game.class));;
 	}

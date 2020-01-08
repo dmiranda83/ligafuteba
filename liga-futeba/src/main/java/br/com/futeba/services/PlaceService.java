@@ -11,11 +11,11 @@ public interface PlaceService {
 
 	List<Place> findAll();
 
-	Optional<Place> findById(long id);
+	Optional<Place> findById(Long id);
 
 	Optional<Place> findByName(String name);
 
-	void deleteById(long id);
+	void deleteById(Long id);
 
 	void deleteAll();
 

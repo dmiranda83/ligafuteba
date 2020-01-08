@@ -7,7 +7,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.com.futeba.dtos.StatsDTO;
+import br.com.futeba.dtos.TeamStatsDTO;
 import br.com.futeba.models.Team;
 import br.com.futeba.repositories.TeamRepository;
 import br.com.futeba.services.TeamService;
@@ -24,12 +24,12 @@ public class TeamServiceImpl implements TeamService {
 	}
 
 	@Override
-	public Iterable<Team> findAll() {
+	public List<Team> findAll() {
 		return repository.findAll();
 	}
 
 	@Override
-	public Optional<Team> findById(final long id) {
+	public Optional<Team> findById(final Long id) {
 		return repository.findById(id);
 	}
 
@@ -44,36 +44,38 @@ public class TeamServiceImpl implements TeamService {
 	}
 
 	@Override
-	public void delete(final long id) {
+	public void deleteById(final Long id) {
 		repository.deleteById(id);
 	}
 
 	@Override
-	public void delete() {
+	public void deleteAll() {
 		repository.deleteAll();
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public Iterable<StatsDTO> getTeamStats(Integer year) {
-		List<Object[]> result = (List<Object[]>) repository.getTeamStats(year);
-		List<StatsDTO> estatisticasDTOs = new ArrayList<>();
+	public Iterable<TeamStatsDTO> getTeamStats(Integer year) {
 
-		if (result != null && !result.isEmpty()) {
-			for (Object[] object : result) {
-				StatsDTO estatisticasDTO = new StatsDTO();
+		List<Object[]> teamStats = (List<Object[]>) repository
+				.getTeamStats(year);
 
-				estatisticasDTO.setSquad(object[0]);
-				estatisticasDTO.setPoints(object[1]);
-				estatisticasDTO.setGolsMarcados(object[2]);
-				estatisticasDTO.setGolsSofridos(object[3]);
-				estatisticasDTO.setSaldoDeGol(object[4]);
-				estatisticasDTO.setJogos(object[5]);
-				estatisticasDTO.setAproveitamento(object[6]);
-
-				estatisticasDTOs.add(estatisticasDTO);
-			}
+		List<TeamStatsDTO> statsDTOs = new ArrayList<>();
+		if (teamStats != null && !teamStats.isEmpty()) {
+			teamStats.forEach(stats -> buildStats(statsDTOs, stats));
 		}
-		return estatisticasDTOs;
+		return statsDTOs;
+	}
+
+	private void buildStats(List<TeamStatsDTO> teamStatsDTOs, Object[] stats) {
+		TeamStatsDTO teamStatsDTO = new TeamStatsDTO();
+		teamStatsDTO.setSquad(stats[0]);
+		teamStatsDTO.setPoints(stats[1]);
+		teamStatsDTO.setGolsMarcados(stats[2]);
+		teamStatsDTO.setGolsSofridos(stats[3]);
+		teamStatsDTO.setSaldoDeGol(stats[4]);
+		teamStatsDTO.setJogos(stats[5]);
+		teamStatsDTO.setAproveitamento(stats[6]);
+		teamStatsDTOs.add(teamStatsDTO);
 	}
 }

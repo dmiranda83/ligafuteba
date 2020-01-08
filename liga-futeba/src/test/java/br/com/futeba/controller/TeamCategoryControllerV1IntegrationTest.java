@@ -1,7 +1,6 @@
 package br.com.futeba.controller;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doNothing;
@@ -61,9 +60,9 @@ public class TeamCategoryControllerV1IntegrationTest {
 
 	@Before
 	public void setUp() {
-		this.futsal = new Category(1L, TestUtil.NAME_CATEGORY_FUTSAL);
-		this.soccer = new Category(2L, TestUtil.NAME_CATEGORY_SOCCER);
-		this.basketball = new Category(3L, TestUtil.NAME_CATEGORY_BASKETBALL);
+		this.futsal = new Category(1L, TestUtil.CATEGORY_FUTSAL);
+		this.soccer = new Category(2L, TestUtil.CATEGORY_SOCCER);
+		this.basketball = new Category(3L, TestUtil.CATEGORY_BASKETBALL);
 
 		this.allCategories = Arrays.asList(futsal, soccer, basketball);
 		given(service.findAll()).willReturn(allCategories);
@@ -76,28 +75,6 @@ public class TeamCategoryControllerV1IntegrationTest {
 	}
 
 	@Test
-	public void givenTeamCategories_whenListAllCategories_thenStatus200()
-			throws Exception {
-		mvc.perform(get("/api/v1/teamCategories")
-				.contentType(MediaType.APPLICATION_JSON)).andDo(print())
-				.andExpect(status().isOk())
-				.andExpect(content()
-						.contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-				.andExpect(jsonPath("$", hasSize(3)))
-				.andExpect(jsonPath("$.[0].id", is(1)))
-				.andExpect(jsonPath("$.[0].name")
-						.value(TestUtil.NAME_CATEGORY_FUTSAL))
-				.andExpect(jsonPath("$.[1].id", is(2)))
-				.andExpect(jsonPath("$.[1].name")
-						.value(TestUtil.NAME_CATEGORY_SOCCER))
-				.andExpect(jsonPath("$.[2].id", is(3)))
-				.andExpect(jsonPath("$.[2].name")
-						.value(TestUtil.NAME_CATEGORY_BASKETBALL));
-
-		verify(service, times(1)).findAll();
-	}
-
-	@Test
 	public void givenTeamCategories_whenListCategoryById_thenStatus200()
 			throws Exception {
 		mvc.perform(get("/api/v1/teamCategories/1")
@@ -105,8 +82,8 @@ public class TeamCategoryControllerV1IntegrationTest {
 				.andExpect(status().isOk())
 				.andExpect(content()
 						.contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-				.andExpect(jsonPath("$.id", is(1))).andExpect(
-						jsonPath("$.name", is(TestUtil.NAME_CATEGORY_FUTSAL)));
+				.andExpect(jsonPath("$.id", is(1)))
+				.andExpect(jsonPath("$.name", is(TestUtil.CATEGORY_FUTSAL)));
 
 		verify(service, times(1)).findById(1L);
 	}
@@ -124,16 +101,15 @@ public class TeamCategoryControllerV1IntegrationTest {
 	@Test
 	public void givenTeamCategories_whenListCategoryByName_thenStatus200()
 			throws Exception {
-		mvc.perform(get(
-				"/api/v1/teamCategories/list/" + TestUtil.NAME_CATEGORY_FUTSAL)
+		mvc.perform(
+				get("/api/v1/teamCategories/list/" + TestUtil.CATEGORY_FUTSAL)
 						.contentType(MediaType.APPLICATION_JSON))
 				.andDo(print()).andExpect(status().isOk())
 				.andExpect(content()
 						.contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-				.andExpect(jsonPath("$.name")
-						.value(TestUtil.NAME_CATEGORY_FUTSAL));
+				.andExpect(jsonPath("$.name").value(TestUtil.CATEGORY_FUTSAL));
 
-		verify(service, times(1)).findByName(TestUtil.NAME_CATEGORY_FUTSAL);
+		verify(service, times(1)).findByName(TestUtil.CATEGORY_FUTSAL);
 	}
 	@Test
 	public void givenTeamCategories_whenListCategoryByNonexistentName_thenStatus404()
@@ -145,30 +121,6 @@ public class TeamCategoryControllerV1IntegrationTest {
 
 		verify(service, times(1))
 				.findByName(TestUtil.NONEXISTENT_CATEGORY_NAME);
-	}
-
-	@Test
-	public void givenTeamCategories_whenSaveCategory_thenStatus201()
-			throws Exception {
-		mvc.perform(post("/api/v1/teamCategories")
-				.content(mapper.writeValueAsString(this.basketball))
-				.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON))
-				.andDo(print()).andExpect(status().isCreated())
-				.andExpect(jsonPath("$.id", is(1))).andExpect(
-						jsonPath("$.name", is(TestUtil.NAME_CATEGORY_FUTSAL)));
-
-		verify(service, times(1)).save(any(Category.class));;
-	}
-
-	@Test
-	public void givenTeamCategories_whenSaveExistingCategory_thenStatus400()
-			throws Exception {
-		mvc.perform(post("/api/v1/teamCategories")
-				.content(mapper.writeValueAsString(this.futsal))
-				.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON))
-				.andDo(print()).andExpect(status().isBadRequest());
-
-		verify(service, times(0)).save(any(Category.class));;
 	}
 
 	@Test

@@ -16,81 +16,85 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import br.com.futeba.models.Category;
-import br.com.futeba.repositories.CategoryRepository;
-import br.com.futeba.services.CategoryService;
+import br.com.futeba.models.Game;
+import br.com.futeba.models.Team;
+import br.com.futeba.repositories.GameRepository;
+import br.com.futeba.services.GameService;
 import br.com.futeba.utils.TestUtil;
 
 @RunWith(SpringRunner.class)
 public class GameServiceImplIntegrationTest {
 
 	@TestConfiguration
-	static class CategoryServiceImplTestContextConfguration {
+	static class GameServiceImplIntegrationTestContextConfguration {
 
 		@Bean
-		public CategoryService categoryService() {
-			return new CategoryServiceImpl();
+		public GameService gameService() {
+			return new GameServiceImpl();
 		}
 	}
 
 	@Autowired
-	private CategoryService categoryService;
+	private GameService gameService;
 
 	@MockBean
-	private CategoryRepository categoryRepository;
+	private GameRepository gameRepository;
 
-	private List<Category> allCategories;
-	private Category futsal;
-	private Category soccer;
-	private Category basketball;
+	private Game game1;
+	private Game game2;
+	private Game game3;
+	private Team sanRemo;
+	private Team originais;
+	private Team veneza;
+	private Team raca;
+
+	private List<Game> allGames;
 
 	@Before
 	public void setUp() {
-		this.futsal = new Category(1L, TestUtil.NAME_CATEGORY_FUTSAL);
-		this.soccer = new Category(2L, TestUtil.NAME_CATEGORY_FUTSAL);
-		this.basketball = new Category(3L, TestUtil.NAME_CATEGORY_FUTSAL);
+		this.sanRemo = new Team(TestUtil.TEAM_SAN_REMO, false,
+				TestUtil.TEAM_RESPONSABLE, TestUtil.TEAM_RESPONSABLE_PHONE_NUMBER);
+		this.originais = new Team(TestUtil.TEAM_ORIGINAIS, true,
+				TestUtil.TEAM_RESPONSABLE, TestUtil.TEAM_RESPONSABLE_PHONE_NUMBER);
+		this.veneza = new Team(TestUtil.TEAM_VENEZA, true,
+				TestUtil.TEAM_RESPONSABLE, TestUtil.TEAM_RESPONSABLE_PHONE_NUMBER);
+		this.raca = new Team(TestUtil.TEAM_RACA, true,
+				TestUtil.TEAM_RESPONSABLE, TestUtil.TEAM_RESPONSABLE_PHONE_NUMBER);
 
-		this.allCategories = Arrays.asList(futsal, soccer, basketball);
+		this.game1 = new Game(1L, this.sanRemo, this.raca);
+		this.game2 = new Game(2L, this.sanRemo, this.originais);
+		this.game3 = new Game(3L, this.sanRemo, this.veneza);
 
-		Optional<Category> ofCategory = Optional.of(this.futsal);
-		Mockito.when(categoryRepository.findByName(this.futsal.getName()))
-				.thenReturn(ofCategory);
-		Mockito.when(categoryRepository.save(this.futsal))
-				.thenReturn(ofCategory.get());
-		Mockito.when(categoryRepository.findById(this.futsal.getId()))
-				.thenReturn(ofCategory);
-		Mockito.when(categoryRepository.findAll()).thenReturn(allCategories);
+		this.allGames = Arrays.asList(this.game1, this.game2, this.game3);
+
+		Optional<Game> ofGame = Optional.of(this.game1);
+		Mockito.when(gameRepository.save(this.game1)).thenReturn(ofGame.get());
+		Mockito.when(gameRepository.findById(this.game1.getId()))
+				.thenReturn(ofGame);
+		Mockito.when(gameRepository.findAll()).thenReturn(allGames);
 
 	}
 
 	@Test
-	public void whenValidCategory_thenSaveCategory() {
-		Category futsal = categoryService.save(this.futsal);
-		assertThat(futsal.getName()).isEqualTo(TestUtil.NAME_CATEGORY_FUTSAL);
+	public void whenValidGame_thenSaveGame() {
+
+		gameService.save(this.game1);
+
+		assertThat(game1.getAwayTeam().getName()).isEqualTo(TestUtil.TEAM_RACA);
 	}
 
 	@Test
-	public void whenValidId_thenCategorySholdBeFound() {
-		Optional<Category> foundCategory = categoryService
-				.findById(this.futsal.getId());
-		assertThat(foundCategory.isPresent()).isEqualTo(true);
-		assertThat(foundCategory.get().getName())
-				.isEqualTo(TestUtil.NAME_CATEGORY_FUTSAL);
+	public void whenValidId_thenGameSholdBeFound() {
+		Optional<Game> foundGame = gameService.findById(this.game1.getId());
+		assertThat(foundGame.isPresent()).isEqualTo(true);
+		assertThat(foundGame.get().getHomeTeam().getName())
+				.isEqualTo(TestUtil.TEAM_SAN_REMO);
 	}
 
 	@Test
-	public void whenValidName_thenCategorySholdBeFound() {
-		Optional<Category> foundCategory = categoryService
-				.findByName(TestUtil.NAME_CATEGORY_FUTSAL);
-		assertThat(foundCategory.isPresent()).isEqualTo(true);
-		assertThat(foundCategory.get().getName())
-				.isEqualTo(TestUtil.NAME_CATEGORY_FUTSAL);
-	}
-
-	@Test
-	public void whenListAll_thenReturnAllCategories() {
-		List<Category> foundAllCategories = categoryService.findAll();
-		assertThat(foundAllCategories.size()).isEqualTo(3);
+	public void whenListAll_thenReturnAllGames() {
+		List<Game> foundAllGames = gameService.findAll();
+		assertThat(foundAllGames.size()).isEqualTo(3);
 	}
 
 }

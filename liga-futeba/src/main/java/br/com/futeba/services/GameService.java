@@ -13,12 +13,12 @@ public interface GameService {
 
 	List<Game> findByYear(Integer year);
 
-	Optional<Game> findById(long id);
+	Optional<Game> findById(Long id);
 
 	Optional<Game> update(Optional<Game> currentGame);
 
 	void deleteAll();
 
-	void deleteById(long id);
+	void deleteById(Long id);
 
 }

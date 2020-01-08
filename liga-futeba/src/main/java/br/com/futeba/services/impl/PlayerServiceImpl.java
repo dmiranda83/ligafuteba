@@ -29,12 +29,12 @@ public class PlayerServiceImpl implements PlayerService {
 	}
 
 	@Override
-	public Iterable<Player> findAll() {
+	public List<Player> findAll() {
 		return repository.findAll();
 	}
 
 	@Override
-	public Optional<Player> findById(final long id) {
+	public Optional<Player> findById(final Long id) {
 		return repository.findById(id);
 	}
 
@@ -44,7 +44,7 @@ public class PlayerServiceImpl implements PlayerService {
 	}
 
 	@Override
-	public void deleteById(final long id) {
+	public void deleteById(final Long id) {
 		repository.deleteById(id);
 	}
 
@@ -58,7 +58,7 @@ public class PlayerServiceImpl implements PlayerService {
 	public Iterable<PlayerStatsDTO> getPlayerStats(Integer year) {
 		List<Object[]> playerStats = (List<Object[]>) repository
 				.getEstatisticasAtleta(year);
-		
+
 		List<PlayerStatsDTO> estatisticasAtletasDTOs = new ArrayList<>();
 		if (playerStats != null && !playerStats.isEmpty()) {
 			playerStats.forEach(

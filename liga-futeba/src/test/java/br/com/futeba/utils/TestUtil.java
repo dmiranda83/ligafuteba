@@ -17,16 +17,27 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 public class TestUtil {
 
-	public static final String NAME_CATEGORY_FUTSAL = "Futsal";
-	public static final String NAME_CATEGORY_SOCCER = "Soccer";
-	public static final String NAME_CATEGORY_BASKETBALL = "Basketball";
+	public static final String PLACE_TYPE = "Ginasio Poliesportivo";
+	public static final String PLACE_MARCELINO = "Quadra Marcelino";
+	public static final String PLACE_NOVA_ERA = "Quadra Nova Era";
+	public static final String PLACE_LARANJEIRAS = "Quadra Laranjeiras";
+	public static final String CATEGORY_FUTSAL = "Futsal";
+	public static final String CATEGORY_SOCCER = "Soccer";
+	public static final String CATEGORY_BASKETBALL = "Basketball";
 	public static final String NONEXISTENT_CATEGORY_NAME = "nonexistent";
-	public static final String SAN_REMO_TEAM = "San Remo";
-	public static final String VENEZA_TEAM = "Veneza";
-	public static final String RACA_TEAM = "Raça";
-	public static final String ORIGINAIS_TEAM = "Originais";
-	public static final String RESPONSABLE_NAME = "Roberto";
-	public static final String PHONE_NUMBER = "11997826657";
+	public static final String TEAM_SAN_REMO = "San Remo";
+	public static final String TEAM_VENEZA = "Veneza";
+	public static final String TEAM_RACA = "Raça";
+	public static final String TEAM_ORIGINAIS = "Originais";
+	public static final String TEAM_RESPONSABLE = "Roberto";
+	public static final String TEAM_RESPONSABLE_PHONE_NUMBER = "11997826657";
+	public static final String PLACE_ZIP_CODE = "07713630";
+	public static final String PLAYER_DIEGO = "Diego Miranda";
+	public static final String PLAYER_DAVI = "Davi Miranda";
+	public static final String PLAYER_ELIAS = "Elias Miranda";
+	public static final String POSITION_ALA_ESQUERDA = "Ala Esquerda";
+	public static final String POSITION_ALA_DIREITA = "Ala Direita";
+	public static final String POSITION_FIXO = "Fixo";
 
 	public static final MediaType APPLICATION_JSON_UTF8 = new MediaType(
 			MediaType.APPLICATION_JSON.getType(),

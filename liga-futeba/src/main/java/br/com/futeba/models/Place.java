@@ -19,7 +19,7 @@ public class Place implements Serializable {
 	@Id
 	@Column(name = "place_id", nullable = false)
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private long id;
+	private Long id;
 
 	@NotNull
 	private String name;
@@ -33,11 +33,35 @@ public class Place implements Serializable {
 	public Place() {
 	}
 
-	public long getId() {
+	public Place(Long id, @NotNull String name) {
+		super();
+		this.id = id;
+		this.name = name;
+	}
+	public Place(@NotNull String name) {
+		super();
+		this.name = name;
+	}
+	public Place(Long id, @NotNull String name, String type, String zipCode) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.type = type;
+		this.zipCode = zipCode;
+	}
+
+	public Place(@NotNull String name, String type, String zipCode) {
+		super();
+		this.name = name;
+		this.type = type;
+		this.zipCode = zipCode;
+	}
+
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(final long id) {
+	public void setId(final Long id) {
 		this.id = id;
 	}
 

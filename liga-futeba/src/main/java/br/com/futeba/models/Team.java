@@ -24,32 +24,10 @@ public class Team implements Serializable {
 
 	private static final long serialVersionUID = 3457244849292203050L;
 
-	public Team() {
-		// Default constructor
-	}
-
-	public Team(long id, String name, Boolean away, String responsibleName,
-			String phoneContact1) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.away = away;
-		this.responsibleName = responsibleName;
-		this.phoneContact1 = phoneContact1;
-	}
-	public Team(String name, Boolean away, String responsibleName,
-			String phoneContact1) {
-		super();
-		this.name = name;
-		this.away = away;
-		this.responsibleName = responsibleName;
-		this.phoneContact1 = phoneContact1;
-	}
-
 	@Id
 	@Column(name = "team_id", nullable = false)
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private long id;
+	private Long id;
 
 	@NotNull
 	private String name;
@@ -83,6 +61,54 @@ public class Team implements Serializable {
 	@OneToMany(mappedBy = "awayTeam")
 	private List<Game> game;
 
+	public Team() {
+		// Default constructor
+	}
+
+	public Team(Long id, String name, Boolean away, String responsibleName,
+			String phoneContact1) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.away = away;
+		this.responsibleName = responsibleName;
+		this.phoneContact1 = phoneContact1;
+	}
+
+	public Team(String name, Boolean away, String responsibleName,
+			String phoneContact1, Category category, Place place,
+			List<Player> players, List<Game> game) {
+		super();
+		this.name = name;
+		this.away = away;
+		this.responsibleName = responsibleName;
+		this.phoneContact1 = phoneContact1;
+		this.category = category;
+		this.place = place;
+		this.players = players;
+		this.game = game;
+	}
+
+	public Team(String name, Boolean away, String responsibleName,
+			String phoneContact1) {
+		super();
+		this.name = name;
+		this.away = away;
+		this.responsibleName = responsibleName;
+		this.phoneContact1 = phoneContact1;
+	}
+
+	public Team(String name, Boolean away, String responsibleName,
+			String phoneContact1, Category category, Place place) {
+		super();
+		this.name = name;
+		this.away = away;
+		this.responsibleName = responsibleName;
+		this.phoneContact1 = phoneContact1;
+		this.category = category;
+		this.place = place;
+	}
+
 	public Boolean getAway() {
 		return away;
 	}
@@ -91,11 +117,11 @@ public class Team implements Serializable {
 		this.away = away;
 	}
 
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(final long id) {
+	public void setId(final Long id) {
 		this.id = id;
 	}
 

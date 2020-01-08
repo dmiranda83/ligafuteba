@@ -46,9 +46,9 @@ public class CategoryServiceImplIntegrationTest {
 
 	@Before
 	public void setUp() {
-		this.futsal = new Category(1L, TestUtil.NAME_CATEGORY_FUTSAL);
-		this.soccer = new Category(2L, TestUtil.NAME_CATEGORY_FUTSAL);
-		this.basketball = new Category(3L, TestUtil.NAME_CATEGORY_FUTSAL);
+		this.futsal = new Category(1L, TestUtil.CATEGORY_FUTSAL);
+		this.soccer = new Category(2L, TestUtil.CATEGORY_FUTSAL);
+		this.basketball = new Category(3L, TestUtil.CATEGORY_FUTSAL);
 
 		this.allCategories = Arrays.asList(futsal, soccer, basketball);
 
@@ -66,7 +66,7 @@ public class CategoryServiceImplIntegrationTest {
 	@Test
 	public void whenValidCategory_thenSaveCategory() {
 		Category futsal = categoryService.save(this.futsal);
-		assertThat(futsal.getName()).isEqualTo(TestUtil.NAME_CATEGORY_FUTSAL);
+		assertThat(futsal.getName()).isEqualTo(TestUtil.CATEGORY_FUTSAL);
 	}
 
 	@Test
@@ -75,16 +75,16 @@ public class CategoryServiceImplIntegrationTest {
 				.findById(this.futsal.getId());
 		assertThat(foundCategory.isPresent()).isEqualTo(true);
 		assertThat(foundCategory.get().getName())
-				.isEqualTo(TestUtil.NAME_CATEGORY_FUTSAL);
+				.isEqualTo(TestUtil.CATEGORY_FUTSAL);
 	}
 
 	@Test
 	public void whenValidName_thenCategorySholdBeFound() {
 		Optional<Category> foundCategory = categoryService
-				.findByName(TestUtil.NAME_CATEGORY_FUTSAL);
+				.findByName(TestUtil.CATEGORY_FUTSAL);
 		assertThat(foundCategory.isPresent()).isEqualTo(true);
 		assertThat(foundCategory.get().getName())
-				.isEqualTo(TestUtil.NAME_CATEGORY_FUTSAL);
+				.isEqualTo(TestUtil.CATEGORY_FUTSAL);
 	}
 
 	@Test

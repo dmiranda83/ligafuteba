@@ -26,7 +26,7 @@ public class Player implements Serializable {
 	@Id
 	@Column(name = "player_id", nullable = false)
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private long id;
+	private Long id;
 
 	@NotNull
 	private String name;
@@ -35,7 +35,8 @@ public class Player implements Serializable {
 	@JoinColumn(name = "position_id", referencedColumnName = "position_id")
 	private Position position;
 
-	@ManyToMany(mappedBy = "players", cascade = { CascadeType.PERSIST, CascadeType.REMOVE }, fetch = FetchType.EAGER)
+	@ManyToMany(mappedBy = "players", cascade = {CascadeType.PERSIST,
+			CascadeType.REMOVE}, fetch = FetchType.EAGER)
 	@JsonIgnoreProperties("players")
 	private List<Team> teams = new ArrayList<>();
 
@@ -43,11 +44,27 @@ public class Player implements Serializable {
 		// default constructor
 	}
 
-	public long getId() {
+	public Player(Long id, @NotNull String name, Position position,
+			List<Team> teams) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.position = position;
+		this.teams = teams;
+	}
+
+	public Player(@NotNull String name, Position position, List<Team> teams) {
+		super();
+		this.name = name;
+		this.position = position;
+		this.teams = teams;
+	}
+
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(final long id) {
+	public void setId(final Long id) {
 		this.id = id;
 	}
 

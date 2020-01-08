@@ -1,10 +1,14 @@
 package br.com.futeba.controllers;
 
+import java.net.URI;
+import java.util.List;
 import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,90 +19,121 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import br.com.futeba.dtos.StatsDTO;
-import br.com.futeba.models.Position;
+import br.com.futeba.dtos.TeamStatsDTO;
 import br.com.futeba.models.Team;
 import br.com.futeba.services.TeamService;
+import br.com.futeba.utils.HeaderUtil;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 
 @RestController
-@CrossOrigin (origins = "*") 
-@RequestMapping("/api/v1/team")
+@CrossOrigin(origins = "*")
+@RequestMapping("/api/v1")
 public class TeamControllerV1 {
 
-    private static final Logger logger = LoggerFactory.getLogger(TeamControllerV1.class);
+	private static final Logger logger = LoggerFactory
+			.getLogger(TeamControllerV1.class);
 
-    @Autowired
-    private TeamService service;
+	@Autowired
+	private TeamService service;
 
-    @PostMapping("/salvar")
-    public String save(@RequestBody final Team team) {
+	@GetMapping("/teams")
+	public @ResponseBody ResponseEntity<List<Team>> listAll() {
+		logger.info("Listing all Teams");
+		return ResponseEntity.ok().body(service.findAll());
+	}
 
-        try {
+	@GetMapping("/teams/{id}")
+	public ResponseEntity<Team> listById(@PathVariable Long id) {
+		logger.info("Find game id: {}", id);
+		Optional<Team> team = service.findById(id);
+		return team.map(
+				response -> ResponseEntity.ok().headers(null).body(response))
+				.orElseThrow(() -> new ResponseStatusException(
+						HttpStatus.NOT_FOUND));
+	}
 
-            service.save(team);
+	@GetMapping("/teams/list/{name}")
+	public ResponseEntity<Team> listByName(@PathVariable("name") String name) {
+		logger.info("Find Teams: {}", name);
+		Optional<Team> team = service.findByName(name);
+		return team.map(
+				response -> ResponseEntity.ok().headers(null).body(response))
+				.orElseThrow(() -> new ResponseStatusException(
+						HttpStatus.NOT_FOUND));
+	}
 
-        } catch (Exception e) {
-            return "Error save team: " + e.toString();
-        }
-        return "Team save sucessfully! (id = " + team.getId() + " nome = " + team.getName() + ")";
-    }
-    
-    @GetMapping("/list/{name}")
-    public @ResponseBody Optional<Team> listByName(@PathVariable("name") String name){
-    	logger.info("Find team: {}", name);
-    	return service.findByName(name);
-    }
+	@GetMapping(value = "/teams/stats/{year}", produces = "application/json")
+	@ApiOperation(value = "Return a list of teams by year")
+	@ApiResponses(value = {
+			@ApiResponse(code = 200, message = "Return a list of teams by year"),
+			@ApiResponse(code = 400, message = "Bad request"),
+			@ApiResponse(code = 404, message = "feature do not found"),
+			@ApiResponse(code = 403, message = "You do not have permission to access this feature"),
+			@ApiResponse(code = 500, message = "An exception was thrown"),})
+	public @ResponseBody Iterable<TeamStatsDTO> getStats(
+			@PathVariable("year") final Integer year) {
+		logger.info("Loading team stats");
+		return service.getTeamStats(year);
+	}
 
-    @GetMapping("/list")
-    public @ResponseBody Iterable<Team> list() {
-        return service.findAll();
-    }
-    
-    
-    @GetMapping("/stats/{year}")
-    public @ResponseBody Iterable<StatsDTO> getStats(@PathVariable("year") final Integer year) {
-    	logger.info("Loading team stats");
-    	return service.getTeamStats(year);
-    }
+	@PostMapping("/teams")
+	public ResponseEntity<Team> save(@RequestBody final Team team) {
+		Optional<Team> foundTeam = service.findByName(team.getName());
+		if (team.getName() == null || (foundTeam.isPresent()
+				&& team.getName().equals(foundTeam.get().getName()))) {
+			return getHttpStatusBadRequest("categoryExists",
+					"A new category cannot exist");
+		}
+		try {
+			Team teamSaved = service.save(team);
+			URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
+					.path("/{id}").buildAndExpand(team.getId()).toUri();
 
-    @PutMapping("/update/{id}")
-    public Optional<Team> update(@PathVariable("id") final long id, @RequestBody final Team team) {
+			return ResponseEntity.created(uri)
+					.headers(HeaderUtil.createEntityCreationAlert(
+							Team.class.getName(), teamSaved.getId().toString()))
+					.body(teamSaved);
 
-        Optional<Team> currentTeam = service.findById(id);
+		} catch (Exception e) {
+			return ResponseEntity.badRequest().headers(HeaderUtil
+					.createErrorAlert("Check if parameters are correct!"))
+					.body(null);
+		}
+	}
 
-        if (currentTeam.isPresent()) {
-        	logger.info("Updating team id {}", id);
-        	currentTeam.get().setName(team.getName());
-        	currentTeam.get().setAway(team.getAway());
-        	currentTeam.get().setResponsibleName(team.getResponsibleName());
-        	currentTeam.get().setPhoneContact1(team.getPhoneContact1());
-        	currentTeam.get().setPhoneContact2(team.getPhoneContact2());
-        	currentTeam.get().setCategory(team.getCategory());
-        	currentTeam.get().setPlace(team.getPlace());
-        	currentTeam.get().setPlayers(team.getPlayers());
-        	return service.update(currentTeam);
-        }else {
-        	logger.error("Team id {} not found.", id);
-        	return currentTeam;
-        }
-    }
+	@PutMapping("/teams/{id}")
+	public ResponseEntity<Team> update(@PathVariable("id") final long id,
+			@RequestBody final Team team) {
 
-    @DeleteMapping("/delete/{id}")
-    public void delete(@PathVariable("id") final long id) {
-        Optional<Team> currentTeam = service.findById(id);
+		team.setId(id);
+		service.update(Optional.of(team));
+		return ResponseEntity.noContent().build();
+	}
 
-        if (currentTeam.isPresent()) {
-        	logger.info("Deleting team id {}", id);
-        	service.delete(id);
-        }else {
-        	logger.error("Team id {} not found.", id);
-        }
-    }
+	@DeleteMapping("/teams/{id}")
+	public ResponseEntity<Team> delete(@PathVariable("id") final long id) {
+		logger.info("Deleting team id {}", id);
+		service.deleteById(id);
+		return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(
+				Team.class.getName(), String.valueOf(id))).build();
+	}
 
-    @DeleteMapping("/delete")
-    public void delete() {
-        logger.info("Deleting all teams");
-        service.delete();
-    }
+	@DeleteMapping("/teams")
+	public void delete() {
+		logger.info("Deleting all teams");
+		service.deleteAll();
+	}
+
+	private ResponseEntity<Team> getHttpStatusBadRequest(String errorKey,
+			String defaultMessage) {
+		return ResponseEntity.badRequest()
+				.headers(HeaderUtil.createFailureAlert(Team.class.getName(),
+						errorKey, defaultMessage))
+				.body(null);
+	}
 }

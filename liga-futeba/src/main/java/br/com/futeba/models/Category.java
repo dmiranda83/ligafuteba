@@ -26,11 +26,13 @@ public class Category implements Serializable {
 		// Default constructor
 	}
 
-	public Category(String name) {
+	public Category(@NotNull String name) {
+		super();
 		this.name = name;
 	}
 
 	public Category(long id, String name) {
+		super();
 		this.id = id;
 		this.name = name;
 	}

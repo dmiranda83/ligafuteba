@@ -30,15 +30,15 @@ public class CategoryRepositoryIntegationTest {
 
 	@Before
 	public void setUp() {
-		this.futsal = new Category(TestUtil.NAME_CATEGORY_FUTSAL);
-		this.soccer = new Category(TestUtil.NAME_CATEGORY_SOCCER);
-		this.basketball = new Category(TestUtil.NAME_CATEGORY_BASKETBALL);
+		this.futsal = new Category(TestUtil.CATEGORY_FUTSAL);
+		this.soccer = new Category(TestUtil.CATEGORY_SOCCER);
+		this.basketball = new Category(TestUtil.CATEGORY_BASKETBALL);
 	}
 
 	@Test
 	public void givenEmptyDBWhenFindByNameThenReturnEmptyOptional() {
 		Optional<Category> foundCategory = categoryRepository
-				.findByName(TestUtil.NAME_CATEGORY_FUTSAL);
+				.findByName(TestUtil.CATEGORY_FUTSAL);
 
 		assertThat(foundCategory.isPresent()).isEqualTo(false);
 	}
@@ -48,11 +48,11 @@ public class CategoryRepositoryIntegationTest {
 		categoryRepository.save(this.futsal);
 
 		Optional<Category> foundCategory = categoryRepository
-				.findByName(TestUtil.NAME_CATEGORY_FUTSAL);
+				.findByName(TestUtil.CATEGORY_FUTSAL);
 
 		assertThat(foundCategory.isPresent()).isEqualTo(true);
 		assertThat(foundCategory.get().getName())
-				.isEqualTo(TestUtil.NAME_CATEGORY_FUTSAL);
+				.isEqualTo(TestUtil.CATEGORY_FUTSAL);
 	}
 
 	@Test
@@ -75,7 +75,7 @@ public class CategoryRepositoryIntegationTest {
 
 		assertThat(foundCategory.isPresent()).isEqualTo(true);
 		assertThat(foundCategory.get().getName())
-				.isEqualTo(TestUtil.NAME_CATEGORY_FUTSAL);
+				.isEqualTo(TestUtil.CATEGORY_FUTSAL);
 	}
 
 	@Test
@@ -127,14 +127,14 @@ public class CategoryRepositoryIntegationTest {
 		Optional<Category> categoryBeforeUpdate = categoryRepository
 				.findById(futsal.getId());
 		assertThat(categoryBeforeUpdate.get().getName())
-				.isEqualTo(TestUtil.NAME_CATEGORY_FUTSAL);
+				.isEqualTo(TestUtil.CATEGORY_FUTSAL);
 
-		futsal.setName(TestUtil.NAME_CATEGORY_SOCCER);
+		futsal.setName(TestUtil.CATEGORY_SOCCER);
 		categoryRepository.saveAndFlush(futsal);
 		Optional<Category> categoryAfterUpdate = categoryRepository
 				.findById(futsal.getId());
 		assertThat(categoryAfterUpdate.get().getName())
-				.isEqualTo(TestUtil.NAME_CATEGORY_SOCCER);
+				.isEqualTo(TestUtil.CATEGORY_SOCCER);
 	}
 
 	@After

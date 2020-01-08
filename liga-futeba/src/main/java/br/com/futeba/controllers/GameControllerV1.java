@@ -34,8 +34,6 @@ import io.swagger.annotations.ApiResponses;
 @RequestMapping("/api/v1")
 public class GameControllerV1 {
 
-	private static final String ENTITY_NAME = "game";
-
 	private static final Logger logger = LoggerFactory
 			.getLogger(GameControllerV1.class);
 
@@ -62,6 +60,8 @@ public class GameControllerV1 {
 	@ApiOperation(value = "Return a list of games by year")
 	@ApiResponses(value = {
 			@ApiResponse(code = 200, message = "Return a list of games"),
+			@ApiResponse(code = 400, message = "Bad request"),
+			@ApiResponse(code = 404, message = "feature do not found"),
 			@ApiResponse(code = 403, message = "You do not have permission to access this feature"),
 			@ApiResponse(code = 500, message = "An exception was thrown"),})
 	public @ResponseBody List<Game> listByYear(
@@ -77,8 +77,8 @@ public class GameControllerV1 {
 					.path("/{id}").buildAndExpand(game.getId()).toUri();
 
 			return ResponseEntity.created(uri)
-					.headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME,
-							gameSaved.getId().toString()))
+					.headers(HeaderUtil.createEntityCreationAlert(
+							Game.class.getName(), gameSaved.getId().toString()))
 					.body(gameSaved);
 
 		} catch (Exception e) {
@@ -99,15 +99,14 @@ public class GameControllerV1 {
 
 	@DeleteMapping("/games/{id}")
 	public ResponseEntity<Game> deleteById(@PathVariable("id") final long id) {
-		logger.info("Deleting gamr id {}", id);
+		logger.info("Deleting game id {}", id);
 		service.deleteById(id);
-		return ResponseEntity.ok().headers(HeaderUtil
-				.createEntityDeletionAlert(ENTITY_NAME, String.valueOf(id)))
-				.build();
+		return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(
+				Game.class.getName(), String.valueOf(id))).build();
 	}
 
 	@DeleteMapping("/games")
-	public void deleteAllGames() {
+	public void deleteAll() {
 		logger.info("Deleting all games");
 		service.deleteAll();
 	}

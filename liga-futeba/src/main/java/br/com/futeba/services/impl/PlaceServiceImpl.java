@@ -6,12 +6,14 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import br.com.futeba.models.Place;
 import br.com.futeba.repositories.PlaceRepository;
 import br.com.futeba.services.PlaceService;
 
 @Service("PlaceService")
+@Transactional
 public class PlaceServiceImpl implements PlaceService {
 
 	@Autowired
@@ -37,12 +39,12 @@ public class PlaceServiceImpl implements PlaceService {
 	}
 
 	@Override
-	public Optional<Place> findById(final long id) {
+	public Optional<Place> findById(final Long id) {
 		return repository.findById(id);
 	}
 
 	@Override
-	public void deleteById(final long id) {
+	public void deleteById(final Long id) {
 		repository.deleteById(id);
 	}
 

@@ -17,7 +17,7 @@ public class Position implements Serializable {
 	@Id
 	@Column(name = "position_id", nullable = false)
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private long id;
+	private Long id;
 
 	@NotNull
 	private String name;
@@ -25,15 +25,22 @@ public class Position implements Serializable {
 	public Position() {
 	}
 
-	public Position(final String name) {
+	public Position(Long id, @NotNull String name) {
+		super();
+		this.id = id;
 		this.name = name;
 	}
 
-	public long getId() {
+	public Position(@NotNull String name) {
+		super();
+		this.name = name;
+	}
+
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(final long id) {
+	public void setId(final Long id) {
 		this.id = id;
 	}
 

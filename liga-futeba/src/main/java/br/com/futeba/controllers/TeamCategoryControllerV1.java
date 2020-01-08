@@ -30,8 +30,6 @@ import br.com.futeba.utils.HeaderUtil;
 @RequestMapping("/api/v1")
 public class TeamCategoryControllerV1 {
 
-	private static final String ENTITY_NAME = "category";
-
 	private static final Logger logger = LoggerFactory
 			.getLogger(TeamCategoryControllerV1.class);
 
@@ -82,7 +80,8 @@ public class TeamCategoryControllerV1 {
 					.path("/{id}").buildAndExpand(teamCategory.getId()).toUri();
 
 			return ResponseEntity.created(uri)
-					.headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME,
+					.headers(HeaderUtil.createEntityCreationAlert(
+							Category.class.getName(),
 							category.getId().toString()))
 					.body(category);
 
@@ -115,9 +114,8 @@ public class TeamCategoryControllerV1 {
 			@PathVariable("id") final long id) {
 		logger.info("Deleting team category id {}", id);
 		service.deleteById(id);
-		return ResponseEntity.ok().headers(HeaderUtil
-				.createEntityDeletionAlert(ENTITY_NAME, String.valueOf(id)))
-				.build();
+		return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(
+				Category.class.getName(), String.valueOf(id))).build();
 	}
 
 	@DeleteMapping("/teamCategories")
@@ -128,8 +126,9 @@ public class TeamCategoryControllerV1 {
 
 	private ResponseEntity<Category> getHttpStatusBadRequest(String errorKey,
 			String defaultMessage) {
-		return ResponseEntity.badRequest().headers(HeaderUtil
-				.createFailureAlert(ENTITY_NAME, errorKey, defaultMessage))
+		return ResponseEntity.badRequest()
+				.headers(HeaderUtil.createFailureAlert(Category.class.getName(),
+						errorKey, defaultMessage))
 				.body(null);
 	}
 }

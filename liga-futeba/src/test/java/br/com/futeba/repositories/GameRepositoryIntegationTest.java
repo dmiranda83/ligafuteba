@@ -38,19 +38,22 @@ public class GameRepositoryIntegationTest {
 
 	@Before
 	public void setUp() {
-		this.sanRemo = new Team(TestUtil.SAN_REMO_TEAM, false,
-				TestUtil.RESPONSABLE_NAME, TestUtil.PHONE_NUMBER);
-		this.originais = new Team(TestUtil.ORIGINAIS_TEAM, true,
-				TestUtil.RESPONSABLE_NAME, TestUtil.PHONE_NUMBER);
-		this.veneza = new Team(TestUtil.VENEZA_TEAM, true,
-				TestUtil.RESPONSABLE_NAME, TestUtil.PHONE_NUMBER);
-		this.raca = new Team(TestUtil.RACA_TEAM, true,
-				TestUtil.RESPONSABLE_NAME, TestUtil.PHONE_NUMBER);
+		this.sanRemo = new Team(TestUtil.TEAM_SAN_REMO, false,
+				TestUtil.TEAM_RESPONSABLE,
+				TestUtil.TEAM_RESPONSABLE_PHONE_NUMBER);
+		this.originais = new Team(TestUtil.TEAM_ORIGINAIS, true,
+				TestUtil.TEAM_RESPONSABLE,
+				TestUtil.TEAM_RESPONSABLE_PHONE_NUMBER);
+		this.veneza = new Team(TestUtil.TEAM_VENEZA, true,
+				TestUtil.TEAM_RESPONSABLE,
+				TestUtil.TEAM_RESPONSABLE_PHONE_NUMBER);
+		this.raca = new Team(TestUtil.TEAM_RACA, true,
+				TestUtil.TEAM_RESPONSABLE,
+				TestUtil.TEAM_RESPONSABLE_PHONE_NUMBER);
 
 		this.game1 = new Game(this.sanRemo, this.raca);
 		this.game2 = new Game(this.sanRemo, this.originais);
 		this.game3 = new Game(this.sanRemo, this.veneza);
-
 	}
 
 	@Test
@@ -79,7 +82,7 @@ public class GameRepositoryIntegationTest {
 
 		assertThat(foundGame.isPresent()).isEqualTo(true);
 		assertThat(foundGame.get().getAwayTeam().getName())
-				.isEqualTo(TestUtil.RACA_TEAM);
+				.isEqualTo(TestUtil.TEAM_RACA);
 	}
 
 	@Test
@@ -144,19 +147,20 @@ public class GameRepositoryIntegationTest {
 		Optional<Game> gameBeforeUpdate = gameRepository
 				.findById(game1.getId());
 		assertThat(gameBeforeUpdate.get().getHomeTeam().getName())
-				.isEqualTo(TestUtil.SAN_REMO_TEAM);
+				.isEqualTo(TestUtil.TEAM_SAN_REMO);
 
 		game1.setHomeTeam(this.originais);
 
 		gameRepository.saveAndFlush(game1);
 		Optional<Game> gameAfterUpdate = gameRepository.findById(game1.getId());
 		assertThat(gameAfterUpdate.get().getHomeTeam().getName())
-				.isEqualTo(TestUtil.ORIGINAIS_TEAM);
+				.isEqualTo(TestUtil.TEAM_ORIGINAIS);
 	}
 
 	@After
 	public void cleanUp() {
 		gameRepository.deleteAll();
+		teamRepository.deleteAll();
 	}
 
 }
