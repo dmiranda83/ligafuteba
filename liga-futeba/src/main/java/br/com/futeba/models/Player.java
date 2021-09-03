@@ -25,7 +25,7 @@ public class Player implements Serializable {
 
 	@Id
 	@Column(name = "player_id", nullable = false)
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
 	@NotNull

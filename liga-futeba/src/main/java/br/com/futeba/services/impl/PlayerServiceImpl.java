@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.futeba.dtos.PlayerStatsDTO;
+import br.com.futeba.dtos.PlayerStatsDTO.PlayerStatsDTOBuilder;
 import br.com.futeba.models.Player;
 import br.com.futeba.models.Team;
 import br.com.futeba.repositories.PlayerRepository;
@@ -79,12 +80,14 @@ public class PlayerServiceImpl implements PlayerService {
 
 	private void buildStats(List<PlayerStatsDTO> estatisticasAtletasDTOs,
 			Object[] stats) {
-		PlayerStatsDTO estatisticaAtletaDTO = new PlayerStatsDTO();
-		estatisticaAtletaDTO.setName(stats[0]);
-		estatisticaAtletaDTO.setGoals(stats[1]);
-		estatisticaAtletaDTO.setAssists(stats[2]);
-		estatisticaAtletaDTO.setFrequency(stats[3]);
-		estatisticaAtletaDTO.setGoalsAverage(stats[4]);
-		estatisticasAtletasDTOs.add(estatisticaAtletaDTO);
+		
+		PlayerStatsDTOBuilder playerStats = PlayerStatsDTO.builder().name(stats[0]).goals(stats[1]);
+//		PlayerStatsDTO estatisticaAtletaDTO = new PlayerStatsDTO();
+//		estatisticaAtletaDTO.setName(stats[0]);
+//		estatisticaAtletaDTO.setGoals(stats[1]);
+//		estatisticaAtletaDTO.setAssists(stats[2]);
+//		estatisticaAtletaDTO.setFrequency(stats[3]);
+//		estatisticaAtletaDTO.setGoalsAverage(stats[4]);
+//		estatisticasAtletasDTOs.add(estatisticaAtletaDTO);
 	}
 }

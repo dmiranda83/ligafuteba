@@ -50,8 +50,9 @@ public class GameControllerV1 {
 	public ResponseEntity<Game> listById(@PathVariable Long id) {
 		logger.info("Find game id: {}", id);
 		Optional<Game> game = service.findById(id);
+		
 		return game.map(
-				response -> ResponseEntity.ok().headers(null).body(response))
+				response -> ResponseEntity.ok().header(null).body(response))
 				.orElseThrow(() -> new ResponseStatusException(
 						HttpStatus.NOT_FOUND));
 	}

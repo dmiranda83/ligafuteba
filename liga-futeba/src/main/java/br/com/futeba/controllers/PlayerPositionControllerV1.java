@@ -60,7 +60,7 @@ public class PlayerPositionControllerV1 {
 		logger.info("Find player postion id: {}", id);
 		Optional<Position> postion = service.findById(id);
 		return postion.map(
-				response -> ResponseEntity.ok().headers(null).body(response))
+				response -> ResponseEntity.ok().header(null).body(response))
 				.orElseThrow(() -> new ResponseStatusException(
 						HttpStatus.NOT_FOUND));
 	}
@@ -71,7 +71,7 @@ public class PlayerPositionControllerV1 {
 		logger.info("Find player position: {}", name);
 		Optional<Position> postion = service.findByName(name);
 		return postion.map(
-				response -> ResponseEntity.ok().headers(null).body(response))
+				response -> ResponseEntity.ok().header(null).body(response))
 				.orElseThrow(() -> new ResponseStatusException(
 						HttpStatus.NOT_FOUND));
 

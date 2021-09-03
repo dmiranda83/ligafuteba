@@ -47,7 +47,7 @@ public class TeamCategoryControllerV1 {
 		logger.info("Find category id: {}", id);
 		Optional<Category> category = service.findById(id);
 		return category.map(
-				response -> ResponseEntity.ok().headers(null).body(response))
+				response -> ResponseEntity.ok().header(null).body(response))
 				.orElseThrow(() -> new ResponseStatusException(
 						HttpStatus.NOT_FOUND));
 	}
@@ -58,7 +58,7 @@ public class TeamCategoryControllerV1 {
 		logger.info("Find category: {}", name);
 		Optional<Category> category = service.findByName(name);
 		return category.map(
-				response -> ResponseEntity.ok().headers(null).body(response))
+				response -> ResponseEntity.ok().header(null).body(response))
 				.orElseThrow(() -> new ResponseStatusException(
 						HttpStatus.NOT_FOUND));
 

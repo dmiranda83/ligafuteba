@@ -43,11 +43,11 @@ public class Team implements Serializable {
 
 	private String phoneContact2;
 
-	@ManyToOne
+	@ManyToOne(optional = false)
 	@JoinColumn(name = "category_id", referencedColumnName = "category_id")
 	private Category category;
 
-	@ManyToOne
+	@ManyToOne(optional = false)
 	@JoinColumn(name = "place_id", referencedColumnName = "place_id")
 	private Place place;
 

@@ -22,11 +22,16 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import br.com.futeba.dtos.PlayerDto;
 import br.com.futeba.dtos.PlayerStatsDTO;
 import br.com.futeba.models.Game;
 import br.com.futeba.models.Place;
 import br.com.futeba.models.Player;
+import br.com.futeba.models.Position;
+import br.com.futeba.models.Team;
 import br.com.futeba.services.PlayerService;
+import br.com.futeba.services.PositionService;
+import br.com.futeba.services.TeamService;
 import br.com.futeba.utils.HeaderUtil;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -37,94 +42,119 @@ import io.swagger.annotations.ApiResponses;
 @RequestMapping("/api/v1")
 public class PlayerControllerV1 {
 
-	private static final Logger logger = LoggerFactory
-			.getLogger(PlayerControllerV1.class);
+    private static final Logger logger = LoggerFactory
+            .getLogger(PlayerControllerV1.class);
 
-	@Autowired
-	private PlayerService service;
+    @Autowired
+    private PlayerService service;
+    @Autowired
+    private PositionService positionService;
+    @Autowired
+    private TeamService teamService;
 
-	@GetMapping(value = "/players", produces = "application/json")
-	@ApiOperation(value = "Return a list of players")
-	@ApiResponses(value = {
-			@ApiResponse(code = 200, message = "Return a list of players"),
-			@ApiResponse(code = 400, message = "Bad request"),
-			@ApiResponse(code = 404, message = "feature do not found"),
-			@ApiResponse(code = 403, message = "You do not have permission to access this feature"),
-			@ApiResponse(code = 500, message = "An exception was thrown"),})
-	public @ResponseBody ResponseEntity<List<Player>> listAll() {
-		logger.info("Listing all players");
-		return ResponseEntity.ok().body(service.findAll());
-	}
+    @GetMapping(value = "/players", produces = "application/json")
+    @ApiOperation(value = "Return a list of players")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Return a list of players"),
+            @ApiResponse(code = 400, message = "Bad request"),
+            @ApiResponse(code = 404, message = "feature do not found"),
+            @ApiResponse(code = 403, message = "You do not have permission to access this feature"),
+            @ApiResponse(code = 500, message = "An exception was thrown"),
+    })
+    public @ResponseBody ResponseEntity<List<Player>> listAll() {
+        logger.info("Listing all players");
+        return ResponseEntity.ok().body(service.findAll());
+    }
 
-	@GetMapping("/players/{id}")
-	public ResponseEntity<Player> listById(@PathVariable Long id) {
-		logger.info("Find player id: {}", id);
-		Optional<Player> player = service.findById(id);
-		return player.map(
-				response -> ResponseEntity.ok().headers(null).body(response))
-				.orElseThrow(() -> new ResponseStatusException(
-						HttpStatus.NOT_FOUND));
-	}
+    @GetMapping("/players/{id}")
+    public ResponseEntity<Player> listById(@PathVariable Long id) {
+        logger.info("Find player id: {}", id);
+        Optional<Player> player = service.findById(id);
+        return player.map(
+                response -> ResponseEntity.ok().header(null).body(response))
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND));
+    }
 
-	@GetMapping("/players/list/{name}")
-	public @ResponseBody ResponseEntity<Player> listByName(
-			@PathVariable("name") String name) {
-		logger.info("Find player: {}", name);
-		Optional<Player> player = service.findByName(name);
-		return player.map(
-				response -> ResponseEntity.ok().headers(null).body(response))
-				.orElseThrow(() -> new ResponseStatusException(
-						HttpStatus.NOT_FOUND));
+    @GetMapping("/players/list/{name}")
+    public @ResponseBody ResponseEntity<Player> listByName(
+            @PathVariable("name") String name) {
+        logger.info("Find player: {}", name);
+        Optional<Player> player = service.findByName(name);
+        return player.map(
+                response -> ResponseEntity.ok().header(null).body(response))
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND));
 
-	}
+    }
 
-	@GetMapping("/players/list/{year}")
-	public @ResponseBody Iterable<PlayerStatsDTO> getStats(
-			@PathVariable("year") final Integer year) {
-		logger.info("Loading player stats");
-		return service.getPlayerStats(year);
-	}
+    @GetMapping("/players/list/{year}")
+    public @ResponseBody Iterable<PlayerStatsDTO> getStats(
+            @PathVariable("year") final Integer year) {
+        logger.info("Loading player stats");
+        return service.getPlayerStats(year);
+    }
 
-	@PostMapping("/players")
-	public ResponseEntity<Player> save(@RequestBody final Player player) {
-		try {
-			Player playerSaved = service.save(player);
-			URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
-					.path("/{id}").buildAndExpand(player.getId()).toUri();
+    @PostMapping("/players")
+    public ResponseEntity<Player> save(@RequestBody final PlayerDto dto) {
+        try {
+            Player player = new Player();
+            player.setId(dto.getId());
+            player.setName(dto.getName());
 
-			return ResponseEntity.created(uri)
-					.headers(HeaderUtil.createEntityCreationAlert(
-							Place.class.getName(),
-							playerSaved.getId().toString()))
-					.body(playerSaved);
+            Optional<Position> position = positionService.findById(Long.valueOf(dto.getPositionId()));
+            if (position.isPresent()) {
+                player.setPosition(position.get());
+            }
 
-		} catch (Exception e) {
-			return ResponseEntity.badRequest().headers(HeaderUtil
-					.createErrorAlert("Check if parameters are correct!"))
-					.body(null);
-		}
-	}
+            Optional<Team> teamFound = teamService.findById(dto.getTeamId());
+            if (teamFound.isPresent()) {
+                dto.getTeamsId().add(teamFound.get());
+                player.setTeams(dto.getTeamsId());
+            }
 
-	@PutMapping("/players/{id}")
-	public ResponseEntity<Player> update(@PathVariable("id") final long id,
-			@RequestBody final Player player) {
+            Player playerSaved = service.save(player);
+            URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
+                    .path("/{id}")
+                    .buildAndExpand(player.getId())
+                    .toUri();
 
-		player.setId(id);
-		service.update(Optional.of(player));
-		return ResponseEntity.noContent().build();
-	}
+            return ResponseEntity.created(uri)
+                    .headers(HeaderUtil.createEntityCreationAlert(
+                            Place.class.getName(),
+                            playerSaved.getId().toString()))
+                    .body(playerSaved);
 
-	@DeleteMapping("/players/{id}")
-	public ResponseEntity<Player> delete(@PathVariable("id") final long id) {
-		logger.info("Deleting player id {}", id);
-		service.deleteById(id);
-		return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(
-				Game.class.getName(), String.valueOf(id))).build();
-	}
+        } catch (Exception e) {
+            return ResponseEntity.badRequest()
+                    .headers(HeaderUtil
+                            .createErrorAlert("Check if parameters are correct!"))
+                    .body(null);
+        }
+    }
 
-	@DeleteMapping("/players")
-	public void deleteAll() {
-		logger.info("Deleting all players");
-		service.deleteAll();
-	}
+    @PutMapping("/players/{id}")
+    public ResponseEntity<Player> update(@PathVariable("id") final long id,
+            @RequestBody final Player player) {
+
+        player.setId(id);
+        service.update(Optional.of(player));
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/players/{id}")
+    public ResponseEntity<Player> delete(@PathVariable("id") final long id) {
+        logger.info("Deleting player id {}", id);
+        service.deleteById(id);
+        return ResponseEntity.ok()
+                .headers(HeaderUtil.createEntityDeletionAlert(
+                        Game.class.getName(), String.valueOf(id)))
+                .build();
+    }
+
+    @DeleteMapping("/players")
+    public void deleteAll() {
+        logger.info("Deleting all players");
+        service.deleteAll();
+    }
 }

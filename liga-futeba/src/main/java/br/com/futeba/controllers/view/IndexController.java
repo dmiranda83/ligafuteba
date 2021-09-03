@@ -19,7 +19,6 @@ public class IndexController implements ErrorController {
 		return new ModelAndView("index");
 	}
 
-	@Override
 	@RequestMapping(value = "/error")
 	@ResponseBody
 	public String getErrorPath() {

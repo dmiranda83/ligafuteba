@@ -47,7 +47,7 @@ public class PlaceControllerV1 {
 		logger.info("Find category id: {}", id);
 		Optional<Place> place = service.findById(id);
 		return place.map(
-				response -> ResponseEntity.ok().headers(null).body(response))
+				response -> ResponseEntity.ok().header(null).body(response))
 				.orElseThrow(() -> new ResponseStatusException(
 						HttpStatus.NOT_FOUND));
 	}
@@ -57,7 +57,7 @@ public class PlaceControllerV1 {
 		logger.info("Find place: {}", name);
 		Optional<Place> place = service.findByName(name);
 		return place.map(
-				response -> ResponseEntity.ok().headers(null).body(response))
+				response -> ResponseEntity.ok().header(null).body(response))
 				.orElseThrow(() -> new ResponseStatusException(
 						HttpStatus.NOT_FOUND));
 	}
