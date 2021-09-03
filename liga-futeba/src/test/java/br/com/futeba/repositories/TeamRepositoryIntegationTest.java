@@ -23,123 +23,132 @@ import br.com.futeba.utils.TestUtil;
 @SpringBootTest(classes = H2JpaConfig.class)
 public class TeamRepositoryIntegationTest {
 
-	@Autowired
-	private TeamRepository teamRepository;
-	@Autowired
-	private CategoryRepository categoryRepository;
-	@Autowired
-	private PlaceRepository placeRepository;
+    @Autowired
+    private TeamRepository teamRepository;
+    @Autowired
+    private CategoryRepository categoryRepository;
+    @Autowired
+    private PlaceRepository placeRepository;
 
-	private Team originais;
-	private Team veneza;
-	private Team sanRemo;
-	private Category futsal;
-	private Place marcelino;
+    private Team originais;
+    private Team veneza;
+    private Team sanRemo;
+    private Category futsal;
+    private Place marcelino;
 
-	@Before
-	public void setUp() {
-		this.futsal = new Category(TestUtil.CATEGORY_FUTSAL);
-		this.marcelino = new Place(TestUtil.PLACE_MARCELINO);
+    @Before
+    public void setUp() {
+        this.futsal = new Category(TestUtil.CATEGORY_FUTSAL);
+        this.marcelino = new Place(TestUtil.PLACE_MARCELINO);
 
-		this.originais = new Team(TestUtil.TEAM_ORIGINAIS, false,
-				TestUtil.TEAM_RESPONSABLE,
-				TestUtil.TEAM_RESPONSABLE_PHONE_NUMBER, this.futsal, marcelino);
-		this.veneza = new Team(TestUtil.TEAM_VENEZA, false,
-				TestUtil.TEAM_RESPONSABLE,
-				TestUtil.TEAM_RESPONSABLE_PHONE_NUMBER, this.futsal, marcelino);
-		this.sanRemo = new Team(TestUtil.TEAM_SAN_REMO, false,
-				TestUtil.TEAM_RESPONSABLE,
-				TestUtil.TEAM_RESPONSABLE_PHONE_NUMBER, this.futsal, marcelino);
-	}
+        this.sanRemo = Team.builder()
+                .name(TestUtil.TEAM_SAN_REMO)
+                .away(false)
+                .responsibleName(TestUtil.TEAM_RESPONSABLE)
+                .phoneContact1(TestUtil.TEAM_RESPONSABLE_PHONE_NUMBER)
+                .build();
+        this.originais = Team.builder()
+                .name(TestUtil.TEAM_ORIGINAIS)
+                .away(false)
+                .responsibleName(TestUtil.TEAM_RESPONSABLE)
+                .phoneContact1(TestUtil.TEAM_RESPONSABLE_PHONE_NUMBER)
+                .build();
+        this.veneza = Team.builder()
+                .name(TestUtil.TEAM_VENEZA)
+                .away(false)
+                .responsibleName(TestUtil.TEAM_RESPONSABLE)
+                .phoneContact1(TestUtil.TEAM_RESPONSABLE_PHONE_NUMBER)
+                .build();
+    }
 
-	@Test
-	public void givenEmptyDBWhenFindByNameThenReturnEmptyOptional() {
-		Optional<Team> foundTeam = teamRepository
-				.findByName(TestUtil.TEAM_VENEZA);
+    @Test
+    public void givenEmptyDBWhenFindByNameThenReturnEmptyOptional() {
+        Optional<Team> foundTeam = teamRepository
+                .findByName(TestUtil.TEAM_VENEZA);
 
-		assertThat(foundTeam.isPresent()).isEqualTo(false);
-	}
+        assertThat(foundTeam.isPresent()).isEqualTo(false);
+    }
 
-	@Test
-	public void givenCategoryInDBWhenFindByNameThenReturnOptionalWithCategory() {
-		categoryRepository.save(futsal);
-		placeRepository.save(marcelino);
-		teamRepository.save(originais);
+    @Test
+    public void givenCategoryInDBWhenFindByNameThenReturnOptionalWithCategory() {
+        categoryRepository.save(futsal);
+        placeRepository.save(marcelino);
+        teamRepository.save(originais);
 
-		Optional<Team> foundTeam = teamRepository
-				.findByName(TestUtil.TEAM_ORIGINAIS);
+        Optional<Team> foundTeam = teamRepository
+                .findByName(TestUtil.TEAM_ORIGINAIS);
 
-		assertThat(foundTeam.isPresent()).isEqualTo(true);
-		assertThat(foundTeam.get().getName())
-				.isEqualTo(TestUtil.TEAM_ORIGINAIS);
-	}
+        assertThat(foundTeam.isPresent()).isEqualTo(true);
+        assertThat(foundTeam.get().getName())
+                .isEqualTo(TestUtil.TEAM_ORIGINAIS);
+    }
 
-	@Test
-	public void givenAllTeamsInDBWhenFindAllThenReturnOptionalWithAllTeams() {
-		categoryRepository.save(futsal);
-		placeRepository.save(marcelino);
-		teamRepository.save(originais);
-		teamRepository.save(veneza);
-		teamRepository.save(sanRemo);
+    @Test
+    public void givenAllTeamsInDBWhenFindAllThenReturnOptionalWithAllTeams() {
+        categoryRepository.save(futsal);
+        placeRepository.save(marcelino);
+        teamRepository.save(originais);
+        teamRepository.save(veneza);
+        teamRepository.save(sanRemo);
 
-		List<Team> foundAllTeams = teamRepository.findAll();
+        List<Team> foundAllTeams = teamRepository.findAll();
 
-		assertThat(foundAllTeams.size()).isEqualTo(3);
-	}
+        assertThat(foundAllTeams.size()).isEqualTo(3);
+    }
 
-	@Test
-	public void givenTeamInDBWhenFindByIdThenReturnOptionalWithTeam() {
-		categoryRepository.save(futsal);
-		placeRepository.save(marcelino);
-		teamRepository.save(originais);
+    @Test
+    public void givenTeamInDBWhenFindByIdThenReturnOptionalWithTeam() {
+        categoryRepository.save(futsal);
+        placeRepository.save(marcelino);
+        teamRepository.save(originais);
 
-		Optional<Team> foundTeam = teamRepository.findById(originais.getId());
+        Optional<Team> foundTeam = teamRepository.findById(originais.getId());
 
-		assertThat(foundTeam.isPresent()).isEqualTo(true);
-		assertThat(foundTeam.get().getName())
-				.isEqualTo(TestUtil.TEAM_ORIGINAIS);
-	}
+        assertThat(foundTeam.isPresent()).isEqualTo(true);
+        assertThat(foundTeam.get().getName())
+                .isEqualTo(TestUtil.TEAM_ORIGINAIS);
+    }
 
-	@Test
-	public void givenTeamInDBWhenDeleteThenReturnEmptyOptional() {
-		categoryRepository.save(futsal);
-		placeRepository.save(marcelino);
-		teamRepository.save(originais);
-		Optional<Team> teamBeforeDelete = teamRepository
-				.findById(originais.getId());
-		assertThat(teamBeforeDelete.isPresent()).isEqualTo(true);
+    @Test
+    public void givenTeamInDBWhenDeleteThenReturnEmptyOptional() {
+        categoryRepository.save(futsal);
+        placeRepository.save(marcelino);
+        teamRepository.save(originais);
+        Optional<Team> teamBeforeDelete = teamRepository
+                .findById(originais.getId());
+        assertThat(teamBeforeDelete.isPresent()).isEqualTo(true);
 
-		teamRepository.delete(originais);
-		Optional<Team> teamAfterDelete = teamRepository
-				.findById(originais.getId());
-		assertThat(teamAfterDelete.isPresent()).isEqualTo(false);
-	}
+        teamRepository.delete(originais);
+        Optional<Team> teamAfterDelete = teamRepository
+                .findById(originais.getId());
+        assertThat(teamAfterDelete.isPresent()).isEqualTo(false);
+    }
 
-	@Test
-	public void givenTeamInDBWhenUpdateThenReturnTeamUpdated() {
-		categoryRepository.save(futsal);
-		placeRepository.save(marcelino);
-		teamRepository.save(originais);
-		Optional<Team> teamBeforeUpdate = teamRepository
-				.findById(originais.getId());
-		assertThat(teamBeforeUpdate.get().getName())
-				.isEqualTo(TestUtil.TEAM_ORIGINAIS);
+    @Test
+    public void givenTeamInDBWhenUpdateThenReturnTeamUpdated() {
+        categoryRepository.save(futsal);
+        placeRepository.save(marcelino);
+        teamRepository.save(originais);
+        Optional<Team> teamBeforeUpdate = teamRepository
+                .findById(originais.getId());
+        assertThat(teamBeforeUpdate.get().getName())
+                .isEqualTo(TestUtil.TEAM_ORIGINAIS);
 
-		originais.setName(TestUtil.TEAM_RACA);
+        originais.setName(TestUtil.TEAM_RACA);
 
-		teamRepository.saveAndFlush(originais);
+        teamRepository.saveAndFlush(originais);
 
-		Optional<Team> teamAfterUpdate = teamRepository
-				.findById(originais.getId());
-		assertThat(teamAfterUpdate.get().getName())
-				.isEqualTo(TestUtil.TEAM_RACA);
-	}
+        Optional<Team> teamAfterUpdate = teamRepository
+                .findById(originais.getId());
+        assertThat(teamAfterUpdate.get().getName())
+                .isEqualTo(TestUtil.TEAM_RACA);
+    }
 
-	@After
-	public void cleanUp() {
-		teamRepository.deleteAll();
-		categoryRepository.deleteAll();
-		placeRepository.deleteAll();
-	}
+    @After
+    public void cleanUp() {
+        teamRepository.deleteAll();
+        categoryRepository.deleteAll();
+        placeRepository.deleteAll();
+    }
 
 }

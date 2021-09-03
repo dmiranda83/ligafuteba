@@ -1,6 +1,7 @@
 package br.com.futeba.controllers;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -98,21 +99,25 @@ public class PlayerControllerV1 {
     @PostMapping("/players")
     public ResponseEntity<Player> save(@RequestBody final PlayerDto dto) {
         try {
-            Player player = new Player();
-            player.setId(dto.getId());
-            player.setName(dto.getName());
+
+            Optional<Player> foundPlayer = service.findByName(dto.getName());
+            if (dto.getName() == null || (foundPlayer.isPresent()
+                    && dto.getName().equals(foundPlayer.get().getName()))) {
+                return getHttpStatusBadRequest("playerExists",
+                        "A new player cannot exist");
+            }
 
             Optional<Position> position = positionService.findById(Long.valueOf(dto.getPositionId()));
-            if (position.isPresent()) {
-                player.setPosition(position.get());
-            }
-
             Optional<Team> teamFound = teamService.findById(dto.getTeamId());
+            List<Team> teams = new ArrayList<>();
             if (teamFound.isPresent()) {
-                dto.getTeamsId().add(teamFound.get());
-                player.setTeams(dto.getTeamsId());
+                teams.add(teamFound.get());
             }
-
+            Player player = Player.builder()
+                    .name(dto.getName())
+                    .position(position.isPresent() ? position.get() : null)
+                    .teams(teams)
+                    .build();
             Player playerSaved = service.save(player);
             URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
                     .path("/{id}")
@@ -156,5 +161,13 @@ public class PlayerControllerV1 {
     public void deleteAll() {
         logger.info("Deleting all players");
         service.deleteAll();
+    }
+
+    private ResponseEntity<Player> getHttpStatusBadRequest(String errorKey,
+            String defaultMessage) {
+        return ResponseEntity.badRequest()
+                .headers(HeaderUtil.createFailureAlert(Player.class.getName(),
+                        errorKey, defaultMessage))
+                .body(null);
     }
 }
