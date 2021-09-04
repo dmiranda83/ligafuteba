@@ -77,9 +77,21 @@ public class GameServiceImplIntegrationTest {
                 .phoneContact1(TestUtil.TEAM_RESPONSABLE_PHONE_NUMBER)
                 .build();
 
-        this.game1 = new Game(1L, this.sanRemo, this.raca);
-        this.game2 = new Game(2L, this.sanRemo, this.originais);
-        this.game3 = new Game(3L, this.sanRemo, this.veneza);
+        this.game1 = Game.builder()
+                .id(1L)
+                .homeTeam(this.sanRemo)
+                .awayTeam(this.raca)
+                .build();
+        this.game2 = Game.builder()
+                .id(2L)
+                .homeTeam(this.sanRemo)
+                .awayTeam(this.originais)
+                .build();
+        this.game3 = Game.builder()
+                .id(3L)
+                .homeTeam(this.sanRemo)
+                .awayTeam(this.veneza)
+                .build();
 
         this.allGames = Arrays.asList(this.game1, this.game2, this.game3);
 

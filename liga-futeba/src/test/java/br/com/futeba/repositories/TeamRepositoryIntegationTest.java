@@ -38,8 +38,8 @@ public class TeamRepositoryIntegationTest {
 
     @Before
     public void setUp() {
-        this.futsal = new Category(TestUtil.CATEGORY_FUTSAL);
-        this.marcelino = new Place(TestUtil.PLACE_MARCELINO);
+        this.futsal = Category.builder().name(TestUtil.CATEGORY_FUTSAL).build();
+        this.marcelino = Place.builder().name(TestUtil.PLACE_MARCELINO).build();
 
         this.sanRemo = Team.builder()
                 .name(TestUtil.TEAM_SAN_REMO)

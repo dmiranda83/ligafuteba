@@ -3,11 +3,13 @@ package br.com.futeba.dtos;
 import java.util.List;
 
 import br.com.futeba.models.Team;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
+@Builder
 public class PlayerDto {
     private Long id;
     private String name;

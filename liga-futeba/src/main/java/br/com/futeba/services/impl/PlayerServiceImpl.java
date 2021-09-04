@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.futeba.dtos.PlayerStatsDTO;
-import br.com.futeba.dtos.PlayerStatsDTO.PlayerStatsDTOBuilder;
 import br.com.futeba.models.Player;
 import br.com.futeba.models.Team;
 import br.com.futeba.repositories.PlayerRepository;
@@ -17,77 +16,77 @@ import br.com.futeba.services.PlayerService;
 @Service("PlayerService")
 public class PlayerServiceImpl implements PlayerService {
 
-	@Autowired
-	private PlayerRepository repository;
+    @Autowired
+    private PlayerRepository repository;
 
-	@Override
-	public Player save(final Player atleta) {
-		return repository.save(atleta);
-	}
+    @Override
+    public Player save(final Player atleta) {
+        return repository.save(atleta);
+    }
 
-	@Override
-	public Optional<Player> findByName(String name) {
-		return repository.findByName(name);
-	}
+    @Override
+    public Optional<Player> findByName(String name) {
+        return repository.findByName(name);
+    }
 
-	@Override
-	public List<Player> findAll() {
-		return repository.findAll();
-	}
+    @Override
+    public List<Player> findAll() {
+        return repository.findAll();
+    }
 
-	@Override
-	public Optional<Player> findById(final Long id) {
-		return repository.findById(id);
-	}
+    @Override
+    public Optional<Player> findById(final Long id) {
+        return repository.findById(id);
+    }
 
-	@Override
-	public Optional<Player> update(final Optional<Player> atleta) {
-		return repository.saveAndFlush(atleta);
-	}
+    @Override
+    public Optional<Player> update(final Optional<Player> atleta) {
+        return repository.saveAndFlush(atleta);
+    }
 
-	@Override
-	public void deleteById(final Long id) {
-		repository.deleteById(id);
-	}
+    @Override
+    public void deleteById(final Long id) {
+        repository.deleteById(id);
+    }
 
-	@Override
-	public void deleteAll() {
-		repository.deleteAll();
-	}
+    @Override
+    public void deleteAll() {
+        repository.deleteAll();
+    }
 
-	@Override
-	public List<Player> listPlayerByTeam(Team team) {
-		List<Player> listPlayerByTeam = new ArrayList<>();
-		repository.findAll().stream()
-				.filter(player -> player.getTeams().contains(team))
-				.forEach(listPlayerByTeam::add);
-		return listPlayerByTeam;
-	}
+    @Override
+    public List<Player> listPlayerByTeam(Team team) {
+        List<Player> listPlayerByTeam = new ArrayList<>();
+        repository.findAll()
+                .stream()
+                .filter(player -> player.getTeams().contains(team))
+                .forEach(listPlayerByTeam::add);
+        return listPlayerByTeam;
+    }
 
-	@Override
-	@SuppressWarnings("unchecked")
-	public Iterable<PlayerStatsDTO> getPlayerStats(Integer year) {
-		List<Object[]> playerStats = (List<Object[]>) repository
-				.getEstatisticasAtleta(year);
+    @Override
+    @SuppressWarnings("unchecked")
+    public Iterable<PlayerStatsDTO> getPlayerStats(Integer year) {
+        List<Object[]> playerStats = (List<Object[]>) repository
+                .getEstatisticasAtleta(year);
 
-		List<PlayerStatsDTO> estatisticasAtletasDTOs = new ArrayList<>();
-		if (playerStats != null && !playerStats.isEmpty()) {
-			playerStats.forEach(
-					stats -> buildStats(estatisticasAtletasDTOs, stats));
-		}
-		return estatisticasAtletasDTOs;
-	}
+        List<PlayerStatsDTO> estatisticasAtletasDTOs = new ArrayList<>();
+        if (playerStats != null && !playerStats.isEmpty()) {
+            playerStats.forEach(
+                    stats -> buildStats(estatisticasAtletasDTOs, stats));
+        }
+        return estatisticasAtletasDTOs;
+    }
 
-	private void buildStats(List<PlayerStatsDTO> estatisticasAtletasDTOs,
-			Object[] stats) {
-		
-		PlayerStatsDTOBuilder playerStats = PlayerStatsDTO.builder().name(stats[0]).goals(stats[1]);
-//		PlayerStatsDTO estatisticaAtletaDTO = new PlayerStatsDTO();
-//		estatisticaAtletaDTO.setName(stats[0]);
-//		estatisticaAtletaDTO.setGoals(stats[1]);
-//		estatisticaAtletaDTO.setAssists(stats[2]);
-//		estatisticaAtletaDTO.setFrequency(stats[3]);
-//		estatisticaAtletaDTO.setGoalsAverage(stats[4]);
-//		estatisticasAtletasDTOs.add(estatisticaAtletaDTO);
-	}
+    private void buildStats(List<PlayerStatsDTO> estatisticasAtletasDTOs,
+            Object[] stats) {
+        PlayerStatsDTO playerStats = PlayerStatsDTO.builder()
+                .name(stats[0])
+                .goals(stats[1])
+                .assists(stats[2])
+                .frequency(stats[3])
+                .goalsAverage(stats[4])
+                .build();
+        estatisticasAtletasDTOs.add(playerStats);
+    }
 }

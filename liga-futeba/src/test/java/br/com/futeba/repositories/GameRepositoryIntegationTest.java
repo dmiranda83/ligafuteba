@@ -63,9 +63,18 @@ public class GameRepositoryIntegationTest {
                 .phoneContact1(TestUtil.TEAM_RESPONSABLE_PHONE_NUMBER)
                 .build();
 
-        this.game1 = new Game(this.sanRemo, this.raca);
-        this.game2 = new Game(this.sanRemo, this.originais);
-        this.game3 = new Game(this.sanRemo, this.veneza);
+        this.game1 = Game.builder()
+                .homeTeam(this.sanRemo)
+                .awayTeam(this.raca)
+                .build();
+        this.game2 = Game.builder()
+                .homeTeam(this.sanRemo)
+                .awayTeam(this.originais)
+                .build();
+        this.game3 = Game.builder()
+                .homeTeam(this.sanRemo)
+                .awayTeam(this.veneza)
+                .build();
     }
 
     @Test
