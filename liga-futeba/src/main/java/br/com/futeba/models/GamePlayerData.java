@@ -34,6 +34,8 @@ public class GamePlayerData implements Serializable {
 
     @NotNull
     private Integer goals;
+    @NotNull
+    private Integer assists;
 
     @NotNull
     private Integer presence;

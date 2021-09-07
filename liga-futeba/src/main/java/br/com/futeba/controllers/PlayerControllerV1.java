@@ -99,7 +99,6 @@ public class PlayerControllerV1 {
     @PostMapping("/players")
     public ResponseEntity<Player> save(@RequestBody final PlayerDto dto) {
         try {
-
             Optional<Player> foundPlayer = service.findByName(dto.getName());
             if (dto.getName() == null || (foundPlayer.isPresent()
                     && dto.getName().equals(foundPlayer.get().getName()))) {

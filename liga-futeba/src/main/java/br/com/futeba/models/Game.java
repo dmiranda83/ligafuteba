@@ -1,7 +1,6 @@
 package br.com.futeba.models;
 
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Set;
 
@@ -36,8 +35,7 @@ public class Game implements Serializable {
     @Column(name = "game_id", nullable = false)
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private LocalDate date;
-    private LocalDateTime hour;
+    private LocalDateTime dateTime;
     private Integer squad;
     @ManyToOne
     @JoinColumn(name = "place_id", referencedColumnName = "place_id")
@@ -46,18 +44,12 @@ public class Game implements Serializable {
     @JoinColumn(name = "home_team_id", referencedColumnName = "team_id")
     private Team homeTeam;
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<GamePlayerData> gamePlayerData;
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<GamePlayerData> homeGoals;
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<Assist> homeAssists;
+    private Set<GamePlayerData> homeTeamData;
     @ManyToOne(optional = true)
     @JoinColumn(name = "away_team_id", referencedColumnName = "team_id")
     private Team awayTeam;
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Set<GamePlayerData> awayGoals;
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Set<Assist> awayAssists;
+    private Set<GamePlayerData> awayTeamData;
     private Integer homeTeamTotalGoals;
     private Integer awayTeamTotalGoals;
     private Integer points;

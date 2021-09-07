@@ -16,8 +16,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -59,7 +57,6 @@ public class Team implements Serializable {
     }, inverseJoinColumns = {
             @JoinColumn(name = "player_id")
     })
-    @JsonIgnoreProperties("teams")
     private List<Player> players;
     @OneToMany(mappedBy = "awayTeam")
     private List<Game> game;
