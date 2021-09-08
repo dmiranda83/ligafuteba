@@ -7,7 +7,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+
+import org.apache.commons.lang3.StringUtils;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,14 +24,16 @@ import lombok.Setter;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name = "place")
+@Entity
+@Table(name = "place")
 public class Place implements Serializable {
 
     private static final long serialVersionUID = 2062908763035875940L;
 
     @Id
-    @Column(name = "place_id", nullable = false)
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "place_generator")
+    @SequenceGenerator(name = "place_generator", sequenceName = "place_seq", allocationSize = 1)
+    @Column(name = "id", updatable = false, nullable = false)
     private Long id;
 
     @NotNull
@@ -40,6 +46,6 @@ public class Place implements Serializable {
     private String zipCode;
 
     public Boolean isPlaceWithoutZipCode() {
-        return this.zipCode.isEmpty();
+        return StringUtils.isEmpty(this.zipCode);
     }
 }

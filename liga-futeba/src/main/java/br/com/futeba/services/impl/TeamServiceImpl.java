@@ -40,7 +40,7 @@ public class TeamServiceImpl implements TeamService {
     }
 
     @Override
-    public Optional<Team> update(final Optional<Team> team) {
+    public Team update(final Team team) {
         return repository.saveAndFlush(team);
     }
 
@@ -64,11 +64,10 @@ public class TeamServiceImpl implements TeamService {
         return listTeamByPlayer;
     }
 
-    @SuppressWarnings("unchecked")
     @Override
-    public Iterable<TeamStatsDTO> getTeamStats(Integer year) {
+    public List<TeamStatsDTO> getTeamStats(Integer year) {
 
-        List<Object[]> teamStats = (List<Object[]>) repository
+        List<TeamStatsDTO> teamStats = repository
                 .getTeamStats(year);
 
         List<TeamStatsDTO> statsDTOs = new ArrayList<>();
@@ -78,15 +77,15 @@ public class TeamServiceImpl implements TeamService {
         return statsDTOs;
     }
 
-    private void buildStats(List<TeamStatsDTO> teamStatsDTOs, Object[] stats) {
+    private void buildStats(List<TeamStatsDTO> teamStatsDTOs, TeamStatsDTO stats) {
         TeamStatsDTO teamStatsDTO = TeamStatsDTO.builder()
-                .squad(stats[0])
-                .points(stats[1])
-                .scoredGoals(stats[2])
-                .concededGoals(stats[3])
-                .balanceGoals(stats[4])
-                .games(stats[5])
-                .winPercentage(stats[6])
+                .squad(stats.getSquad())
+                .points(stats.getPoints())
+                .scoredGoals(stats.getScoredGoals())
+                .concededGoals(stats.getConcededGoals())
+                .balanceGoals(stats.getBalanceGoals())
+                .games(stats.getGames())
+                .winPercentage(stats.getWinPercentage())
                 .build();
         teamStatsDTOs.add(teamStatsDTO);
     }

@@ -2,7 +2,9 @@ package br.com.futeba.models;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -14,7 +16,13 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -27,14 +35,17 @@ import lombok.Setter;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name = "team")
+@Entity
+@Table(name = "team")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Team implements Serializable {
 
-    private static final long serialVersionUID = 3457244849292203050L;
+    private static final long serialVersionUID = 4224419182826600375L;
 
     @Id
-    @Column(name = "team_id", nullable = false)
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "team_generator")
+    @SequenceGenerator(name = "team_generator", sequenceName = "team_seq", allocationSize = 1)
+    @Column(name = "id", updatable = false, nullable = false)
     private Long id;
     @NotNull
     private String name;
@@ -46,18 +57,21 @@ public class Team implements Serializable {
     private String phoneContact1;
     private String phoneContact2;
     @ManyToOne(optional = false)
-    @JoinColumn(name = "category_id", referencedColumnName = "category_id")
+    @JoinColumn(name = "category_id", referencedColumnName = "id")
     private Category category;
     @ManyToOne(optional = false)
-    @JoinColumn(name = "place_id", referencedColumnName = "place_id")
+    @JoinColumn(name = "place_id", referencedColumnName = "id")
     private Place place;
-    @ManyToMany(fetch = FetchType.EAGER)
+
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "team_player", joinColumns = {
-            @JoinColumn(name = "team_id")
+            @JoinColumn(name = "team_id", referencedColumnName = "id")
     }, inverseJoinColumns = {
-            @JoinColumn(name = "player_id")
+            @JoinColumn(name = "player_id", referencedColumnName = "id")
     })
-    private List<Player> players;
+    @JsonManagedReference
+    private Set<Player> players;
+
     @OneToMany(mappedBy = "awayTeam")
     private List<Game> game;
 }

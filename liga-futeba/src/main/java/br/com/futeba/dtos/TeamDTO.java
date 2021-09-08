@@ -1,7 +1,5 @@
 package br.com.futeba.dtos;
 
-import java.util.List;
-
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,5 +16,6 @@ public class TeamDTO {
     private String phoneContact2;
     private String categoryId;
     private String placeID;
-    List<String> playerIds;
+    private String playerId;
+    private PlayerDto player;
 }

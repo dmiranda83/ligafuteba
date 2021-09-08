@@ -1,9 +1,10 @@
 package br.com.futeba.controllers;
 
 import java.net.URI;
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -108,7 +109,7 @@ public class PlayerControllerV1 {
 
             Optional<Position> position = positionService.findById(Long.valueOf(dto.getPositionId()));
             Optional<Team> teamFound = teamService.findById(dto.getTeamId());
-            List<Team> teams = new ArrayList<>();
+            Set<Team> teams = new HashSet<>();
             if (teamFound.isPresent()) {
                 teams.add(teamFound.get());
             }

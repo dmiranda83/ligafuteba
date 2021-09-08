@@ -1,9 +1,12 @@
 package br.com.futeba.controllers;
 
 import java.net.URI;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,9 +29,13 @@ import br.com.futeba.dtos.TeamDTO;
 import br.com.futeba.dtos.TeamStatsDTO;
 import br.com.futeba.models.Category;
 import br.com.futeba.models.Place;
+import br.com.futeba.models.Player;
+import br.com.futeba.models.Position;
 import br.com.futeba.models.Team;
 import br.com.futeba.services.CategoryService;
 import br.com.futeba.services.PlaceService;
+import br.com.futeba.services.PlayerService;
+import br.com.futeba.services.PositionService;
 import br.com.futeba.services.TeamService;
 import br.com.futeba.utils.HeaderUtil;
 import io.swagger.annotations.ApiOperation;
@@ -49,6 +56,10 @@ public class TeamControllerV1 {
     private PlaceService placeService;
     @Autowired
     private CategoryService categoryService;
+    @Autowired
+    private PlayerService playerService;
+    @Autowired
+    private PositionService positionService;
 
     @GetMapping("/teams")
     public @ResponseBody ResponseEntity<List<Team>> listAll() {
@@ -57,7 +68,7 @@ public class TeamControllerV1 {
     }
 
     @GetMapping("/teams/{id}")
-    public ResponseEntity<Team> listById(@PathVariable Long id) {
+    public ResponseEntity<Team> listById(@PathVariable final Long id) {
         logger.info("Find game id: {}", id);
         Optional<Team> team = service.findById(id);
         return team.map(
@@ -67,7 +78,7 @@ public class TeamControllerV1 {
     }
 
     @GetMapping("/teams/list/{name}")
-    public ResponseEntity<Team> listByName(@PathVariable("name") String name) {
+    public ResponseEntity<Team> listByName(@PathVariable("name") final String name) {
         logger.info("Find Teams: {}", name);
         Optional<Team> team = service.findByName(name);
         return team.map(
@@ -128,7 +139,7 @@ public class TeamControllerV1 {
                             Team.class.getName(), teamSaved.getId().toString()))
                     .body(teamSaved);
 
-        } catch (Exception e) {
+        } catch (final Exception e) {
             return ResponseEntity.badRequest()
                     .headers(HeaderUtil
                             .createErrorAlert("Check if parameters are correct!"))
@@ -138,10 +149,44 @@ public class TeamControllerV1 {
 
     @PutMapping("/teams/{id}")
     public ResponseEntity<Team> update(@PathVariable("id") final long id,
-            @RequestBody final Team team) {
+            @RequestBody final TeamDTO dto) {
+        Optional<Team> foundTeam = service.findById(dto.getId());
+        String placeID = StringUtils.isNotEmpty(dto.getPlaceID()) ? dto.getPlaceID() : "0";
+        String categoryId = StringUtils.isNotEmpty(dto.getCategoryId()) ? dto.getCategoryId() : "0";
+        Optional<Place> foundPlace = placeService.findById(Long.valueOf(placeID));
+        Optional<Category> foundCategory = categoryService.findById(Long.valueOf(categoryId));
+        Set<Player> players = new HashSet<>();
+        Team team = new Team();
+        if (foundTeam.isPresent()) {
+            team = foundTeam.get();
+            players = team.getPlayers();
+        }
 
-        team.setId(id);
-        service.update(Optional.of(team));
+        if (dto.getPlayerId() != null) {
+            Optional<Player> player = playerService.findById(Long.valueOf(dto.getPlayerId()));
+            if (player.isPresent()) {
+                players.add(player.get());
+            }
+        } else {
+            Optional<Position> position = positionService.findById(Long.valueOf(dto.getPlayer().getPositionId()));
+            Player playerBuild = Player.builder()
+                    .name(dto.getPlayer().getName())
+                    .position(position.isPresent() ? position.get() : null)
+                    .build();
+            players.add(playerBuild);
+        }
+
+        team.setId(dto.getId());
+        team.setName(dto.getName() != null ? dto.getName() : team.getName());
+        team.setAway(dto.getAway() != null ? dto.getAway() : team.getAway());
+        team.setResponsibleName(dto.getResponsibleName() != null ? dto.getResponsibleName() : team.getResponsibleName());
+        team.setPhoneContact1(dto.getPhoneContact1() != null ? dto.getPhoneContact1() : team.getPhoneContact1());
+        team.setPhoneContact2(dto.getPhoneContact2() != null ? dto.getPhoneContact2() : team.getPhoneContact2());
+        team.setPlace(foundPlace.isPresent() ? foundPlace.get() : team.getPlace());
+        team.setCategory(foundCategory.isPresent() ? foundCategory.get() : team.getCategory());
+        team.setPlayers(players);
+
+        service.update(team);
         return ResponseEntity.noContent().build();
     }
 
@@ -161,8 +206,8 @@ public class TeamControllerV1 {
         service.deleteAll();
     }
 
-    private ResponseEntity<Team> getHttpStatusBadRequest(String errorKey,
-            String defaultMessage) {
+    private ResponseEntity<Team> getHttpStatusBadRequest(final String errorKey,
+            final String defaultMessage) {
         return ResponseEntity.badRequest()
                 .headers(HeaderUtil.createFailureAlert(Team.class.getName(),
                         errorKey, defaultMessage))

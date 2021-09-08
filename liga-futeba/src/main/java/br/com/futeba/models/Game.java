@@ -14,6 +14,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -26,27 +28,30 @@ import lombok.Setter;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name = "game")
+@Entity
+@Table(name = "game")
 public class Game implements Serializable {
 
     private static final long serialVersionUID = 2531069826794464004L;
 
     @Id
-    @Column(name = "game_id", nullable = false)
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "game_generator")
+    @SequenceGenerator(name = "game_generator", sequenceName = "game_seq", allocationSize = 1)
+    @Column(name = "id", updatable = false, nullable = false)
     private Long id;
+
     private LocalDateTime dateTime;
     private Integer squad;
     @ManyToOne
-    @JoinColumn(name = "place_id", referencedColumnName = "place_id")
+    @JoinColumn(name = "place_id", referencedColumnName = "id")
     private Place place;
     @ManyToOne(optional = true)
-    @JoinColumn(name = "home_team_id", referencedColumnName = "team_id")
+    @JoinColumn(name = "home_team_id", referencedColumnName = "id")
     private Team homeTeam;
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<GamePlayerData> homeTeamData;
     @ManyToOne(optional = true)
-    @JoinColumn(name = "away_team_id", referencedColumnName = "team_id")
+    @JoinColumn(name = "away_team_id", referencedColumnName = "id")
     private Team awayTeam;
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<GamePlayerData> awayTeamData;

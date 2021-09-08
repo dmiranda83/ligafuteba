@@ -9,6 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import lombok.AllArgsConstructor;
@@ -22,15 +24,17 @@ import lombok.Setter;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name = "gamePlayerData")
+@Entity
+@Table(name = "gamePlayerData")
 public class GamePlayerData implements Serializable {
 
     private static final long serialVersionUID = -8413600343702476736L;
 
     @Id
-    @Column(name = "gol_id", nullable = false)
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "gamePlayerData_generator")
+    @SequenceGenerator(name = "gamePlayerData_generator", sequenceName = "gamePlayerData_seq", allocationSize = 1)
+    @Column(name = "id", updatable = false, nullable = false)
+    private Long id;
 
     @NotNull
     private Integer goals;
@@ -44,10 +48,10 @@ public class GamePlayerData implements Serializable {
     private Integer playedGame;
 
     @ManyToOne(optional = true)
-    @JoinColumn(name = "player_id", referencedColumnName = "player_id")
+    @JoinColumn(name = "player_id", referencedColumnName = "id")
     private Player player;
 
     @ManyToOne(optional = true)
-    @JoinColumn(name = "team_id", referencedColumnName = "team_id")
+    @JoinColumn(name = "team_id", referencedColumnName = "id")
     private Team team;
 }
