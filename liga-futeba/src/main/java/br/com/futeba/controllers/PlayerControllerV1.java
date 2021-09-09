@@ -25,7 +25,7 @@ import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.com.futeba.dtos.PlayerDto;
-import br.com.futeba.dtos.PlayerStatsDTO;
+import br.com.futeba.dtos.PlayerStatsDto;
 import br.com.futeba.models.Game;
 import br.com.futeba.models.Place;
 import br.com.futeba.models.Player;
@@ -69,7 +69,7 @@ public class PlayerControllerV1 {
     }
 
     @GetMapping("/players/{id}")
-    public ResponseEntity<Player> listById(@PathVariable Long id) {
+    public ResponseEntity<Player> listById(@PathVariable final Long id) {
         logger.info("Find player id: {}", id);
         Optional<Player> player = service.findById(id);
         return player.map(
@@ -80,7 +80,7 @@ public class PlayerControllerV1 {
 
     @GetMapping("/players/list/{name}")
     public @ResponseBody ResponseEntity<Player> listByName(
-            @PathVariable("name") String name) {
+            @PathVariable("name") final String name) {
         logger.info("Find player: {}", name);
         Optional<Player> player = service.findByName(name);
         return player.map(
@@ -91,10 +91,20 @@ public class PlayerControllerV1 {
     }
 
     @GetMapping("/players/list/{year}")
-    public @ResponseBody Iterable<PlayerStatsDTO> getStats(
+    public @ResponseBody Iterable<PlayerStatsDto> getStats(
             @PathVariable("year") final Integer year) {
         logger.info("Loading player stats");
         return service.getPlayerStats(year);
+    }
+
+    @GetMapping("/players/team/{id}")
+    public ResponseEntity<Set<Player>> listByTeamId(@PathVariable final Long id) {
+        logger.info("Find player bay team id: {}", id);
+        Optional<Team> team = teamService.findById(id);
+
+        Set<Player> players = team.isPresent() ? team.get().getPlayers() : new HashSet<>();
+
+        return ResponseEntity.ok().body(players);
     }
 
     @PostMapping("/players")
@@ -163,8 +173,8 @@ public class PlayerControllerV1 {
         service.deleteAll();
     }
 
-    private ResponseEntity<Player> getHttpStatusBadRequest(String errorKey,
-            String defaultMessage) {
+    private ResponseEntity<Player> getHttpStatusBadRequest(final String errorKey,
+            final String defaultMessage) {
         return ResponseEntity.badRequest()
                 .headers(HeaderUtil.createFailureAlert(Player.class.getName(),
                         errorKey, defaultMessage))

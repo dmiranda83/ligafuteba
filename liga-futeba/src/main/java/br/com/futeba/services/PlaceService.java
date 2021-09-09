@@ -7,19 +7,21 @@ import br.com.futeba.models.Place;
 
 public interface PlaceService {
 
-	Place save(Place estabelecimento);
+    Place save(Place estabelecimento);
 
-	List<Place> findAll();
+    List<Place> findAll();
 
-	Optional<Place> findById(Long id);
+    Optional<Place> findById(Long id);
 
-	Optional<Place> findByName(String name);
+    Optional<Place> findByName(String name);
 
-	void deleteById(Long id);
+    Optional<Place> findByZipCode(String zipCode);
 
-	void deleteAll();
+    void deleteById(Long id);
 
-	Optional<Place> update(Optional<Place> currentPlace);
+    void deleteAll();
 
-	List<Place> listPlacesWithoutZipCode();
+    Optional<Place> update(Optional<Place> currentPlace);
+
+    List<Place> listPlacesWithoutZipCode();
 }

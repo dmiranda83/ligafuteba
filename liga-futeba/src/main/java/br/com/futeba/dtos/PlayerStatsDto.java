@@ -7,7 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
-public class PlayerStatsDTO {
+public class PlayerStatsDto {
     private Object name;
     private Object goals;
     private Object assists;

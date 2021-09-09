@@ -7,7 +7,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.com.futeba.dtos.PlayerStatsDTO;
+import br.com.futeba.dtos.PlayerStatsDto;
 import br.com.futeba.models.Player;
 import br.com.futeba.models.Team;
 import br.com.futeba.repositories.PlayerRepository;
@@ -66,11 +66,11 @@ public class PlayerServiceImpl implements PlayerService {
 
     @Override
     @SuppressWarnings("unchecked")
-    public Iterable<PlayerStatsDTO> getPlayerStats(Integer year) {
+    public Iterable<PlayerStatsDto> getPlayerStats(Integer year) {
         List<Object[]> playerStats = (List<Object[]>) repository
                 .getEstatisticasAtleta(year);
 
-        List<PlayerStatsDTO> estatisticasAtletasDTOs = new ArrayList<>();
+        List<PlayerStatsDto> estatisticasAtletasDTOs = new ArrayList<>();
         if (playerStats != null && !playerStats.isEmpty()) {
             playerStats.forEach(
                     stats -> buildStats(estatisticasAtletasDTOs, stats));
@@ -78,9 +78,9 @@ public class PlayerServiceImpl implements PlayerService {
         return estatisticasAtletasDTOs;
     }
 
-    private void buildStats(List<PlayerStatsDTO> estatisticasAtletasDTOs,
+    private void buildStats(List<PlayerStatsDto> estatisticasAtletasDTOs,
             Object[] stats) {
-        PlayerStatsDTO playerStats = PlayerStatsDTO.builder()
+        PlayerStatsDto playerStats = PlayerStatsDto.builder()
                 .name(stats[0])
                 .goals(stats[1])
                 .assists(stats[2])

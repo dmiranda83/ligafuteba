@@ -56,10 +56,10 @@ public class Team implements Serializable {
     @NotNull
     private String phoneContact1;
     private String phoneContact2;
-    @ManyToOne(optional = false)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "category_id", referencedColumnName = "id")
     private Category category;
-    @ManyToOne(optional = false)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "place_id", referencedColumnName = "id")
     private Place place;
 

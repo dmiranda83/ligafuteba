@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import br.com.futeba.dtos.GameDTO;
+import br.com.futeba.dtos.GameDto;
 import br.com.futeba.models.Game;
 import br.com.futeba.models.Place;
 import br.com.futeba.models.Team;
@@ -81,7 +81,7 @@ public class GameControllerV1 {
     }
 
     @PostMapping("/games")
-    public ResponseEntity<Game> save(@RequestBody final GameDTO dto) {
+    public ResponseEntity<Game> save(@RequestBody final GameDto dto) {
 
         Optional<Game> gameFound = service.findById(dto.getId());
         if (dto.getId() == null || (gameFound.isPresent()

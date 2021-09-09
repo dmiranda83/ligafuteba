@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import br.com.futeba.dtos.TeamDTO;
+import br.com.futeba.dtos.TeamDto;
 import br.com.futeba.dtos.TeamStatsDTO;
 import br.com.futeba.models.Category;
 import br.com.futeba.models.Place;
@@ -103,23 +103,21 @@ public class TeamControllerV1 {
     }
 
     @PostMapping("/teams")
-    public ResponseEntity<Team> save(@RequestBody final TeamDTO dto) {
-        Team team = new Team();
-        team.setId(dto.getId());
-        team.setName(dto.getName());
-        team.setAway(dto.getAway());
-        team.setResponsibleName(dto.getResponsibleName());
-        team.setPhoneContact1(dto.getPhoneContact1());
-        Optional<Place> place = placeService.findById(Long.valueOf(dto.getPlaceID()));
-        if (place.isPresent()) {
-            team.setPlace(place.get());
+    public ResponseEntity<Team> save(@RequestBody final TeamDto dto) {
+        Place place;
+        Category category;
+        Optional<Place> placeFound = placeService.findByZipCode(dto.getPlace().getZipCode());
+        Optional<Category> categoryFound = categoryService.findByName(dto.getCategory().getName());
 
-        }
+        category = categoryFound.isPresent()
+                ? categoryFound.get()
+                : buildCategory(dto);
 
-        Optional<Category> category = categoryService.findById(Long.valueOf(dto.getCategoryId()));
-        if (category.isPresent()) {
-            team.setCategory(category.get());
-        }
+        place = placeFound.isPresent()
+                ? placeFound.get()
+                : buildPlace(dto);
+
+        Team team = buildTeam(dto, place, category);
 
         Optional<Team> foundTeam = service.findByName(team.getName());
         if (team.getName() == null || (foundTeam.isPresent()
@@ -147,9 +145,38 @@ public class TeamControllerV1 {
         }
     }
 
+    private Team buildTeam(final TeamDto dto, final Place place, final Category category) {
+        return Team.builder()
+                .name(dto.getName())
+                .away(dto.getAway())
+                .responsibleName(dto.getResponsibleName())
+                .phoneContact1(dto.getPhoneContact1())
+                .phoneContact2(dto.getPhoneContact2())
+                .category(category)
+                .place(place)
+                .build();
+    }
+
+    private Place buildPlace(final TeamDto dto) {
+        return Place.builder()
+                .name(dto.getPlace().getName())
+                .type(dto.getPlace().getType())
+                .address(dto.getPlace().getAddress())
+                .city(dto.getPlace().getCity())
+                .neighborhood(dto.getPlace().getNeighborhood())
+                .zipCode(dto.getPlace().getZipCode())
+                .build();
+    }
+
+    private Category buildCategory(final TeamDto dto) {
+        return Category.builder()
+                .name(dto.getCategory().getName())
+                .build();
+    }
+
     @PutMapping("/teams/{id}")
     public ResponseEntity<Team> update(@PathVariable("id") final long id,
-            @RequestBody final TeamDTO dto) {
+            @RequestBody final TeamDto dto) {
         Optional<Team> foundTeam = service.findById(dto.getId());
         String placeID = StringUtils.isNotEmpty(dto.getPlaceID()) ? dto.getPlaceID() : "0";
         String categoryId = StringUtils.isNotEmpty(dto.getCategoryId()) ? dto.getCategoryId() : "0";

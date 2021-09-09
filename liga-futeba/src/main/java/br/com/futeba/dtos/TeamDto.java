@@ -7,7 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
-public class TeamDTO {
+public class TeamDto {
     private Long id;
     private String name;
     private Boolean away;
@@ -17,5 +17,7 @@ public class TeamDTO {
     private String categoryId;
     private String placeID;
     private String playerId;
+    private CategoryDto category;
+    private PlaceDto place;
     private PlayerDto player;
 }
