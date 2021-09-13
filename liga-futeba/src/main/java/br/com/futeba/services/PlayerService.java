@@ -9,22 +9,22 @@ import br.com.futeba.models.Team;
 
 public interface PlayerService {
 
-	Player save(Player atleta);
+    Player save(Player atleta);
 
-	List<Player> findAll();
+    List<Player> findAll();
 
-	Optional<Player> findById(Long id);
+    Optional<Player> findById(Long id);
 
-	Optional<Player> update(Optional<Player> currentPlayer);
+    Player update(Player currentPlayer);
 
-	Optional<Player> findByName(String name);
+    Optional<Player> findByName(String name);
 
-	void deleteById(Long id);
+    void deleteById(Long id);
 
-	void deleteAll();
+    void deleteAll();
 
-	Iterable<PlayerStatsDto> getPlayerStats(Integer year);
+    Iterable<PlayerStatsDto> getPlayerStats(Integer year);
 
-	List<Player> listPlayerByTeam(Team team);
+    List<Player> listPlayerByTeam(Team team);
 
 }

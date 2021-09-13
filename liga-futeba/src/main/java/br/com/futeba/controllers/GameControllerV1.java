@@ -56,7 +56,7 @@ public class GameControllerV1 {
     }
 
     @GetMapping("/games/{id}")
-    public ResponseEntity<Game> listById(@PathVariable Long id) {
+    public ResponseEntity<Game> listById(@PathVariable final Long id) {
         logger.info("Find game id: {}", id);
         Optional<Game> game = service.findById(id);
 
@@ -83,12 +83,6 @@ public class GameControllerV1 {
     @PostMapping("/games")
     public ResponseEntity<Game> save(@RequestBody final GameDto dto) {
 
-        Optional<Game> gameFound = service.findById(dto.getId());
-        if (dto.getId() == null || (gameFound.isPresent()
-                && dto.getId().equals(gameFound.get().getId()))) {
-            return getHttpStatusBadRequest("gameExists",
-                    "A new game cannot exist");
-        }
         Optional<Place> placeFound = placeService.findById(Long.valueOf(dto.getPlaceId()));
         Optional<Team> homeTeamFound = temService.findById(Long.valueOf(dto.getHomeTeamId()));
         Optional<Team> awayTeamFound = temService.findById(Long.valueOf(dto.getAwayTeamId()));
@@ -99,9 +93,9 @@ public class GameControllerV1 {
                 .squad(dto.getSquad())
                 .place(placeFound.isPresent() ? placeFound.get() : null)
                 .homeTeam(homeTeamFound.isPresent() ? homeTeamFound.get() : null)
-                .homeTeamData(dto.getHomeTeamData())
+                // .homeTeamData(dto.getHomeTeamData())
                 .awayTeam(awayTeamFound.isPresent() ? awayTeamFound.get() : null)
-                .awayTeamData(dto.getAwayTeamData())
+                // .awayTeamData(dto.getAwayTeamData())
                 .homeTeamTotalGoals(dto.getHomeTeamTotalGoals())
                 .awayTeamTotalGoals(dto.getAwayTeamTotalGoals())
                 .points(dto.getPoints())
@@ -152,8 +146,8 @@ public class GameControllerV1 {
         service.deleteAll();
     }
 
-    private ResponseEntity<Game> getHttpStatusBadRequest(String errorKey,
-            String defaultMessage) {
+    private ResponseEntity<Game> getHttpStatusBadRequest(final String errorKey,
+            final String defaultMessage) {
         return ResponseEntity.badRequest()
                 .headers(HeaderUtil.createFailureAlert(Game.class.getName(),
                         errorKey, defaultMessage))

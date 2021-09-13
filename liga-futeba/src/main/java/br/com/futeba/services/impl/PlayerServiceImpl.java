@@ -25,7 +25,7 @@ public class PlayerServiceImpl implements PlayerService {
     }
 
     @Override
-    public Optional<Player> findByName(String name) {
+    public Optional<Player> findByName(final String name) {
         return repository.findByName(name);
     }
 
@@ -40,7 +40,7 @@ public class PlayerServiceImpl implements PlayerService {
     }
 
     @Override
-    public Optional<Player> update(final Optional<Player> atleta) {
+    public Player update(final Player atleta) {
         return repository.saveAndFlush(atleta);
     }
 
@@ -55,7 +55,7 @@ public class PlayerServiceImpl implements PlayerService {
     }
 
     @Override
-    public List<Player> listPlayerByTeam(Team team) {
+    public List<Player> listPlayerByTeam(final Team team) {
         List<Player> listPlayerByTeam = new ArrayList<>();
         repository.findAll()
                 .stream()
@@ -66,7 +66,7 @@ public class PlayerServiceImpl implements PlayerService {
 
     @Override
     @SuppressWarnings("unchecked")
-    public Iterable<PlayerStatsDto> getPlayerStats(Integer year) {
+    public Iterable<PlayerStatsDto> getPlayerStats(final Integer year) {
         List<Object[]> playerStats = (List<Object[]>) repository
                 .getEstatisticasAtleta(year);
 
@@ -78,8 +78,8 @@ public class PlayerServiceImpl implements PlayerService {
         return estatisticasAtletasDTOs;
     }
 
-    private void buildStats(List<PlayerStatsDto> estatisticasAtletasDTOs,
-            Object[] stats) {
+    private void buildStats(final List<PlayerStatsDto> estatisticasAtletasDTOs,
+            final Object[] stats) {
         PlayerStatsDto playerStats = PlayerStatsDto.builder()
                 .name(stats[0])
                 .goals(stats[1])

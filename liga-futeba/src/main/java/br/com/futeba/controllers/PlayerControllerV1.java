@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.com.futeba.dtos.PlayerDto;
 import br.com.futeba.dtos.PlayerStatsDto;
-import br.com.futeba.models.Game;
 import br.com.futeba.models.Place;
 import br.com.futeba.models.Player;
 import br.com.futeba.models.Position;
@@ -150,21 +150,31 @@ public class PlayerControllerV1 {
 
     @PutMapping("/players/{id}")
     public ResponseEntity<Player> update(@PathVariable("id") final long id,
-            @RequestBody final Player player) {
-
+            @RequestBody final PlayerDto dto) {
+        Player player = new Player();
+        Optional<Player> playerFound = service.findById(id);
+        String positionId = StringUtils.isNotEmpty(dto.getPositionId()) ? dto.getPositionId() : "0";
+        Optional<Position> position = positionService.findById(Long.valueOf(positionId));
+        if (playerFound.isPresent()) {
+            player = playerFound.get();
+        }
         player.setId(id);
-        service.update(Optional.of(player));
+        player.setName(dto.getName() != null ? dto.getName() : player.getName());
+        player.setPosition(position.isPresent() ? position.get() : player.getPosition());
+        service.update(player);
         return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/players/{id}")
     public ResponseEntity<Player> delete(@PathVariable("id") final long id) {
         logger.info("Deleting player id {}", id);
+        Optional<Player> player = service.findById(id);
+
         service.deleteById(id);
-        return ResponseEntity.ok()
-                .headers(HeaderUtil.createEntityDeletionAlert(
-                        Game.class.getName(), String.valueOf(id)))
-                .build();
+        return player.map(
+                response -> ResponseEntity.ok().header(null).body(response))
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND));
     }
 
     @DeleteMapping("/players")

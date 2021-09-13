@@ -214,6 +214,7 @@ public class TeamControllerV1 {
         team.setPlayers(players);
 
         service.update(team);
+
         return ResponseEntity.noContent().build();
     }
 

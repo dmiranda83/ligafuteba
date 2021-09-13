@@ -73,5 +73,8 @@ public class Team implements Serializable {
     private Set<Player> players;
 
     @OneToMany(mappedBy = "awayTeam")
-    private List<Game> game;
+    private List<Game> awayGames;
+
+    @OneToMany(mappedBy = "homeTeam")
+    private List<Game> homeGames;
 }
