@@ -7,7 +7,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.com.futeba.dtos.TeamStatsDTO;
+import br.com.futeba.dtos.TeamStatsDto;
 import br.com.futeba.models.Player;
 import br.com.futeba.models.Team;
 import br.com.futeba.repositories.TeamRepository;
@@ -65,20 +65,20 @@ public class TeamServiceImpl implements TeamService {
     }
 
     @Override
-    public List<TeamStatsDTO> getTeamStats(Integer year) {
+    public List<TeamStatsDto> getTeamStats(Integer year) {
 
-        List<TeamStatsDTO> teamStats = repository
+        List<TeamStatsDto> teamStats = repository
                 .getTeamStats(year);
 
-        List<TeamStatsDTO> statsDTOs = new ArrayList<>();
+        List<TeamStatsDto> statsDTOs = new ArrayList<>();
         if (teamStats != null && !teamStats.isEmpty()) {
             teamStats.forEach(stats -> buildStats(statsDTOs, stats));
         }
         return statsDTOs;
     }
 
-    private void buildStats(List<TeamStatsDTO> teamStatsDTOs, TeamStatsDTO stats) {
-        TeamStatsDTO teamStatsDTO = TeamStatsDTO.builder()
+    private void buildStats(List<TeamStatsDto> teamStatsDTOs, TeamStatsDto stats) {
+        TeamStatsDto teamStatsDTO = TeamStatsDto.builder()
                 .squad(stats.getSquad())
                 .points(stats.getPoints())
                 .scoredGoals(stats.getScoredGoals())

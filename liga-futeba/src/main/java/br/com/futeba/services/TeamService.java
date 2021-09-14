@@ -3,7 +3,7 @@ package br.com.futeba.services;
 import java.util.List;
 import java.util.Optional;
 
-import br.com.futeba.dtos.TeamStatsDTO;
+import br.com.futeba.dtos.TeamStatsDto;
 import br.com.futeba.models.Player;
 import br.com.futeba.models.Team;
 
@@ -23,7 +23,7 @@ public interface TeamService {
 
     void deleteAll();
 
-    Iterable<TeamStatsDTO> getTeamStats(Integer year);
+    Iterable<TeamStatsDto> getTeamStats(Integer year);
 
     List<Team> listTeamByPlayer(Player player);
 

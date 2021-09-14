@@ -26,7 +26,7 @@ import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.com.futeba.dtos.TeamDto;
-import br.com.futeba.dtos.TeamStatsDTO;
+import br.com.futeba.dtos.TeamStatsDto;
 import br.com.futeba.models.Category;
 import br.com.futeba.models.Place;
 import br.com.futeba.models.Player;
@@ -96,7 +96,7 @@ public class TeamControllerV1 {
             @ApiResponse(code = 403, message = "You do not have permission to access this feature"),
             @ApiResponse(code = 500, message = "An exception was thrown"),
     })
-    public @ResponseBody Iterable<TeamStatsDTO> getStats(
+    public @ResponseBody Iterable<TeamStatsDto> getStats(
             @PathVariable("year") final Integer year) {
         logger.info("Loading team stats");
         return service.getTeamStats(year);
@@ -177,7 +177,7 @@ public class TeamControllerV1 {
     @PutMapping("/teams/{id}")
     public ResponseEntity<Team> update(@PathVariable("id") final long id,
             @RequestBody final TeamDto dto) {
-        Optional<Team> foundTeam = service.findById(dto.getId());
+        Optional<Team> foundTeam = service.findById(id);
         String placeID = StringUtils.isNotEmpty(dto.getPlaceID()) ? dto.getPlaceID() : "0";
         String categoryId = StringUtils.isNotEmpty(dto.getCategoryId()) ? dto.getCategoryId() : "0";
         Optional<Place> foundPlace = placeService.findById(Long.valueOf(placeID));
@@ -189,21 +189,18 @@ public class TeamControllerV1 {
             players = team.getPlayers();
         }
 
-        if (dto.getPlayerId() != null) {
-            Optional<Player> player = playerService.findById(Long.valueOf(dto.getPlayerId()));
-            if (player.isPresent()) {
-                players.add(player.get());
-            }
-        } else {
-            Optional<Position> position = positionService.findById(Long.valueOf(dto.getPlayer().getPositionId()));
-            Player playerBuild = Player.builder()
-                    .name(dto.getPlayer().getName())
-                    .position(position.isPresent() ? position.get() : null)
-                    .build();
-            players.add(playerBuild);
+        Optional<Player> player = playerService.findByName(dto.getPlayer().getName());
+        if (player.isPresent()) {
+            return ResponseEntity.status(HttpStatus.ALREADY_REPORTED).body(null);
         }
+        Optional<Position> position = positionService.findById(Long.valueOf(dto.getPlayer().getPositionId()));
+        Player playerBuild = Player.builder()
+                .name(dto.getPlayer().getName())
+                .position(position.isPresent() ? position.get() : null)
+                .build();
+        players.add(playerBuild);
 
-        team.setId(dto.getId());
+        team.setId(id);
         team.setName(dto.getName() != null ? dto.getName() : team.getName());
         team.setAway(dto.getAway() != null ? dto.getAway() : team.getAway());
         team.setResponsibleName(dto.getResponsibleName() != null ? dto.getResponsibleName() : team.getResponsibleName());
