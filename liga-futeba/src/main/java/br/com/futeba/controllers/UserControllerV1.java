@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.futeba.domain.Role;
 import br.com.futeba.dtos.TeamDto;
 import br.com.futeba.dtos.UserDto;
 import br.com.futeba.dtos.UserLoginDto;
@@ -56,8 +57,8 @@ public class UserControllerV1 {
         return ResponseEntity.ok().body(service.findAll());
     }
 
-    @PostMapping("/user/sigin")
-    public ResponseEntity<User> sigin(@RequestBody final UserDto dto) {
+    @PostMapping("/user/signup")
+    public ResponseEntity<User> signup(@RequestBody final UserDto dto) {
         try {
             Optional<User> foundUser = service.findByEmail(dto.getEmail());
             if (foundUser.isPresent()) {
@@ -69,10 +70,11 @@ public class UserControllerV1 {
                     .active(true)
                     .name(dto.getName())
                     .email(dto.getEmail())
-                    .role(dto.getRole())
+                    .role(dto.getRole() != null ? dto.getRole() : Role.ADMINISTRATOR_TEAM)
                     .password(passwordService.getSecureHash(dto.getPassword()))
                     .cellPhone(dto.getCellPhone())
                     .changePassword(false)
+                    .teams(new HashSet<>())
                     .build();
 
             return ResponseEntity.status(HttpStatus.CREATED).body(service.save(userBuild));
