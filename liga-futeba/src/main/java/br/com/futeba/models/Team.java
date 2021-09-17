@@ -73,6 +73,15 @@ public class Team implements Serializable {
     @JsonManagedReference
     private Set<Player> players;
 
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(name = "team_week", joinColumns = {
+            @JoinColumn(name = "team_id", referencedColumnName = "id")
+    }, inverseJoinColumns = {
+            @JoinColumn(name = "week_id", referencedColumnName = "id")
+    })
+    @JsonManagedReference
+    private Set<Week> weeks;
+
     @OneToMany(mappedBy = "awayTeam")
     private List<Game> awayGames;
 

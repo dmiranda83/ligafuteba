@@ -1,5 +1,7 @@
 package br.com.futeba.dtos;
 
+import java.util.Set;
+
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -20,4 +22,5 @@ public class TeamDto {
     private CategoryDto category;
     private PlaceDto place;
     private PlayerDto player;
+    private Set<WeekDto> weeks;
 }

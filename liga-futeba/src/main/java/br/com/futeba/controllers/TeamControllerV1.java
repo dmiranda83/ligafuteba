@@ -1,6 +1,7 @@
 package br.com.futeba.controllers;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -32,6 +33,7 @@ import br.com.futeba.models.Place;
 import br.com.futeba.models.Player;
 import br.com.futeba.models.Position;
 import br.com.futeba.models.Team;
+import br.com.futeba.models.Week;
 import br.com.futeba.services.CategoryService;
 import br.com.futeba.services.PlaceService;
 import br.com.futeba.services.PlayerService;
@@ -146,6 +148,10 @@ public class TeamControllerV1 {
     }
 
     private Team buildTeam(final TeamDto dto, final Place place, final Category category) {
+        Set<Week> weeks = new HashSet<>();
+        if (dto.getWeeks() != null) {
+            dto.getWeeks().forEach(w -> weeks.add(Week.builder().name(w.getName()).build()));
+        }
         return Team.builder()
                 .name(dto.getName())
                 .away(dto.getAway())
@@ -154,6 +160,10 @@ public class TeamControllerV1 {
                 .phoneContact2(dto.getPhoneContact2())
                 .category(category)
                 .place(place)
+                .players(new HashSet<>())
+                .awayGames(new ArrayList<>())
+                .homeGames(new ArrayList<>())
+                .weeks(weeks)
                 .build();
     }
 
