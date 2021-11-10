@@ -16,8 +16,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -56,9 +58,9 @@ public class PlayersControllerV1IntegrationTest {
     private PlayerService service;
 
     private List<Player> allPlayers;
-    private List<Team> teamsDavi;
-    private List<Team> teamsDiego;
-    private List<Team> teamsElias;
+    private Set<Team> teamsDavi;
+    private Set<Team> teamsDiego;
+    private Set<Team> teamsElias;
     private Position fixo;
     private Position alaEsquerdo;
     private Player davi;
@@ -92,18 +94,31 @@ public class PlayersControllerV1IntegrationTest {
                 .phoneContact1(TestUtil.TEAM_RESPONSABLE_PHONE_NUMBER)
                 .build();
 
-        this.teamsDiego = Arrays.asList(this.sanRemo, this.originais);
-        this.teamsDavi = Arrays.asList(this.originais);
-        this.teamsElias = Arrays.asList(this.sanRemo, this.originais,
-                this.veneza);
+        this.teamsDiego = new HashSet<>(Arrays.asList(this.sanRemo, this.originais));
+        this.teamsDavi = new HashSet<>(Arrays.asList(this.originais));
+        this.teamsElias = new HashSet<>(Arrays.asList(this.sanRemo, this.originais,
+                this.veneza));
 
-        this.diego = new Player(1L, TestUtil.PLAYER_DIEGO, this.alaEsquerdo,
-                this.teamsDiego);
+        this.diego = Player.builder()
+                .id(1L)
+                .name(TestUtil.PLAYER_DIEGO)
+                .position(this.alaEsquerdo)
+                .teams(this.teamsDiego)
+                .build();
 
-        this.davi = new Player(2L, TestUtil.PLAYER_DAVI, this.fixo,
-                this.teamsDavi);
-        this.elias = new Player(3L, TestUtil.PLAYER_ELIAS, this.fixo,
-                this.teamsElias);
+        this.davi = Player.builder()
+                .id(2L)
+                .name(TestUtil.PLAYER_DAVI)
+                .position(this.fixo)
+                .teams(this.teamsDavi)
+                .build();
+
+        this.elias = Player.builder()
+                .id(3L)
+                .name(TestUtil.PLAYER_ELIAS)
+                .position(this.fixo)
+                .teams(this.teamsElias)
+                .build();
 
         this.allPlayers = Arrays.asList(this.diego, this.davi, this.elias);
 

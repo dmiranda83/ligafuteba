@@ -3,8 +3,10 @@ package br.com.futeba.services.impl;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -41,9 +43,9 @@ public class PlayerServiceImplIntegrationTest {
     @MockBean
     private PlayerRepository playerRepository;
 
-    private List<Team> teamsDavi;
-    private List<Team> teamsDiego;
-    private List<Team> teamsElias;
+    private Set<Team> teamsDavi;
+    private Set<Team> teamsDiego;
+    private Set<Team> teamsElias;
     private Position fixo;
     private Position alaEsquerdo;
     private Player davi;
@@ -79,10 +81,9 @@ public class PlayerServiceImplIntegrationTest {
         this.alaEsquerdo = new Position(1L, TestUtil.POSITION_ALA_ESQUERDA);
         this.fixo = new Position(2L, TestUtil.POSITION_FIXO);
 
-        this.teamsDiego = Arrays.asList(this.sanRemo, this.originais);
-        this.teamsDavi = Arrays.asList(this.originais);
-        this.teamsElias = Arrays.asList(this.sanRemo, this.originais,
-                this.veneza);
+        this.teamsDiego = new HashSet<>(Arrays.asList(this.sanRemo, this.originais));
+        this.teamsDavi = new HashSet<>(Arrays.asList(this.originais));
+        this.teamsElias = new HashSet<>(Arrays.asList(this.sanRemo, this.originais, this.veneza));
 
         this.diego = new Player(1L, TestUtil.PLAYER_DIEGO, this.alaEsquerdo,
                 this.teamsDiego);
