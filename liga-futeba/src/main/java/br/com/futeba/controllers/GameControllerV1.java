@@ -145,12 +145,4 @@ public class GameControllerV1 {
         logger.info("Deleting all games");
         service.deleteAll();
     }
-
-    private ResponseEntity<Game> getHttpStatusBadRequest(final String errorKey,
-            final String defaultMessage) {
-        return ResponseEntity.badRequest()
-                .headers(HeaderUtil.createFailureAlert(Game.class.getName(),
-                        errorKey, defaultMessage))
-                .body(null);
-    }
 }
