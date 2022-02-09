@@ -10,6 +10,7 @@ before_script:
 build-docker:
   stage: build
   script:
+  - echo "gala na rodolpha"
   - docker build -t futeba-imagem .
   - docker tag futeba-imagem dmiranda83/futeba-imagem:latest
   - docker push dmiranda83/futeba-imagem:latest
