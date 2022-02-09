@@ -10,4 +10,6 @@ before_script:
 build-docker:
   stage: build
   script:
-  - docker build -t maiseducar-imagem .
+  - docker build -t futeba-imagem .
+  - docker tag futeba-imagem dmiranda83/futeba-imagem:latest
+  - docker push dmiranda83/futeba-imagem:latest
