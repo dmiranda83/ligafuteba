@@ -1,4 +1,4 @@
 build-docker:
   stage: build
   script:
-  -docker build -t maiseducar-imagem .
+  - docker build -t maiseducar-imagem .
