@@ -14,7 +14,7 @@ public interface PlaceRepository extends JpaRepository<Place, Long> {
 
     Optional<Place> findByName(String name);
 
-    @Query(value = "SELECT * FROM place WHERE zip_code = :zipCode", nativeQuery = true)
+    @Query(value = "SELECT * FROM place WHERE zipCode = :zipCode", nativeQuery = true)
     Optional<Place> findByZipCode(@Param("zipCode") String zipCode);
 
 }

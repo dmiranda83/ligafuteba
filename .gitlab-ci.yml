@@ -21,6 +21,20 @@ build-docker:
   - docker push dmiranda83/futeba-imagem:latest
 
 build-project:
+  services:
+  - docker:dind
+  - mysql:5.7
+  variables:
+    MYSQL_USER: homestead
+    MYSQL_PASSWORD: secret
+    MYSQL_DATABASE: homestead
+    MYSQL_ROOT_PASSWORD: secret
+
+    DB_NAME: homestead
+    DB_USER: homestead
+    DB_PASSWORD: secret
+    DB_PORT: '3306'
+
   stage: build
   tags:
   - executor-tarefas

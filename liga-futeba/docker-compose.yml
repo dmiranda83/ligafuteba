@@ -1,12 +1,21 @@
 version: "3.8"
 services:
+  springboot-app:
+     # container_name: spring-app
+      image: springbooot-app
+      build: .
+      ports:
+        - 8000-8999:8080 
+      environment:
+        MYSQL_HOST: mysqldb
+        MYSQL_USER: homestead
+        MYSQL_PASSWORD: secret
+        MYSQL_PORT: 3306
   mysql:
-    container_name: mycontainername
+    container_name: mysqldb
     image: mysql/mysql-server:8.0.23
     ports:
-      - "33061:3306"
+      - "3307:3306"
     environment:
         - "MYSQL_DATABASE=homestead"
-        - "MYSQL_USER=homestead"
-        - "MYSQL_PASSWORD=secret"
         - "MYSQL_ROOT_PASSWORD=secret"
