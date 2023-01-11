@@ -1,5 +1,6 @@
 package br.com.futeba.controllers;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -22,6 +23,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.futeba.domain.Role;
+import br.com.futeba.dtos.CategoryDto;
+import br.com.futeba.dtos.PlaceDto;
 import br.com.futeba.dtos.TeamDto;
 import br.com.futeba.dtos.UserDto;
 import br.com.futeba.dtos.UserLoginDto;
@@ -29,6 +32,7 @@ import br.com.futeba.models.Category;
 import br.com.futeba.models.Place;
 import br.com.futeba.models.Team;
 import br.com.futeba.models.User;
+import br.com.futeba.models.Week;
 import br.com.futeba.services.CategoryService;
 import br.com.futeba.services.PasswordService;
 import br.com.futeba.services.PlaceService;
@@ -106,28 +110,27 @@ public class UserControllerV1 {
 
         Place place;
         Category category;
-        Optional<Place> placeFound = placeService.findByZipCode(dto.getTeam().getPlace().getZipCode());
-        Optional<Category> categoryFound = categoryService.findByName(dto.getTeam().getCategory().getName());
+        TeamDto team = dto.getTeam();
+		Optional<Place> placeFound = placeService.findByZipCode(team.getPlace().getZipCode());
+        Optional<Category> categoryFound = categoryService.findByName(team.getCategory().getName());
 
-        category = categoryFound.isPresent()
-                ? categoryFound.get()
-                : buildCategory(dto.getTeam());
+        category = categoryFound.isPresent() ? categoryFound.get() : buildCategory(team.getCategory());
 
-        place = placeFound.isPresent()
-                ? placeFound.get()
-                : buildPlace(dto.getTeam());
+        place = placeFound.isPresent() ? placeFound.get() : buildPlace(team.getPlace());
+        place.setType(""); // Retirar qdo implementar a criacao do tipo de local(Quadra/Campo)
+        
+        
+        Team updatedTeam = buildTeam(team, place, category);
+        teams.add(updatedTeam);
+        
+        User.builder()
+        .id(id)
+        .name(dto.getName() != null ? dto.getName() : user.getName())
+        .cellPhone(dto.getCellPhone() != null ? dto.getCellPhone() : user.getCellPhone())
+        .teams(teams).build();
 
-        Team team = buildTeam(dto.getTeam(), place, category);
-        teams.add(team);
 
-        user.setId(id);
-        user.setName(dto.getName() != null ? dto.getName() : user.getName());
-        user.setCellPhone(dto.getCellPhone() != null ? dto.getCellPhone() : user.getCellPhone());
-        user.setTeams(teams);
-
-        service.update(user);
-
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.status(HttpStatus.CREATED).body(service.update(user));
     }
 
     private ResponseEntity<User> getHttpStatusBadRequest(final String errorKey,
@@ -139,6 +142,10 @@ public class UserControllerV1 {
     }
 
     private Team buildTeam(final TeamDto dto, final Place place, final Category category) {
+    	 Set<Week> weeks = new HashSet<>();
+         if (dto.getWeeks() != null) {
+        	 dto.getWeeks().forEach(w -> weeks.add(Week.builder().name(w.getName()).build()));
+         }
         return Team.builder()
                 .name(dto.getName())
                 .away(dto.getAway())
@@ -147,23 +154,27 @@ public class UserControllerV1 {
                 .phoneContact2(dto.getPhoneContact2())
                 .category(category)
                 .place(place)
+                .players(new HashSet<>())
+                .awayGames(new ArrayList<>())
+                .homeGames(new ArrayList<>())
+                .weeks(weeks)
                 .build();
     }
 
-    private Place buildPlace(final TeamDto dto) {
+    private Place buildPlace(final PlaceDto placeDto) {
         return Place.builder()
-                .name(dto.getPlace().getName())
-                .type(dto.getPlace().getType())
-                .address(dto.getPlace().getAddress())
-                .city(dto.getPlace().getCity())
-                .neighborhood(dto.getPlace().getNeighborhood())
-                .zipCode(dto.getPlace().getZipCode())
+                .name(placeDto.getName())
+                .type(placeDto.getType())
+                .address(placeDto.getAddress())
+                .city(placeDto.getCity())
+                .neighborhood(placeDto.getNeighborhood())
+                .zipCode(placeDto.getZipCode())
                 .build();
     }
 
-    private Category buildCategory(final TeamDto dto) {
-        return Category.builder()
-                .name(dto.getCategory().getName())
+    private Category buildCategory(final CategoryDto categoryDto) {
+		return Category.builder()
+                .name(categoryDto.getName())
                 .build();
     }
 }

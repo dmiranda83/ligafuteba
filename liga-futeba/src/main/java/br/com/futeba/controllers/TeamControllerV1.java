@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import br.com.futeba.dtos.PlayerDto;
 import br.com.futeba.dtos.TeamDto;
 import br.com.futeba.dtos.TeamStatsDto;
 import br.com.futeba.models.Category;
@@ -147,11 +148,73 @@ public class TeamControllerV1 {
         }
     }
 
+    @PutMapping("/teams/{id}")
+    public ResponseEntity<Team> update(@PathVariable("id") final long id,
+            @RequestBody final TeamDto dto) {
+    	
+        Optional<Team> foundTeam = service.findById(id);
+        String placeID = StringUtils.isNotEmpty(dto.getPlaceID()) ? dto.getPlaceID() : "0";
+        String categoryId = StringUtils.isNotEmpty(dto.getCategoryId()) ? dto.getCategoryId() : "0";
+        Optional<Place> foundPlace = placeService.findById(Long.valueOf(placeID));
+        Optional<Category> foundCategory = categoryService.findById(Long.valueOf(categoryId));
+        Set<Player> players = new HashSet<>();
+        Team team = new Team();
+        if (foundTeam.isPresent()) {
+            team = foundTeam.get();
+            players = team.getPlayers();
+        }
+
+        PlayerDto player = dto.getPlayer();
+		Optional<Player> foundPlayer = playerService.findByName(player.getName());
+        if (foundPlayer.isPresent()) {
+            return ResponseEntity.status(HttpStatus.ALREADY_REPORTED).body(null);
+        }
+        Optional<Position> foundPosition = positionService.findById(Long.valueOf(player.getPositionId()));
+        Player playerBuild = Player.builder()
+                .name(player.getName())
+                .position(foundPosition.isPresent() ? foundPosition.get() : null)
+                .build();
+        players.add(playerBuild);
+
+        team = Team.builder()
+        		.id(id)
+		        .name(dto.getName() != null ? dto.getName() : team.getName())
+		        .away(dto.getAway() != null ? dto.getAway() : team.getAway())
+		        .responsibleName(dto.getResponsibleName() != null ? dto.getResponsibleName() : team.getResponsibleName())
+		        .phoneContact1(dto.getPhoneContact1() != null ? dto.getPhoneContact1() : team.getPhoneContact1())
+		        .phoneContact2(dto.getPhoneContact2() != null ? dto.getPhoneContact2() : team.getPhoneContact2())
+		        .category(foundCategory.isPresent() ? foundCategory.get() : team.getCategory())
+		        .place(foundPlace.isPresent() ? foundPlace.get() : team.getPlace())
+		        .players(players)
+		        .build();
+
+        service.update(team);
+
+        return ResponseEntity.noContent().build();
+    }
+    
+    @DeleteMapping("/teams/{id}")
+    public ResponseEntity<Team> delete(@PathVariable("id") final long id) {
+        logger.info("Deleting team id {}", id);
+        service.deleteById(id);
+        return ResponseEntity.ok()
+                .headers(HeaderUtil.createEntityDeletionAlert(
+                        Team.class.getName(), String.valueOf(id)))
+                .build();
+    }
+
+    @DeleteMapping("/teams")
+    public void delete() {
+        logger.info("Deleting all teams");
+        service.deleteAll();
+    }
+    
     private Team buildTeam(final TeamDto dto, final Place place, final Category category) {
         Set<Week> weeks = new HashSet<>();
         if (dto.getWeeks() != null) {
             dto.getWeeks().forEach(w -> weeks.add(Week.builder().name(w.getName()).build()));
         }
+        
         return Team.builder()
                 .name(dto.getName())
                 .away(dto.getAway())
@@ -182,63 +245,6 @@ public class TeamControllerV1 {
         return Category.builder()
                 .name(dto.getCategory().getName())
                 .build();
-    }
-
-    @PutMapping("/teams/{id}")
-    public ResponseEntity<Team> update(@PathVariable("id") final long id,
-            @RequestBody final TeamDto dto) {
-        Optional<Team> foundTeam = service.findById(id);
-        String placeID = StringUtils.isNotEmpty(dto.getPlaceID()) ? dto.getPlaceID() : "0";
-        String categoryId = StringUtils.isNotEmpty(dto.getCategoryId()) ? dto.getCategoryId() : "0";
-        Optional<Place> foundPlace = placeService.findById(Long.valueOf(placeID));
-        Optional<Category> foundCategory = categoryService.findById(Long.valueOf(categoryId));
-        Set<Player> players = new HashSet<>();
-        Team team = new Team();
-        if (foundTeam.isPresent()) {
-            team = foundTeam.get();
-            players = team.getPlayers();
-        }
-
-        Optional<Player> player = playerService.findByName(dto.getPlayer().getName());
-        if (player.isPresent()) {
-            return ResponseEntity.status(HttpStatus.ALREADY_REPORTED).body(null);
-        }
-        Optional<Position> position = positionService.findById(Long.valueOf(dto.getPlayer().getPositionId()));
-        Player playerBuild = Player.builder()
-                .name(dto.getPlayer().getName())
-                .position(position.isPresent() ? position.get() : null)
-                .build();
-        players.add(playerBuild);
-
-        team.setId(id);
-        team.setName(dto.getName() != null ? dto.getName() : team.getName());
-        team.setAway(dto.getAway() != null ? dto.getAway() : team.getAway());
-        team.setResponsibleName(dto.getResponsibleName() != null ? dto.getResponsibleName() : team.getResponsibleName());
-        team.setPhoneContact1(dto.getPhoneContact1() != null ? dto.getPhoneContact1() : team.getPhoneContact1());
-        team.setPhoneContact2(dto.getPhoneContact2() != null ? dto.getPhoneContact2() : team.getPhoneContact2());
-        team.setPlace(foundPlace.isPresent() ? foundPlace.get() : team.getPlace());
-        team.setCategory(foundCategory.isPresent() ? foundCategory.get() : team.getCategory());
-        team.setPlayers(players);
-
-        service.update(team);
-
-        return ResponseEntity.noContent().build();
-    }
-
-    @DeleteMapping("/teams/{id}")
-    public ResponseEntity<Team> delete(@PathVariable("id") final long id) {
-        logger.info("Deleting team id {}", id);
-        service.deleteById(id);
-        return ResponseEntity.ok()
-                .headers(HeaderUtil.createEntityDeletionAlert(
-                        Team.class.getName(), String.valueOf(id)))
-                .build();
-    }
-
-    @DeleteMapping("/teams")
-    public void delete() {
-        logger.info("Deleting all teams");
-        service.deleteAll();
     }
 
     private ResponseEntity<Team> getHttpStatusBadRequest(final String errorKey,
